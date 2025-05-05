@@ -1,0 +1,19 @@
+class CustomStrings {
+  String welcomeNote = "Fund to earn and impact, Today!";
+  String contentType = 'Content-Type';
+  String contentTypeValue = 'application/json';
+  String tryAgainLater = 'Try Again Later';
+  String tryAgain = 'Try Again';
+  String exit = 'Are you sure you want to exit?';
+  String yes = 'Yes';
+  String exitLabel = 'Exit!';
+  String no = 'No';
+  String ok = 'Ok';
+  String home = "Home";
+  String cancel = "Cancel";
+  String confirm = "Confirm";
+  String deviceType = 'DEVICE-TYPE';
+  String token = 'token';
+  String android = 'android';
+  String ios = 'ios';
+}
