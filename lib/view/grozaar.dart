@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grozaar/view/common/welcome_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +43,10 @@ class _GrozaarState extends State<Grozaar> {
           navigatorKey: GlobalVariableKeys.navigatorState,
           //theme: iFarmerTheme(Brightness.light),
           initialRoute: splash,
-          routes: {splash: (context) => const Splash()},
+          routes: {
+            splash: (context) => const Splash(),
+            welcomePage: (context) => const WelcomePage(),
+          },
         ),
       ),
     );

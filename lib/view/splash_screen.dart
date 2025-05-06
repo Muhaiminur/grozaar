@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,11 +21,16 @@ class Splash extends StatefulWidget {
 }
 
 class SplashScreenState extends State<Splash> {
-  bool _isNotificationHandled = false;
-
   @override
   void initState() {
     super.initState();
+    Timer(const Duration(seconds: 3), () async {
+      if (kReleaseMode) {
+        versionCheck(context);
+      } else {
+        navigatePage(context);
+      }
+    });
   }
 
   @override
@@ -51,9 +57,9 @@ class SplashScreenState extends State<Splash> {
       SharedPref.setString(CustomStrings().deviceType, CustomStrings().ios);
     }
     if (logged.isEmpty) {
-      Navigator.pushReplacementNamed(context, guestHomePage);
+      Navigator.pushReplacementNamed(context, welcomePage);
     } else {
-      Navigator.pushReplacementNamed(context, loggedHomePage);
+      Navigator.pushReplacementNamed(context, welcomePage);
     }
   }
 

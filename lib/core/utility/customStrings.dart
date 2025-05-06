@@ -16,4 +16,5 @@ class CustomStrings {
   String token = 'token';
   String android = 'android';
   String ios = 'ios';
+  String getStarted = 'Get Started';
 }

@@ -1,7 +1,7 @@
 ///PAGE ROUTE NAMES///
 //
 const splash = "/";
-const guestHomePage = "/guestHome";
+const welcomePage = "/welcomePage";
 const homePage = "/homePage";
 const chatBot = "/chatBot";
 const faqPage = "/faqPage";
