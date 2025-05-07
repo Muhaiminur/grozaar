@@ -20,9 +20,10 @@ class BaseApiController {
       headers: {CustomStrings().contentType: CustomStrings().contentTypeValue},
     );
 
-    _dio = Dio(dioOptions)
-      ..interceptors.add(AppInterceptors(dio: getDio()!))
-      ..interceptors.add(PrettyDioLogger());
+    _dio =
+        Dio(dioOptions)
+          ..interceptors.add(AppInterceptors(dio: getDio()!))
+          ..interceptors.add(PrettyDioLogger());
   }
 
   Dio? getDio() => _dio;

@@ -6,7 +6,6 @@ import 'core/singleton/shared_pref.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPref.init();
-
   runApp(const MyApp());
 }
 

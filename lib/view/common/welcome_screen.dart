@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
+import 'package:grozaar/core/utility/routes.dart';
 
 import '../../core/utility/customStrings.dart';
 
@@ -62,8 +63,7 @@ class WelcomePageScreenState extends State<WelcomePage> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context).pop();
-                //Navigator.pushReplacementNamed(context, guestHomePage, arguments: 3);
+                Navigator.pushReplacementNamed(context, homePage);
               },
               child: Text(
                 CustomStrings().getStarted,

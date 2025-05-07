@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/welcome_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ class _GrozaarState extends State<Grozaar> {
     ]);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: MultiProvider(
         providers: [ChangeNotifierProvider(create: (_) => CommonProvider())],
         child: MaterialApp(
@@ -46,6 +48,7 @@ class _GrozaarState extends State<Grozaar> {
           routes: {
             splash: (context) => const Splash(),
             welcomePage: (context) => const WelcomePage(),
+            homePage: (context) => const HomePage(),
           },
         ),
       ),

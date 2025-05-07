@@ -64,10 +64,10 @@ class AppInterceptors extends InterceptorsWrapper {
 
     switch (statusCode) {
       case 401:
-        if (requestOptions.path.contains(ApiUrl.registrationVerifyUrl)) {
+       /* if (requestOptions.path.contains(ApiUrl.registrationVerifyUrl)) {
         } else {
           _redirectToHomePage();
-        }
+        }*/
         break;
       case 403:
       case 404:
