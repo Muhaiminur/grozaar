@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/common/category/category_screen.dart';
 
 import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';
@@ -64,11 +65,11 @@ class MainPageScreenState extends State<MainPage> {
       child: Scaffold(
         key: scaffoldKey,
         floatingActionButton: _page == 0 ? SizedBox() : const SizedBox.shrink(),
-        body:PageView(
+        body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           controller: _pageController,
-          children: [HomePage(), HomePage(), HomePage(), HomePage()],
+          children: [HomePage(), CategoryPage(), HomePage(), HomePage()],
         ),
         bottomNavigationBar: Container(
           color: Colors.white,

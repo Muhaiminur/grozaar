@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
+import 'package:grozaar/model/category_response.dart';
 import 'package:grozaar/model/home_response.dart';
 
 import '../api/api_url.dart';
@@ -21,6 +22,10 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
 
   HomeResponse? get homeResponse => _homeResponse;
 
+  CategoryResponse? _categoryResponse;
+
+  CategoryResponse? get categoryResponse => _categoryResponse;
+
   //Getter
   bool get isLoading => _isLoading;
 
@@ -37,6 +42,34 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     try {
       final response = await getDio()!.get(ApiUrl.homepageUrl);
       _homeResponse = HomeResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> categoryCall() async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loadiøng", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(ApiUrl.categoryUrl);
+      _categoryResponse = CategoryResponse.fromJson(response.data);
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {

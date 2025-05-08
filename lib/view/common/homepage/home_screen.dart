@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/core/utility/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
@@ -157,14 +158,7 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              /*Navigator.pushNamed(
-                                context,
-                                allFarmsPage,
-                                arguments: {
-                                  'from': CustomStrings.allFarms,
-                                  'farmTag': '',
-                                },
-                              );*/
+                              Navigator.pushNamed(context, categoryPage);
                             },
                           ),
                         ],
