@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
@@ -53,6 +54,10 @@ class _GrozaarState extends State<Grozaar> {
             homePage: (context) => const HomePage(),
             mainPage: (context) => const MainPage(),
             categoryPage: (context) => const CategoryPage(),
+            categoryProductPage:
+                (context) => CategoryProductPage(
+                  pid: ModalRoute.of(context)!.settings.arguments as String,
+                ),
           },
         ),
       ),

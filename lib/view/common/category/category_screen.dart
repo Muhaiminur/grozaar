@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../../core/utility/routes.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -43,7 +44,7 @@ class CategoryPageScreenState extends State<CategoryPage> {
         child: CustomAppBar(
           title: CustomStrings().categories,
           onTap: () {
-            Navigator.pushReplacementNamed(m);
+            Navigator.pop(context);
           },
         ),
       ),
@@ -84,7 +85,20 @@ class CategoryPageScreenState extends State<CategoryPage> {
           context.watch<CommonProvider>().categoryResponse?.data?.data?.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              categoryProductPage,
+              arguments:
+                  context
+                      .read<CommonProvider>()
+                      .categoryResponse
+                      ?.data
+                      ?.data?[index]
+                      ?.id ??
+                  "",
+            );
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
 import 'package:grozaar/model/category_response.dart';
 import 'package:grozaar/model/home_response.dart';
+import 'package:grozaar/model/product_response.dart';
 
 import '../api/api_url.dart';
 import '../api/interceptor.dart';
@@ -25,6 +26,10 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
   CategoryResponse? _categoryResponse;
 
   CategoryResponse? get categoryResponse => _categoryResponse;
+
+  ProductResponse? _productResponse;
+
+  ProductResponse? get productResponse => _productResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -70,6 +75,45 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     try {
       final response = await getDio()!.get(ApiUrl.categoryUrl);
       _categoryResponse = CategoryResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> categoryProductCall(
+    String catId,
+    String page,
+    String parPage,
+  ) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loadiøng", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(
+        ApiUrl.categoryProductUrl,
+        queryParameters: {
+          "category_id": catId,
+          "page": page,
+          "parPage": parPage,
+        },
+      );
+      _productResponse = ProductResponse.fromJson(response.data);
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {
