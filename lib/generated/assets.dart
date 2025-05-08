@@ -4,7 +4,12 @@ class Assets {
 
   static const String assetsImagesIcSplash = 'assets/images/ic_splash.svg';
   static const String assetsImagesIcWelcome = 'assets/images/ic_welcome.svg';
+  static const String imagesIcCategory = 'assets/images/ic_category.svg';
+  static const String imagesIcFab = 'assets/images/ic_fab.svg';
+  static const String imagesIcHome = 'assets/images/ic_home.svg';
   static const String imagesIcSplash = 'assets/images/ic_splash.png';
+  static const String imagesIcUser = 'assets/images/ic_user.svg';
   static const String imagesIcWelcome = 'assets/images/ic_welcome.png';
+  static const String imagesPlaceholderImage = 'assets/images/placeholder_image.png';
 
 }

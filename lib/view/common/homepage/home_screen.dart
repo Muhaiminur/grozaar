@@ -49,217 +49,207 @@ class HomePageScreenState extends State<HomePage> {
         backgroundColor: ProjectColors().primaryColor,
         elevation: 0.0,
       ),
-      body: SafeArea(
-        child: RefreshIndicator(
-          color: ProjectColors().white,
-          backgroundColor: ProjectColors().primaryColor,
-          strokeWidth: 1.0,
-          onRefresh: _handleRefresh,
-          child: SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Container(
-              color: ProjectColors().primaryColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Hey",
-                          style: GoogleFonts.roboto(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: ProjectColors().white,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
+      body: RefreshIndicator(
+        color: ProjectColors().white,
+        backgroundColor: ProjectColors().primaryColor,
+        strokeWidth: 1.0,
+        onRefresh: _handleRefresh,
+        child: SingleChildScrollView(
+          child: Container(
+            color: ProjectColors().primaryColor,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hey",
+                        style: GoogleFonts.roboto(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: ProjectColors().white,
                         ),
-                        Text(
-                          "Let’s search your grocery food",
-                          style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: ProjectColors().white2,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
+                      Text(
+                        "Let’s search your grocery food",
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: ProjectColors().white2,
                         ),
-                      ],
-                    ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
+                    ],
                   ),
-                  //search bar
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                    child: TextFormField(
-                      style: GoogleFonts.roboto(
+                ),
+                //search bar
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  child: TextFormField(
+                    style: GoogleFonts.roboto(
+                      color: ProjectColors().blue1,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 1,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      fillColor: ProjectColors().white,
+                      filled: true,
+                      hintStyle: GoogleFonts.roboto(
                         color: ProjectColors().blue1,
                         fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 1,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        fillColor: ProjectColors().white,
-                        filled: true,
-                        hintStyle: GoogleFonts.roboto(
-                          color: ProjectColors().blue1,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        contentPadding: EdgeInsets.fromLTRB(
-                          20.0,
-                          5.0,
-                          20.0,
-                          5.0,
-                        ),
-                        hintText: "Search your daily grocery food",
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        prefixIconColor: ProjectColors().blue1,
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: ProjectColors().blue1,
-                        ),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
+                      hintText: "Search your daily grocery food",
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      prefixIconColor: ProjectColors().blue1,
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: ProjectColors().blue1,
                       ),
                     ),
                   ),
-
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: ProjectColors().white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10),
-                        topLeft: Radius.circular(10),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Categories",
-                              style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: ProjectColors().blue3,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: Text(
-                                "See All",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue2,
-                                ),
-                              ),
-                              onTap: () {
-                                /*Navigator.pushNamed(
-                                  context,
-                                  allFarmsPage,
-                                  arguments: {
-                                    'from': CustomStrings.allFarms,
-                                    'farmTag': '',
-                                  },
-                                );*/
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        LimitedBox(maxHeight: 230, child: categoryList()),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "New Arrivals",
-                              style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: ProjectColors().blue3,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: Text(
-                                "See All",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue2,
-                                ),
-                              ),
-                              onTap: () {
-                                /*Navigator.pushNamed(
-                                  context,
-                                  allFarmsPage,
-                                  arguments: {
-                                    'from': CustomStrings.allFarms,
-                                    'farmTag': '',
-                                  },
-                                );*/
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        LimitedBox(maxHeight: 230, child: newArrivalList()),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Best Selling",
-                              style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: ProjectColors().blue3,
-                              ),
-                            ),
-                            GestureDetector(
-                              child: Text(
-                                "See All",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue2,
-                                ),
-                              ),
-                              onTap: () {
-                                /*Navigator.pushNamed(
-                                  context,
-                                  allFarmsPage,
-                                  arguments: {
-                                    'from': CustomStrings.allFarms,
-                                    'farmTag': '',
-                                  },
-                                );*/
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        LimitedBox(maxHeight: 230, child: bestList()),
-                        SizedBox(height: 50),
-                      ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: ProjectColors().white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10),
                     ),
                   ),
-                ],
-              ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            CustomStrings().categories,
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              CustomStrings().seeAll,
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue2,
+                              ),
+                            ),
+                            onTap: () {
+                              /*Navigator.pushNamed(
+                                context,
+                                allFarmsPage,
+                                arguments: {
+                                  'from': CustomStrings.allFarms,
+                                  'farmTag': '',
+                                },
+                              );*/
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      LimitedBox(maxHeight: 230, child: categoryList()),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "New Arrivals",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              CustomStrings().seeAll,
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue2,
+                              ),
+                            ),
+                            onTap: () {
+                              /*Navigator.pushNamed(
+                                context,
+                                allFarmsPage,
+                                arguments: {
+                                  'from': CustomStrings.allFarms,
+                                  'farmTag': '',
+                                },
+                              );*/
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      LimitedBox(maxHeight: 230, child: newArrivalList()),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Best Selling",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              CustomStrings().seeAll,
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue2,
+                              ),
+                            ),
+                            onTap: () {
+                              /*Navigator.pushNamed(
+                                context,
+                                allFarmsPage,
+                                arguments: {
+                                  'from': CustomStrings.allFarms,
+                                  'farmTag': '',
+                                },
+                              );*/
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      LimitedBox(maxHeight: 230, child: bestList()),
+                      SizedBox(height: 50),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -690,7 +680,7 @@ class HomePageScreenState extends State<HomePage> {
                                   ProjectColors().primaryColor,
                                 ),
                                 padding: WidgetStateProperty.all(
-                                  EdgeInsets.all(0),
+                                  EdgeInsets.all(5),
                                 ),
                                 textStyle: WidgetStateProperty.all(
                                   TextStyle(

@@ -10,6 +10,9 @@ class CustomStrings {
   String no = 'No';
   String ok = 'Ok';
   String home = "Home";
+  String categories = "Categories";
+  String favourite = "Favourite";
+  String profile = "Profile";
   String cancel = "Cancel";
   String confirm = "Confirm";
   String deviceType = 'DEVICE-TYPE';
@@ -17,4 +20,7 @@ class CustomStrings {
   String android = 'android';
   String ios = 'ios';
   String getStarted = 'Get Started';
+  String done = "Done";
+  String close = "Close";
+  String seeAll = "See All";
 }

@@ -63,7 +63,7 @@ class WelcomePageScreenState extends State<WelcomePage> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, homePage);
+                Navigator.pushReplacementNamed(context, mainPage);
               },
               child: Text(
                 CustomStrings().getStarted,
