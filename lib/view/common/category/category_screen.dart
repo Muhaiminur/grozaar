@@ -89,14 +89,24 @@ class CategoryPageScreenState extends State<CategoryPage> {
             Navigator.pushNamed(
               context,
               categoryProductPage,
-              arguments:
-                  context
-                      .read<CommonProvider>()
-                      .categoryResponse
-                      ?.data
-                      ?.data?[index]
-                      ?.id ??
-                  "",
+              arguments: {
+                "id":
+                    context
+                        .read<CommonProvider>()
+                        .categoryResponse
+                        ?.data
+                        ?.data?[index]
+                        ?.id ??
+                    "",
+                "name":
+                    context
+                        .read<CommonProvider>()
+                        .categoryResponse
+                        ?.data
+                        ?.data?[index]
+                        ?.name ??
+                    "",
+              },
             );
           },
           child: Column(

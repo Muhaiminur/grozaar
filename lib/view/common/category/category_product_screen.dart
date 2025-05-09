@@ -11,9 +11,9 @@ import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
 
 class CategoryProductPage extends StatefulWidget {
-  String pid;
+  final Map args;
 
-  CategoryProductPage({super.key, required this.pid});
+  const CategoryProductPage({super.key, required this.args});
 
   @override
   CategoryProductPageScreenState createState() =>
@@ -22,16 +22,23 @@ class CategoryProductPage extends StatefulWidget {
 
 class CategoryProductPageScreenState extends State<CategoryProductPage> {
   String logged = "";
+  String cat = "";
 
   @override
   void initState() {
     super.initState();
+    cat = widget.args["name"];
     _loadHomeData(isReload: false);
   }
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
     context.read<CommonProvider>().categoryCall();
+    context.read<CommonProvider>().categoryProductCall(
+      widget.args["id"],
+      "1",
+      "20",
+    );
   }
 
   @override
@@ -45,7 +52,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Set
         child: CustomAppBar(
-          title: CustomStrings().categories,
+          title: cat,
           onTap: () {
             Navigator.pop(context);
           },
@@ -58,22 +65,21 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
         onRefresh: _handleRefresh,
         child: Container(
           color: ProjectColors().primaryColor,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                height: double.infinity,
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: ProjectColors().white,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10),
-                  ),
-                ),
-                child: Row(children: [categoryList()]),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: ProjectColors().white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
               ),
-            ],
+            ),
+            child: Row(
+              children: [
+                SizedBox(width: 90, child: categoryList()),
+                Expanded(child: productList()),
+              ],
+            ),
           ),
         ),
       ),
@@ -94,74 +100,312 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                 .data!
                 .data!
                 .isNotEmpty
-        ? ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
+        ? RawScrollbar(
+          trackVisibility: true,
+          thumbVisibility: true,
+          thumbColor: ProjectColors().primaryColor,
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount:
+                context
+                    .watch<CommonProvider>()
+                    .categoryResponse
+                    ?.data
+                    ?.data
+                    ?.length,
+            itemBuilder: (BuildContext context, int position) {
+              return GestureDetector(
+                onTap: () {
+                  context.read<CommonProvider>().categoryProductCall(
+                    context
+                            .read<CommonProvider>()
+                            .categoryResponse
+                            ?.data
+                            ?.data?[position]
+                            ?.id ??
+                        widget.args["id"],
+                    "1",
+                    "20",
+                  );
+                  setState(() {
+                    cat =
+                        context
+                            .read<CommonProvider>()
+                            .categoryResponse
+                            ?.data
+                            ?.data?[position]
+                            ?.name ??
+                        "";
+                  });
+                },
+                child: LimitedBox(
+                  maxHeight: 120,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 10,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        child: CachedNetworkImage(
+                          height: 60,
+                          width: 60,
+                          imageUrl:
+                              context
+                                  .watch<CommonProvider>()
+                                  .categoryResponse
+                                  ?.data
+                                  ?.data?[position]
+                                  ?.imageUrl ??
+                              "",
+                          placeholder:
+                              (context, url) => Image.asset(
+                                "assets/images/placeholder_image.png",
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.fill,
+                                scale: 10,
+                              ),
+                          errorWidget:
+                              (context, url, error) => Image.asset(
+                                "assets/images/placeholder_image.png",
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.fill,
+                                scale: 10,
+                              ),
+                          fit: BoxFit.cover,
+                          imageBuilder:
+                              (context, imageProvider) =>
+                                  CircleAvatar(backgroundImage: imageProvider),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: Text(
+                            context
+                                    .watch<CommonProvider>()
+                                    .categoryResponse
+                                    ?.data
+                                    ?.data?[position]
+                                    ?.name ??
+                                "",
+                            style: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().blue3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        )
+        : ColorLoader();
+  }
+
+  Widget productList() {
+    return context.watch<CommonProvider>().productResponse != null &&
+            context.watch<CommonProvider>().productResponse?.data?.data !=
+                null &&
+            context
+                .watch<CommonProvider>()
+                .productResponse!
+                .data!
+                .data!
+                .isNotEmpty
+        ? GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.5,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+          ),
           itemCount:
               context
                   .watch<CommonProvider>()
-                  .categoryResponse
+                  .productResponse
                   ?.data
                   ?.data
                   ?.length,
-          itemBuilder: (BuildContext context, int position) {
+          itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {},
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.blue.shade200,
-                    radius: 28,
+                  Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
                     child: CachedNetworkImage(
-                      height: 60,
-                      width: 60,
+                      height: 110,
+                      width: 110,
                       imageUrl:
                           context
                               .watch<CommonProvider>()
-                              .categoryResponse
+                              .productResponse
                               ?.data
-                              ?.data?[position]
+                              ?.data?[index]
                               ?.imageUrl ??
                           "",
                       placeholder:
                           (context, url) => Image.asset(
                             "assets/images/placeholder_image.png",
-                            height: 60,
-                            width: 60,
+                            height: 110,
+                            width: 110,
                             fit: BoxFit.cover,
-                            scale: 10,
                           ),
                       errorWidget:
                           (context, url, error) => Image.asset(
                             "assets/images/placeholder_image.png",
-                            height: 60,
-                            width: 60,
+                            height: 110,
+                            width: 110,
                             fit: BoxFit.cover,
-                            scale: 10,
                           ),
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Expanded(
+                  Flexible(
                     child: Text(
                       context
                               .watch<CommonProvider>()
-                              .categoryResponse
+                              .productResponse
                               ?.data
-                              ?.data?[position]
+                              ?.data?[index]
                               ?.name ??
                           "",
                       style: GoogleFonts.roboto(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: ProjectColors().blue3,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
                       textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 3, right: 3),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: ProjectColors().yellow,
+                          size: 12,
+                        ),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            context
+                                    .watch<CommonProvider>()
+                                    .productResponse
+                                    ?.data
+                                    ?.data?[index]
+                                    ?.rating
+                                    ?.averageRating ??
+                                "0",
+                            style: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().blue1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            "(${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.rating?.totalReviewCount ?? "0"}+)",
+                            style: GoogleFonts.roboto(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().blue1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 3, right: 3),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            context
+                                    .watch<CommonProvider>()
+                                    .productResponse
+                                    ?.data
+                                    ?.data?[index]
+                                    ?.price ??
+                                "0",
+                            style: GoogleFonts.roboto(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: ProjectColors().blue3,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize: WidgetStateProperty.all(Size.zero),
+                            // Set
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            backgroundColor: WidgetStateProperty.all(
+                              ProjectColors().primaryColor,
+                            ),
+                            padding: WidgetStateProperty.all(EdgeInsets.all(5)),
+                            textStyle: WidgetStateProperty.all(
+                              TextStyle(
+                                fontSize: 12,
+                                color: ProjectColors().white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            "ADD",
+                            style: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().white,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -169,6 +413,11 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             );
           },
         )
-        : ColorLoader();
+        : context.watch<CommonProvider>().productResponse != null &&
+            context.watch<CommonProvider>().productResponse?.data?.data !=
+                null &&
+            context.watch<CommonProvider>().productResponse!.data!.data!.isEmpty
+        ? Center(child: Text("No Data"))
+        : Center(child: ColorLoader());
   }
 }

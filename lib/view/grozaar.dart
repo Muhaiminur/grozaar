@@ -56,7 +56,7 @@ class _GrozaarState extends State<Grozaar> {
             categoryPage: (context) => const CategoryPage(),
             categoryProductPage:
                 (context) => CategoryProductPage(
-                  pid: ModalRoute.of(context)!.settings.arguments as String,
+                  args: ModalRoute.of(context)!.settings.arguments as Map,
                 ),
           },
         ),

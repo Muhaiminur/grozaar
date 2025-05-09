@@ -101,9 +101,6 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     String page,
     String parPage,
   ) async {
-    Future.delayed(Duration.zero, () async {
-      CustomProgressDialog.show(message: "Loadiøng", isDismissible: false);
-    });
     try {
       final response = await getDio()!.get(
         ApiUrl.categoryProductUrl,
@@ -129,8 +126,7 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
       notifyListeners();
       return e.response!.statusCode!;
     } finally {
-      _isLoading = false; // Set loading flag to false
-      CustomProgressDialog.hide();
+      _isLoading = false;
       notifyListeners(); // Notify listeners that the data has changed
     }
   }
