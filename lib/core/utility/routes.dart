@@ -6,3 +6,4 @@ const mainPage = "/mainPage";
 const homePage = "/homePage";
 const categoryPage = "/categoryPage";
 const categoryProductPage = "/categoryProductPage";
+const productDetailsPage = "/productDetailsPage";

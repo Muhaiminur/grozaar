@@ -3,4 +3,5 @@ class ApiUrl {
   static const String homepageUrl = "user/get-homepage?is_home_page=1";
   static const String categoryUrl = "user/get-categories?page=1&par_page=20";
   static const String categoryProductUrl = "user/get-products";
+  static const String productDetailsUrl = "user/get-product-details/";
 }

@@ -23,4 +23,5 @@ class CustomStrings {
   String done = "Done";
   String close = "Close";
   String seeAll = "See All";
+  String productDetails = "Product Details";
 }

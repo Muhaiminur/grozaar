@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../../core/utility/routes.dart';
 
 class CategoryProductPage extends StatefulWidget {
   final Map args;
@@ -241,7 +242,22 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                   ?.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  productDetailsPage,
+                  arguments: {
+                    "id":
+                        context
+                            .read<CommonProvider>()
+                            .productResponse
+                            ?.data
+                            ?.data?[index]
+                            ?.id ??
+                        "",
+                  },
+                );
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

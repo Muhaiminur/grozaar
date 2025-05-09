@@ -4,6 +4,7 @@ import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
+import 'package:grozaar/view/common/product/product_details_screen.dart';
 import 'package:grozaar/view/common/welcome_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,10 @@ class _GrozaarState extends State<Grozaar> {
                 (context) => CategoryProductPage(
                   args: ModalRoute.of(context)!.settings.arguments as Map,
                 ),
+            productDetailsPage:
+                (context) => ProductDetailsPage(
+              args: ModalRoute.of(context)!.settings.arguments as Map,
+            ),
           },
         ),
       ),

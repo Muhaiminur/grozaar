@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
@@ -166,6 +166,13 @@ class HomePageScreenState extends State<HomePage> {
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: categoryList()),
                       SizedBox(height: 10),
+                      SizedBox(height: 5),
+                      LimitedBox(
+                        maxHeight: 125,
+                        maxWidth: double.infinity,
+                        child: bannerList(),
+                      ),
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -270,7 +277,30 @@ class HomePageScreenState extends State<HomePage> {
               ?.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              categoryProductPage,
+              arguments: {
+                "id":
+                    context
+                        .read<CommonProvider>()
+                        .homeResponse
+                        ?.data
+                        ?.categories?[index]
+                        ?.id ??
+                    "",
+                "name":
+                    context
+                        .read<CommonProvider>()
+                        .homeResponse
+                        ?.data
+                        ?.categories?[index]
+                        ?.name ??
+                    "",
+              },
+            );
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -365,30 +395,20 @@ class HomePageScreenState extends State<HomePage> {
           itemBuilder: (BuildContext context, int position) {
             return GestureDetector(
               onTap: () {
-                /*Navigator.pushNamed(
-              context,
-              farmDetailsPage,
-              arguments: {
-                'id':
-                context
-                    .read<HomeProvider>()
-                    .homeResponse
-                    ?.bestFarms
-                    ?.elementAt(position)
-                    ?.id
-                    .toString(),
-                'status':
-                context
-                    .read<HomeProvider>()
-                    .homeResponse!
-                    .bestFarms!
-                    .elementAt(position)
-                    ?.attributes
-                    ?.status
-                    .toString() ??
-                    "",
-              },
-            );*/
+                Navigator.pushNamed(
+                  context,
+                  productDetailsPage,
+                  arguments: {
+                    "id":
+                        context
+                            .read<CommonProvider>()
+                            .homeResponse
+                            ?.data
+                            ?.newArrivalProducts?[position]
+                            ?.id ??
+                        "",
+                  },
+                );
               },
               child: Card(
                 color: ProjectColors().white,
@@ -550,30 +570,20 @@ class HomePageScreenState extends State<HomePage> {
           itemBuilder: (BuildContext context, int position) {
             return GestureDetector(
               onTap: () {
-                /*Navigator.pushNamed(
-              context,
-              farmDetailsPage,
-              arguments: {
-                'id':
-                context
-                    .read<HomeProvider>()
-                    .homeResponse
-                    ?.bestFarms
-                    ?.elementAt(position)
-                    ?.id
-                    .toString(),
-                'status':
-                context
-                    .read<HomeProvider>()
-                    .homeResponse!
-                    .bestFarms!
-                    .elementAt(position)
-                    ?.attributes
-                    ?.status
-                    .toString() ??
-                    "",
-              },
-            );*/
+                Navigator.pushNamed(
+                  context,
+                  productDetailsPage,
+                  arguments: {
+                    "id":
+                        context
+                            .read<CommonProvider>()
+                            .homeResponse
+                            ?.data
+                            ?.bestSellingProducts?[position]
+                            ?.id ??
+                        "",
+                  },
+                );
               },
               child: Card(
                 color: ProjectColors().white,
@@ -705,5 +715,90 @@ class HomePageScreenState extends State<HomePage> {
           },
         )
         : ColorLoader();
+  }
+
+  Widget bannerList() {
+    return context.watch<CommonProvider>().homeResponse != null &&
+            context.watch<CommonProvider>().homeResponse?.data?.promotions !=
+                null &&
+            context
+                .watch<CommonProvider>()
+                .homeResponse!
+                .data!
+                .promotions!
+                .isNotEmpty
+        ? CarouselSlider(
+          items: imageSliders(context),
+          carouselController: _carouselSliderController,
+          options: CarouselOptions(
+            height: 125,
+            enlargeCenterPage: false,
+            autoPlay:
+                context
+                            .watch<CommonProvider>()
+                            .homeResponse
+                            ?.data
+                            ?.promotions
+                            ?.length !=
+                        1
+                    ? true
+                    : false,
+            viewportFraction: 1,
+            padEnds: true,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _carouselCurrent = index;
+              });
+            },
+          ),
+        )
+        : SizedBox();
+  }
+
+  List<Widget> imageSliders(BuildContext context) {
+    return context
+            .watch<CommonProvider>()
+            .homeResponse
+            ?.data
+            ?.promotions
+            ?.map(
+              (item) => GestureDetector(
+                onTap: () {
+                  /*if (!item!.attributes!.inAppUrl!) {
+            Log().openWebsite(item.attributes!.url!);
+          } else if (item.attributes!.targetView!.isNotEmpty) {
+            DeepLinkHandler.handleBannerLink(
+              item.attributes?.targetView ?? "",
+              item.attributes?.targetId ?? "",
+            );
+          }*/
+                },
+                child: Container(
+                  margin: EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    child: CachedNetworkImage(
+                      width: double.infinity,
+                      imageUrl: item?.imageUrl ?? "",
+                      placeholder:
+                          (context, url) => Image.asset(
+                            "assets/images/placeholder_image.png",
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
+                      errorWidget:
+                          (context, url, error) => Image.asset(
+                            "assets/images/placeholder_image.png",
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            )
+            .toList() ??
+        [];
   }
 }
