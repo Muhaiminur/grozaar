@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 
 import '../../../core/singleton/logger.dart';
@@ -69,7 +70,7 @@ class MainPageScreenState extends State<MainPage> {
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           controller: _pageController,
-          children: [HomePage(), CategoryPage(), HomePage(), HomePage()],
+          children: [HomePage(), CategoryPage(), CartPage(), HomePage()],
         ),
         bottomNavigationBar: Container(
           color: Colors.white,

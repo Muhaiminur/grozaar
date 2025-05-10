@@ -104,9 +104,11 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
         ? RawScrollbar(
           trackVisibility: true,
           thumbVisibility: true,
+          controller: ScrollController(),
           thumbColor: ProjectColors().primaryColor,
           child: ListView.builder(
             shrinkWrap: true,
+            controller: ScrollController(),
             scrollDirection: Axis.vertical,
             itemCount:
                 context
@@ -227,6 +229,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                 .data!
                 .isNotEmpty
         ? GridView.builder(
+          controller: ScrollController(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.5,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/homepage/home_screen.dart';
@@ -61,8 +62,9 @@ class _GrozaarState extends State<Grozaar> {
                 ),
             productDetailsPage:
                 (context) => ProductDetailsPage(
-              args: ModalRoute.of(context)!.settings.arguments as Map,
-            ),
+                  args: ModalRoute.of(context)!.settings.arguments as Map,
+                ),
+            cartPage: (context) => const CartPage(),
           },
         ),
       ),
