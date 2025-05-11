@@ -25,4 +25,5 @@ class CustomStrings {
   String seeAll = "See All";
   String productDetails = "Product Details";
   String cart = "Cart";
+  String checkout = "Checkout";
 }

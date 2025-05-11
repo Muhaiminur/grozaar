@@ -28,21 +28,42 @@ class WelcomePageScreenState extends State<WelcomePage> {
     return Scaffold(
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 1.4,
-            decoration: BoxDecoration(
-              color: ProjectColors().primaryColor,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(80),
-                bottomLeft: Radius.circular(80),
-              ),
-            ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 1.8,
+            width: double.infinity,
             child: Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.center,
               child: Image.asset(
                 "assets/images/ic_welcome.png",
                 fit: BoxFit.fill,
               ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            "Doorstep delivery of \n your groceries",
+            style: GoogleFonts.roboto(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: ProjectColors().blue3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text(
+              "Say goodbye to long grocery lines and last-minute store runs! With Grozaar Grocery we bring fresh, high-quality groceries straight to your doorstep, saving you time and effort.",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: ProjectColors().blue1,
+              ),
+              softWrap: true,
+              textAlign: TextAlign.center,
             ),
           ),
           Container(

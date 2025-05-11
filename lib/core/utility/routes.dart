@@ -8,3 +8,4 @@ const categoryPage = "/categoryPage";
 const categoryProductPage = "/categoryProductPage";
 const productDetailsPage = "/productDetailsPage";
 const cartPage = "/cartPage";
+const checkoutPage = "/checkoutPage";
