@@ -5,6 +5,7 @@ import 'package:grozaar/core/utility/customStrings.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../core/utility/routes.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -17,13 +18,19 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
   String logged = "";
   bool restaurent = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _userFormKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
+  final regNameController = TextEditingController();
   final emailController = TextEditingController();
+  final regEmailController = TextEditingController();
   final numberController = TextEditingController();
+  final regNumberController = TextEditingController();
   final manNumberController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final regPasswordController = TextEditingController();
   bool passwordVisible = true;
+  bool regPasswordVisible = true;
 
   @override
   void initState() {
@@ -205,9 +212,8 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                           ],
                         ),
                       ),
-                      restaurent ? restaurentView() : SizedBox(),
-
-                      Container(
+                      restaurent ? restaurentView() : userView(),
+                      SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -232,7 +238,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, loginPage);
+                          },
                           child: Text(
                             "Sign Up",
                             style: GoogleFonts.roboto(
@@ -296,7 +304,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -358,7 +366,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -419,7 +427,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -480,7 +488,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -538,7 +546,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -553,7 +561,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                 borderSide: BorderSide(color: Colors.red.shade800, width: 1),
               ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              hintText: "Enter Owner Number",
+              hintText: "Enter User Name",
               border: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
                 borderRadius: BorderRadius.circular(22.0),
@@ -597,7 +605,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               hintStyle: GoogleFonts.roboto(
                 color: ProjectColors().blue1,
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -612,7 +620,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                 borderSide: BorderSide(color: Colors.red.shade800, width: 1),
               ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              hintText: "Enter Owner Number",
+              hintText: "*********",
               border: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
                 borderRadius: BorderRadius.circular(22.0),
@@ -625,6 +633,268 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                 onPressed: () {
                   setState(() {
                     passwordVisible = !passwordVisible;
+                  });
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget userView() {
+    return Form(
+      key: _userFormKey,
+      child: Column(
+        spacing: 10,
+        children: <Widget>[
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Full Name",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: regNameController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              }
+              return null; // Valid input
+            },
+            keyboardType: TextInputType.name,
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "Enter Full Name",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Email Address",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: regEmailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              } else if (!RegExp(
+                r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+              ).hasMatch(value)) {
+                return CustomStrings().invalidEmail;
+              }
+              return null; // Valid input
+            },
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "Enter Email Address",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Phone number",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: regNumberController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              }
+              return null; // Valid input
+            },
+            keyboardType: TextInputType.numberWithOptions(
+              decimal: false,
+              signed: false,
+            ),
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "Enter Phone Number",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Password",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: regPasswordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              }
+              return null; // Valid input
+            },
+            obscureText: regPasswordVisible,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "*********",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Color(0xFFE6E8EC)),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  regPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: ProjectColors().blue1,
+                ),
+                onPressed: () {
+                  setState(() {
+                    regPasswordVisible = !regPasswordVisible;
                   });
                 },
               ),

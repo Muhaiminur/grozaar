@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/authentication/registration_screen.dart';
 import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/cart/checkout_screen.dart';
@@ -69,6 +70,7 @@ class _GrozaarState extends State<Grozaar> {
             cartPage: (context) => const CartPage(),
             checkoutPage: (context) => const CheckoutPage(),
             registrationPage: (context) => const RegistrationPage(),
+            loginPage: (context) => const LoginPage(),
           },
         ),
       ),

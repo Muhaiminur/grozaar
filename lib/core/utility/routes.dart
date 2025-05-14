@@ -10,3 +10,5 @@ const registrationPage = "/registrationPage";
 const productDetailsPage = "/productDetailsPage";
 const cartPage = "/cartPage";
 const checkoutPage = "/checkoutPage";
+const loginPage = "/loginPage";
+
