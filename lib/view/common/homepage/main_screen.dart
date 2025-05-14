@@ -5,13 +5,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
-import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 
 import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/dialogUtil.dart';
 import '../../../generated/assets.dart';
+import '../../authentication/registration_screen.dart';
 import 'home_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -70,7 +70,12 @@ class MainPageScreenState extends State<MainPage> {
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           controller: _pageController,
-          children: [HomePage(), CategoryPage(), CartPage(), HomePage()],
+          children: [
+            HomePage(),
+            CategoryPage(),
+            HomePage(),
+            RegistrationPage(),
+          ],
         ),
         bottomNavigationBar: Container(
           color: Colors.white,

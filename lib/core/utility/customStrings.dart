@@ -26,4 +26,7 @@ class CustomStrings {
   String productDetails = "Product Details";
   String cart = "Cart";
   String checkout = "Checkout";
+  String register = "Register";
+  String required = "Required";
+  String invalidEmail = "Invalid Email";
 }
