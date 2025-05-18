@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
 
+import '../../model/user_response.dart';
 import '../api/api_url.dart';
 import '../singleton/logger.dart';
 import '../utility/progressBar.dart';
@@ -14,6 +15,10 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
   String _resMessage = '';
   int _statusCode = 0;
   int _workCode = 0;
+
+  UserResponse _logInResponse = UserResponse();
+
+  UserResponse get logInResponse => _logInResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -52,7 +57,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       if (response.statusCode == 200) {
         final responseJson = json.decode(response.toString());
         _resMessage = responseJson["message"];
-        _isLoading=true;
+        _isLoading = true;
       } else {
         final responseJson = json.decode(response.toString());
         Log().showMessageToast(message: responseJson["message"]);
@@ -64,6 +69,36 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       Log().showMessageToast(message: responseJson["message"]);
     } finally {
       //_isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> signInCall({
+    required String username,
+    required String password,
+  }) async {
+    CustomProgressDialog.show(message: "Loading...", isDismissible: false);
+    try {
+      final response = await getDio()!.post(
+        ApiUrl.signInUrl,
+        data: {'login': username, 'password': password},
+      );
+      if (response.statusCode == 200) {
+        _logInResponse = UserResponse.fromJson(response.data);
+      } else {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      }
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      _resMessage = '';
+      final responseJson = json.decode(e.response.toString());
+      Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
       notifyListeners(); // Notify listeners that the data has changed
     }

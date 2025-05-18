@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 
 import '../../../core/singleton/logger.dart';
@@ -74,7 +75,7 @@ class MainPageScreenState extends State<MainPage> {
             HomePage(),
             CategoryPage(),
             HomePage(),
-            RegistrationPage(),
+            LoginPage(),
           ],
         ),
         bottomNavigationBar: Container(

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/core/utility/routes.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../core/provider/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +23,7 @@ class LoginPageScreenState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool passwordVisible = true;
+  bool remember = true;
 
   @override
   void initState() {
@@ -272,8 +277,12 @@ class LoginPageScreenState extends State<LoginPage> {
                               contentPadding: EdgeInsets.all(0),
                               horizontalTitleGap: 0,
                               leading: Checkbox(
-                                value: passwordVisible,
-                                onChanged: (value) {},
+                                value: remember,
+                                onChanged: (value) {
+                                  setState(() {
+                                    remember = !remember;
+                                  });
+                                },
                               ),
                               title: Text(
                                 "Remember me",
@@ -333,7 +342,41 @@ class LoginPageScreenState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              context
+                                  .read<AuthProvider>()
+                                  .signInCall(
+                                    password: passwordController.text,
+                                    username: usernameController.text,
+                                  )
+                                  .then((value) {
+                                    if (value == 200) {
+                                      if (!context.mounted) return;
+                                      SharedPref.setModel(
+                                        CustomStrings().loginModel,
+                                        context
+                                            .read<AuthProvider>()
+                                            .logInResponse
+                                            .data,
+                                      );
+                                      SharedPref.setString(
+                                        CustomStrings().token,
+                                        context
+                                            .read<AuthProvider>()
+                                            .logInResponse
+                                            .data!
+                                            .token!,
+                                      );
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        homePage,
+                                      );
+                                    }
+                                  });
+                            }
+                          },
                           child: Text(
                             "Sign In",
                             style: GoogleFonts.roboto(

@@ -5,4 +5,5 @@ class ApiUrl {
   static const String categoryProductUrl = "user/get-products";
   static const String productDetailsUrl = "user/get-product-details/";
   static const String signUpUrl = "register";
+  static const String signInUrl = "login";
 }

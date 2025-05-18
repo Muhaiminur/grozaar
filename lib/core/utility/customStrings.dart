@@ -30,4 +30,5 @@ class CustomStrings {
   String login = "Login";
   String required = "Required";
   String invalidEmail = "Invalid Email";
+  String loginModel = 'loginModel';
 }
