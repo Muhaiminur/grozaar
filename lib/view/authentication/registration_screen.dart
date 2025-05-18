@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../core/provider/auth_provider.dart';
+import '../../core/singleton/logger.dart';
 import '../../core/utility/routes.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -239,7 +242,84 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, loginPage);
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            if (restaurent) {
+                              if (_formKey.currentState!.validate()) {
+                                context
+                                    .read<AuthProvider>()
+                                    .registrationCall(
+                                      type: "Restaurant",
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text,
+                                      passwordConfirmation:
+                                          passwordController.text,
+                                      name: nameController.text,
+                                      username: usernameController.text,
+                                      phone: numberController.text,
+                                      manPhone: manNumberController.text,
+                                    )
+                                    .then((value) {
+                                      if (context
+                                          .read<AuthProvider>()
+                                          .resMessage
+                                          .isNotEmpty) {
+                                        Log().showMessageToast(
+                                          message:
+                                              context
+                                                  .read<AuthProvider>()
+                                                  .resMessage,
+                                          context: context,
+                                        );
+                                        if (context
+                                            .read<AuthProvider>()
+                                            .isLoading) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            loginPage,
+                                          );
+                                        }
+                                      }
+                                    });
+                              }
+                            } else {
+                              if (_userFormKey.currentState!.validate()) {
+                                context
+                                    .read<AuthProvider>()
+                                    .registrationCall(
+                                      type: "Customer",
+                                      email: regEmailController.text.trim(),
+                                      password: regPasswordController.text,
+                                      passwordConfirmation:
+                                          regPasswordController.text,
+                                      name: regNameController.text,
+                                      username: regNameController.text,
+                                      phone: regNumberController.text,
+                                      manPhone: manNumberController.text,
+                                    )
+                                    .then((value) {
+                                      if (context
+                                          .read<AuthProvider>()
+                                          .resMessage
+                                          .isNotEmpty) {
+                                        Log().showMessageToast(
+                                          message:
+                                              context
+                                                  .read<AuthProvider>()
+                                                  .resMessage,
+                                          context: context,
+                                        );
+                                        if (context
+                                            .read<AuthProvider>()
+                                            .isLoading) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            loginPage,
+                                          );
+                                        }
+                                      }
+                                    });
+                              }
+                            }
                           },
                           child: Text(
                             "Sign Up",
