@@ -18,6 +18,7 @@ import '../core/provider/common_provider.dart';
 import '../core/utility/keys.dart';
 import '../core/utility/route_observer.dart';
 import '../core/utility/routes.dart';
+import 'customer/customer_profile_screen.dart';
 
 class Grozaar extends StatefulWidget {
   Grozaar({super.key});
@@ -75,6 +76,7 @@ class _GrozaarState extends State<Grozaar> {
             checkoutPage: (context) => const CheckoutPage(),
             registrationPage: (context) => const RegistrationPage(),
             loginPage: (context) => const LoginPage(),
+            customerProfilePage: (context) => const CustomerProfilePage(),
           },
         ),
       ),

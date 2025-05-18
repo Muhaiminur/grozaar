@@ -17,4 +17,6 @@ class ProjectColors {
   Color blue3 = Color(0xFF111722);
   Color yellow = Color(0xFFEEAD21);
   Color blue5 = Color(0xFF261D5F);
+  Color ash1 = Color(0xFFF3F1FB);
+  Color red1 = Color(0xFFDB1414);
 }

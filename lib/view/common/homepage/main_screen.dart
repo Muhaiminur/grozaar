@@ -7,12 +7,12 @@ import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
+import 'package:grozaar/view/customer/customer_profile_screen.dart';
 
 import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/dialogUtil.dart';
 import '../../../generated/assets.dart';
-import '../../authentication/registration_screen.dart';
 import 'home_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -75,7 +75,7 @@ class MainPageScreenState extends State<MainPage> {
             HomePage(),
             CategoryPage(),
             HomePage(),
-            LoginPage(),
+            logged.isNotEmpty ? CustomerProfilePage() : LoginPage(),
           ],
         ),
         bottomNavigationBar: Container(

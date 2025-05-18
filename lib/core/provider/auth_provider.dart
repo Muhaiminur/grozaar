@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
 
+import '../../model/user_details_response.dart';
 import '../../model/user_response.dart';
 import '../api/api_url.dart';
 import '../singleton/logger.dart';
@@ -19,6 +20,10 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
   UserResponse _logInResponse = UserResponse();
 
   UserResponse get logInResponse => _logInResponse;
+
+  UserDetailsResponse _userDetailsResponse = UserDetailsResponse();
+
+  UserDetailsResponse get userDetailsResponse => _userDetailsResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -86,6 +91,32 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       );
       if (response.statusCode == 200) {
         _logInResponse = UserResponse.fromJson(response.data);
+      } else {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      }
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      _resMessage = '';
+      final responseJson = json.decode(e.response.toString());
+      Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> userDetailsCall() async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(ApiUrl.userDetailsUrl);
+      if (response.statusCode == 200) {
+        _userDetailsResponse = UserDetailsResponse.fromJson(response.data);
       } else {
         final responseJson = json.decode(response.toString());
         Log().showMessageToast(message: responseJson["message"]);

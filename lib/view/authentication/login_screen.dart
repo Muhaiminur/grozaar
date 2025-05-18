@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
@@ -363,15 +362,11 @@ class LoginPageScreenState extends State<LoginPage> {
                                       );
                                       SharedPref.setString(
                                         CustomStrings().token,
-                                        context
-                                            .read<AuthProvider>()
-                                            .logInResponse
-                                            .data!
-                                            .token!,
+                                        "Bearer ${context.read<AuthProvider>().logInResponse.data!.token!}",
                                       );
                                       Navigator.pushReplacementNamed(
                                         context,
-                                        homePage,
+                                        mainPage,
                                       );
                                     }
                                   });
