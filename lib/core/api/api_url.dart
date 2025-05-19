@@ -7,4 +7,5 @@ class ApiUrl {
   static const String signUpUrl = "register";
   static const String signInUrl = "login";
   static const String userDetailsUrl = "user";
+  static const String userUpdateUrl = "user/update-profile";
 }

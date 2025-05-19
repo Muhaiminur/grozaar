@@ -168,10 +168,11 @@ class LoginPageScreenState extends State<LoginPage> {
                                 ),
                                 hintText: "Enter User Name",
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Color(0xFFE6E8EC),
-                                  ),
+                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                               ),
@@ -243,10 +244,11 @@ class LoginPageScreenState extends State<LoginPage> {
                                 ),
                                 hintText: "*********",
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Color(0xFFE6E8EC),
-                                  ),
+                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                                 suffixIcon: IconButton(

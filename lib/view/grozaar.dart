@@ -11,6 +11,7 @@ import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
 import 'package:grozaar/view/common/product/product_details_screen.dart';
 import 'package:grozaar/view/common/welcome_screen.dart';
+import 'package:grozaar/view/profile/profile_edit_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ import '../core/provider/common_provider.dart';
 import '../core/utility/keys.dart';
 import '../core/utility/route_observer.dart';
 import '../core/utility/routes.dart';
-import 'customer/customer_profile_screen.dart';
+import 'profile/customer_profile_screen.dart';
 
 class Grozaar extends StatefulWidget {
   Grozaar({super.key});
@@ -76,7 +77,8 @@ class _GrozaarState extends State<Grozaar> {
             checkoutPage: (context) => const CheckoutPage(),
             registrationPage: (context) => const RegistrationPage(),
             loginPage: (context) => const LoginPage(),
-            customerProfilePage: (context) => const CustomerProfilePage(),
+            profilePage: (context) => const CustomerProfilePage(),
+            profileEditPage: (context) => const ProfileEditPage(),
           },
         ),
       ),

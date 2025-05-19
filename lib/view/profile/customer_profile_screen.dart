@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
 import '../../core/provider/auth_provider.dart';
+import '../../core/utility/routes.dart';
 
 class CustomerProfilePage extends StatefulWidget {
   const CustomerProfilePage({super.key});
@@ -69,7 +70,6 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 15,
-                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Card(
                         color: ProjectColors().ash1,
@@ -90,7 +90,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                 radius: 20,
                                 child:
                                     context
-                                                .read<AuthProvider>()
+                                                .watch<AuthProvider>()
                                                 .userDetailsResponse
                                                 .avatarUrl !=
                                             null
@@ -100,7 +100,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                           fit: BoxFit.cover,
                                           imageUrl:
                                               context
-                                                  .read<AuthProvider>()
+                                                  .watch<AuthProvider>()
                                                   .userDetailsResponse
                                                   .avatarUrl!,
                                           imageBuilder:
@@ -137,12 +137,13 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
                                     children: [
                                       SizedBox(
                                         width: 210,
                                         child: Text(
                                           context
-                                                  .read<AuthProvider>()
+                                                  .watch<AuthProvider>()
                                                   .userDetailsResponse
                                                   .firstName ??
                                               "",
@@ -158,7 +159,15 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            profileEditPage,
+                                          ).then((_) {
+                                            setState(() {});
+                                            _loadHomeData(isReload: false);
+                                          });
+                                        },
                                         icon: Icon(
                                           Icons.edit,
                                           size: 18,
@@ -169,7 +178,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                   ),
                                   Text(
                                     context
-                                            .read<AuthProvider>()
+                                            .watch<AuthProvider>()
                                             .userDetailsResponse
                                             .email ??
                                         "",
@@ -185,7 +194,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                   ),
                                   Text(
                                     context
-                                            .read<AuthProvider>()
+                                            .watch<AuthProvider>()
                                             .userDetailsResponse
                                             .phone ??
                                         "",

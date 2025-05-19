@@ -7,7 +7,7 @@ import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
-import 'package:grozaar/view/customer/customer_profile_screen.dart';
+import 'package:grozaar/view/profile/customer_profile_screen.dart';
 
 import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';

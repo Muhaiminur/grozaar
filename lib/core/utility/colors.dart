@@ -10,6 +10,8 @@ class ProjectColors {
   Color white = Color(0xFFffffff);
   Color white2 = Color(0xFFE6EDF5);
   Color white3 = Color(0xFFE9EDF2);
+  Color white4 = Color(0xFFE6E8EC);
+
 
   Color black = Color(0xFF000000);
   Color blue1 = Color(0xFF42526B);

@@ -11,5 +11,6 @@ const productDetailsPage = "/productDetailsPage";
 const cartPage = "/cartPage";
 const checkoutPage = "/checkoutPage";
 const loginPage = "/loginPage";
-const customerProfilePage = "/customerProfilePage";
+const profilePage = "/profilePage";
+const profileEditPage = "/profileEditPage";
 
