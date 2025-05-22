@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/authentication/login_screen.dart';
+import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/profile/customer_profile_screen.dart';
 
@@ -74,7 +75,7 @@ class MainPageScreenState extends State<MainPage> {
           children: [
             HomePage(),
             CategoryPage(),
-            HomePage(),
+            CartPage(),
             logged.isNotEmpty ? CustomerProfilePage() : LoginPage(),
           ],
         ),

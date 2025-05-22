@@ -15,6 +15,7 @@ import 'package:grozaar/view/profile/profile_edit_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../core/provider/cart_provider.dart';
 import '../core/provider/common_provider.dart';
 import '../core/utility/keys.dart';
 import '../core/utility/route_observer.dart';
@@ -53,6 +54,7 @@ class _GrozaarState extends State<Grozaar> {
         providers: [
           ChangeNotifierProvider(create: (_) => CommonProvider()),
           ChangeNotifierProvider(create: (_) => AuthProvider()),
+          ChangeNotifierProvider(create: (_) => CartProvider()),
         ],
         child: MaterialApp(
           navigatorObservers: [routeObserver],
