@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grozaar/core/provider/common_provider.dart';
+import 'package:grozaar/core/provider/cart_provider.dart';
+import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,6 @@ class CartPage extends StatefulWidget {
 
 class CartPageScreenState extends State<CartPage> {
   String logged = "";
-  String cat = "";
-  String counter = "1";
 
   @override
   void initState() {
@@ -31,7 +30,7 @@ class CartPageScreenState extends State<CartPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CommonProvider>().categoryProductCall("1", "1", "20");
+    context.read<CartProvider>().showCart();
   }
 
   @override
@@ -90,7 +89,8 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        "100",
+                        context.watch<CartProvider>().cartResponse?.total ??
+                            "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -123,7 +123,11 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        "100",
+                        context
+                                .watch<CartProvider>()
+                                .cartResponse
+                                ?.deliveryCost ??
+                            "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -156,7 +160,11 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        "100",
+                        context
+                                .watch<CartProvider>()
+                                .cartResponse
+                                ?.totalTaxPrice ??
+                            "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -189,7 +197,8 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        "100",
+                        context.watch<CartProvider>().cartResponse?.total ??
+                            "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -253,25 +262,13 @@ class CartPageScreenState extends State<CartPage> {
   }
 
   Widget cartList() {
-    return context.watch<CommonProvider>().productResponse != null &&
-            context.watch<CommonProvider>().productResponse?.data?.data !=
-                null &&
-            context
-                .watch<CommonProvider>()
-                .productResponse!
-                .data!
-                .data!
-                .isNotEmpty
+    return context.watch<CartProvider>().cartResponse != null &&
+            context.watch<CartProvider>().cartResponse?.items != null &&
+            context.watch<CartProvider>().cartResponse!.items!.isNotEmpty
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount:
-              context
-                  .watch<CommonProvider>()
-                  .productResponse
-                  ?.data
-                  ?.data
-                  ?.length,
+          itemCount: context.watch<CartProvider>().cartResponse?.items?.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
               color: ProjectColors().white,
@@ -295,10 +292,10 @@ class CartPageScreenState extends State<CartPage> {
                         width: 90,
                         imageUrl:
                             context
-                                .watch<CommonProvider>()
-                                .productResponse
-                                ?.data
-                                ?.data?[index]
+                                .watch<CartProvider>()
+                                .cartResponse
+                                ?.items
+                                ?.elementAt(index)
                                 ?.imageUrl ??
                             "",
                         placeholder:
@@ -329,11 +326,11 @@ class CartPageScreenState extends State<CartPage> {
                               Expanded(
                                 child: Text(
                                   context
-                                          .watch<CommonProvider>()
-                                          .productResponse
-                                          ?.data
-                                          ?.data?[index]
-                                          ?.name ??
+                                          .watch<CartProvider>()
+                                          .cartResponse
+                                          ?.items
+                                          ?.elementAt(index)
+                                          ?.productName ??
                                       "",
                                   style: GoogleFonts.roboto(
                                     fontSize: 14,
@@ -347,7 +344,22 @@ class CartPageScreenState extends State<CartPage> {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context
+                                      .read<CartProvider>()
+                                      .deleteToCart(
+                                        context
+                                                .read<CartProvider>()
+                                                .cartResponse
+                                                ?.items
+                                                ?.elementAt(index)
+                                                ?.productId ??
+                                            "0",
+                                      )
+                                      .then((value) {
+                                        context.read<CartProvider>().showCart();
+                                      });
+                                },
                                 icon: Icon(
                                   Icons.close,
                                   color: ProjectColors().blue5,
@@ -358,10 +370,10 @@ class CartPageScreenState extends State<CartPage> {
                           ),
                           Text(
                             context
-                                    .watch<CommonProvider>()
-                                    .productResponse
-                                    ?.data
-                                    ?.data?[index]
+                                    .watch<CartProvider>()
+                                    .cartResponse
+                                    ?.items
+                                    ?.elementAt(index)
                                     ?.category
                                     ?.name ??
                                 "",
@@ -381,10 +393,10 @@ class CartPageScreenState extends State<CartPage> {
                             children: [
                               Text(
                                 context
-                                        .watch<CommonProvider>()
-                                        .productResponse
-                                        ?.data
-                                        ?.data?[index]
+                                        .watch<CartProvider>()
+                                        .cartResponse
+                                        ?.items
+                                        ?.elementAt(index)
                                         ?.price ??
                                     "0",
                                 style: GoogleFonts.roboto(
@@ -399,7 +411,7 @@ class CartPageScreenState extends State<CartPage> {
                               ),
                               SizedBox(width: 2),
                               Text(
-                                "/${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productUnit?.name ?? ""}",
+                                "/${context.watch<CartProvider>().cartResponse?.items?.elementAt(index)?.productUnit?.name ?? ""}",
                                 style: GoogleFonts.roboto(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
@@ -413,19 +425,53 @@ class CartPageScreenState extends State<CartPage> {
                               Spacer(),
                               IconButton(
                                 onPressed: () {
-                                  if (int.parse(counter) > 1 &&
-                                      int.parse(counter) <
+                                  if (int.parse(
+                                            context
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
+                                                    ?.quantity ??
+                                                "0",
+                                          ) >
+                                          1 &&
+                                      int.parse(
+                                            context
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
+                                                    ?.quantity ??
+                                                "0",
+                                          ) <
                                           int.parse(
                                             context
-                                                    .watch<CommonProvider>()
-                                                    .productResponse
-                                                    ?.data
-                                                    ?.data?[index]
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
                                                     ?.totalStockQuantity ??
-                                                "1",
+                                                "0",
                                           )) {
-                                    int num = int.parse(counter) - 1;
-                                    counter = num.toString();
+                                    context
+                                        .read<CartProvider>()
+                                        .removeToCart(
+                                          context
+                                                  .read<CartProvider>()
+                                                  .cartResponse
+                                                  ?.items
+                                                  ?.elementAt(index)
+                                                  ?.productId ??
+                                              "0",
+                                          "1",
+                                        )
+                                        .then((value) {
+                                          if (value == 200) {
+                                            context
+                                                .read<CartProvider>()
+                                                .showCart();
+                                          }
+                                        });
                                   }
                                   setState(() {});
                                 },
@@ -434,7 +480,15 @@ class CartPageScreenState extends State<CartPage> {
                                 iconSize: 20,
                               ),
                               Text(
-                                counter,
+                                int.parse(
+                                  context
+                                          .watch<CartProvider>()
+                                          .cartResponse
+                                          ?.items
+                                          ?.elementAt(index)
+                                          ?.quantity ??
+                                      "0",
+                                ).toString(),
                                 style: GoogleFonts.roboto(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
@@ -447,10 +501,10 @@ class CartPageScreenState extends State<CartPage> {
                               ),
                               Text(
                                 context
-                                        .watch<CommonProvider>()
-                                        .productResponse
-                                        ?.data
-                                        ?.data?[index]
+                                        .watch<CartProvider>()
+                                        .cartResponse
+                                        ?.items
+                                        ?.elementAt(index)
                                         ?.productUnit
                                         ?.name ??
                                     "",
@@ -466,22 +520,69 @@ class CartPageScreenState extends State<CartPage> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    if (int.parse(counter) >= 1 &&
-                                        int.parse(counter) <
-                                            int.parse(
-                                              context
-                                                      .watch<CommonProvider>()
-                                                      .productResponse
-                                                      ?.data
-                                                      ?.data?[index]
-                                                      ?.totalStockQuantity ??
-                                                  "1",
-                                            )) {
-                                      int num = int.parse(counter) + 1;
-                                      counter = num.toString();
-                                    }
-                                  });
+                                  if (int.parse(
+                                            context
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
+                                                    ?.quantity ??
+                                                "0",
+                                          ) >=
+                                          1 &&
+                                      int.parse(
+                                            context
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
+                                                    ?.quantity ??
+                                                "0",
+                                          ) <
+                                          int.parse(
+                                            context
+                                                    .read<CartProvider>()
+                                                    .cartResponse
+                                                    ?.items
+                                                    ?.elementAt(index)
+                                                    ?.totalStockQuantity ??
+                                                "1",
+                                          )) {
+                                    context
+                                        .read<CartProvider>()
+                                        .addToCart(
+                                          context
+                                                  .read<CartProvider>()
+                                                  .cartResponse
+                                                  ?.items
+                                                  ?.elementAt(index)
+                                                  ?.productId ??
+                                              "0",
+                                          "1",
+                                        )
+                                        .then((value) {
+                                          if (value == 200) {
+                                            context
+                                                .read<CartProvider>()
+                                                .showCart();
+                                          }
+                                        });
+                                  }
+                                  Log().printInfo(
+                                    "msg" +
+                                        (int.parse(
+                                                  context
+                                                          .read<CartProvider>()
+                                                          .cartResponse
+                                                          ?.items
+                                                          ?.elementAt(index)
+                                                          ?.quantity ??
+                                                      "0",
+                                                ) +
+                                                1)
+                                            .toString(),
+                                  );
+                                  setState(() {});
                                 },
                                 icon: Icon(Icons.add_circle),
                                 color: ProjectColors().primaryColor,
