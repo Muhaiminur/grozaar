@@ -89,7 +89,7 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        context.watch<CartProvider>().cartResponse?.total ??
+                        context.watch<CartProvider>().cartResponse?.subTotalPrice ??
                             "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,

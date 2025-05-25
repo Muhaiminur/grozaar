@@ -48,6 +48,9 @@ class Log {
       throw Exception('Could not launch $url');
     }
   }
+  hideKeyBoard(){
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   showConfirmDialog(String message) {
     var ctx = GlobalVariableKeys.navigatorState.currentContext!;

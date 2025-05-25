@@ -1,15 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../core/singleton/logger.dart';
 import '../core/singleton/shared_pref.dart';
-import '../core/utility/colors.dart';
 import '../core/utility/customStrings.dart';
 import '../core/utility/routes.dart';
 
@@ -26,7 +21,8 @@ class SplashScreenState extends State<Splash> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       if (kReleaseMode) {
-        versionCheck(context);
+        //versionCheck(context);
+        navigatePage(context);
       } else {
         navigatePage(context);
       }
@@ -63,7 +59,7 @@ class SplashScreenState extends State<Splash> {
     }
   }
 
-  versionCheck(context) async {
+  /*versionCheck(context) async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     int currentVersion = int.parse(info.buildNumber);
     Log().printInfo("currentVersionName:${info.version}");
@@ -213,5 +209,5 @@ class SplashScreenState extends State<Splash> {
     } else {
       throw 'Could not launch $url';
     }
-  }
+  }*/
 }

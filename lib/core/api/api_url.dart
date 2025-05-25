@@ -12,4 +12,5 @@ class ApiUrl {
   static const String cartDeductUrl = "user/cart/minus";
   static const String cartUrl = "user/cart";
   static const String cartDeleteUrl = "/remove";
+  static const String checkOutUrl = "user/checkout-confirm";
 }

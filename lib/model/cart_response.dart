@@ -302,6 +302,7 @@ class CartResponse {
   String? total;
   String? deliveryCost;
   String? totalTaxPrice;
+  String? subTotalPrice;
 
   CartResponse({this.items, this.total, this.deliveryCost, this.totalTaxPrice});
 
@@ -317,6 +318,7 @@ class CartResponse {
     total = json['total']?.toString();
     deliveryCost = json['delivery_cost']?.toString();
     totalTaxPrice = json['total_tax_price']?.toString();
+    subTotalPrice = json['sub_total']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -332,6 +334,7 @@ class CartResponse {
     data['total'] = total;
     data['delivery_cost'] = deliveryCost;
     data['total_tax_price'] = totalTaxPrice;
+    data['sub_total'] = subTotalPrice;
     return data;
   }
 }

@@ -8,8 +8,11 @@ import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
-import '../../core/provider/common_provider.dart';
+import '../../core/provider/auth_provider.dart';
+import '../../core/provider/cart_provider.dart';
+import '../../core/singleton/logger.dart';
 import '../../core/utility/customColorLoader.dart';
+import '../../core/utility/routes.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -26,6 +29,7 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
   final TextEditingController addressController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -35,7 +39,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CommonProvider>().categoryProductCall("1", "1", "20");
+    context.read<AuthProvider>().userDetailsCall().then((value) {
+      emailController.text = value.email ?? "";
+      phoneController.text = value.phone ?? "";
+      context.read<CartProvider>().showCart();
+    });
   }
 
   @override
@@ -101,188 +109,187 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                       ),
                     ],
                   ),
-                  TextFormField(
-                    readOnly: address,
-                    style: GoogleFonts.roboto(
-                      color: ProjectColors().blue1,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    maxLines: 1,
-                    controller: addressController,
-                    validator: (value) {
-                      /* if (value!.trim().isEmpty) {
-                        return CustomStrings.required;
-                      }
-                      if (value.trim().length < 6) {
-                        return CustomStrings.min6;
-                      }*/
-                      return null;
-                    },
-                    keyboardType: TextInputType.streetAddress,
-                    decoration: InputDecoration(
-                      hintStyle: GoogleFonts.poppins(
-                        color: ProjectColors().primaryColor.withValues(
-                          alpha: 90,
-                        ),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      contentPadding: EdgeInsets.fromLTRB(
-                        20.0,
-                        15.0,
-                        20.0,
-                        15.0,
-                      ),
-                      hintText: "Enter Your Address",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      prefixIcon: IconButton(
-                        icon: SvgPicture.asset(
-                          "assets/images/ic_location.svg",
-                          width: 40,
-                          height: 40,
-                        ),
-                        onPressed: () {
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ),
 
-                  SizedBox(height: 5),
-
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Contact Information",
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: ProjectColors().blue3,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  TextFormField(
-                    readOnly: email,
-                    textAlignVertical: TextAlignVertical.center,
-                    maxLines: 1,
-                    style: GoogleFonts.roboto(
-                      color: ProjectColors().blue1,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    controller: emailController,
-                    validator: (value) {
-                      /* if (value!.trim().isEmpty) {
-                        return CustomStrings.required;
-                      }
-                      if (value.trim().length < 6) {
-                        return CustomStrings.min6;
-                      }*/
-                      return null;
-                    },
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintStyle: GoogleFonts.poppins(
-                        color: ProjectColors().primaryColor.withValues(
-                          alpha: 90,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          readOnly: address,
+                          style: GoogleFonts.roboto(
+                            color: ProjectColors().blue1,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          maxLines: 1,
+                          controller: addressController,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Required";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.streetAddress,
+                          decoration: InputDecoration(
+                            hintStyle: GoogleFonts.poppins(
+                              color: ProjectColors().primaryColor.withValues(
+                                alpha: 90,
+                              ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(
+                              20.0,
+                              15.0,
+                              20.0,
+                              15.0,
+                            ),
+                            hintText: "Enter Your Address",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            prefixIcon: IconButton(
+                              icon: SvgPicture.asset(
+                                "assets/images/ic_location.svg",
+                                width: 40,
+                                height: 40,
+                              ),
+                              onPressed: () {
+                                setState(() {});
+                              },
+                            ),
+                          ),
                         ),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      contentPadding: EdgeInsets.fromLTRB(
-                        20.0,
-                        15.0,
-                        20.0,
-                        15.0,
-                      ),
-                      hintText: "Enter Your Email Address",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      prefixIcon: SvgPicture.asset(
-                        "assets/images/ic_email.svg",
-                        width: 40,
-                        height: 40,
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            email = false;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          size: 18,
-                          color: Color(0xFF30DBF2),
+                        SizedBox(height: 5),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Contact Information",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    readOnly: phone,
-                    maxLines: 1,
-                    textAlignVertical: TextAlignVertical.center,
-                    style: GoogleFonts.roboto(
-                      color: ProjectColors().blue1,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    controller: phoneController,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: (value) {
-                      /* if (value!.trim().isEmpty) {
-                        return CustomStrings.required;
-                      }
-                      if (value.trim().length < 6) {
-                        return CustomStrings.min6;
-                      }*/
-                      return null;
-                    },
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      hintStyle: GoogleFonts.poppins(
-                        color: ProjectColors().primaryColor.withValues(
-                          alpha: 90,
+                        SizedBox(height: 5),
+                        TextFormField(
+                          readOnly: email,
+                          textAlignVertical: TextAlignVertical.center,
+                          maxLines: 1,
+                          style: GoogleFonts.roboto(
+                            color: ProjectColors().blue1,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          controller: emailController,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return CustomStrings().required;
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintStyle: GoogleFonts.poppins(
+                              color: ProjectColors().primaryColor.withValues(
+                                alpha: 90,
+                              ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(
+                              20.0,
+                              15.0,
+                              20.0,
+                              15.0,
+                            ),
+                            hintText: "Enter Your Email Address",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            prefixIcon: SvgPicture.asset(
+                              "assets/images/ic_email.svg",
+                              width: 40,
+                              height: 40,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  email = false;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.edit_outlined,
+                                size: 18,
+                                color: Color(0xFF30DBF2),
+                              ),
+                            ),
+                          ),
                         ),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      contentPadding: EdgeInsets.fromLTRB(
-                        20.0,
-                        15.0,
-                        20.0,
-                        15.0,
-                      ),
-                      hintText: "Enter Your Contact Number",
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      prefixIcon: SvgPicture.asset(
-                        "assets/images/ic_phone.svg",
-                        width: 40,
-                        height: 40,
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            phone = false;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          size: 18,
-                          color: Color(0xFF30DBF2),
+                        SizedBox(height: 10),
+                        TextFormField(
+                          readOnly: phone,
+                          maxLines: 1,
+                          textAlignVertical: TextAlignVertical.center,
+                          style: GoogleFonts.roboto(
+                            color: ProjectColors().blue1,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          controller: phoneController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return "Required";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            hintStyle: GoogleFonts.poppins(
+                              color: ProjectColors().primaryColor.withValues(
+                                alpha: 90,
+                              ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(
+                              20.0,
+                              15.0,
+                              20.0,
+                              15.0,
+                            ),
+                            hintText: "Enter Your Contact Number",
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            prefixIcon: SvgPicture.asset(
+                              "assets/images/ic_phone.svg",
+                              width: 40,
+                              height: 40,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  phone = false;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.edit_outlined,
+                                size: 18,
+                                color: Color(0xFF30DBF2),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
 
@@ -328,7 +335,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                               ),
 
                               Text(
-                                "100",
+                                context
+                                        .watch<CartProvider>()
+                                        .cartResponse
+                                        ?.deliveryCost ??
+                                    "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -359,7 +370,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                               ),
 
                               Text(
-                                "100",
+                                context
+                                        .watch<CartProvider>()
+                                        .cartResponse
+                                        ?.totalTaxPrice ??
+                                    "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -392,7 +407,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                               ),
 
                               Text(
-                                "100",
+                                context
+                                        .watch<CartProvider>()
+                                        .cartResponse
+                                        ?.total ??
+                                    "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
@@ -435,7 +454,26 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Log().hideKeyBoard();
+                        context
+                            .read<CartProvider>()
+                            .checkOutCall(
+                              addressController.text,
+                              emailController.text.toString(),
+                              phoneController.text.toString(),
+                            )
+                            .then((value) {
+                              if (value == 200) {
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  mainPage,
+                                );
+                              }
+                            });
+                      }
+                    },
                     child: Text(
                       "Order Confirm",
                       style: GoogleFonts.roboto(
@@ -459,25 +497,13 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
   }
 
   Widget cartList() {
-    return context.watch<CommonProvider>().productResponse != null &&
-            context.watch<CommonProvider>().productResponse?.data?.data !=
-                null &&
-            context
-                .watch<CommonProvider>()
-                .productResponse!
-                .data!
-                .data!
-                .isNotEmpty
+    return context.watch<CartProvider>().cartResponse != null &&
+            context.watch<CartProvider>().cartResponse?.items != null &&
+            context.watch<CartProvider>().cartResponse!.items!.isNotEmpty
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount:
-              context
-                  .watch<CommonProvider>()
-                  .productResponse
-                  ?.data
-                  ?.data
-                  ?.length,
+          itemCount: context.watch<CartProvider>().cartResponse?.items?.length,
           itemBuilder: (BuildContext context, int index) {
             return Row(
               mainAxisSize: MainAxisSize.min,
@@ -486,11 +512,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                 Expanded(
                   child: Text(
                     context
-                            .watch<CommonProvider>()
-                            .productResponse
-                            ?.data
-                            ?.data?[index]
-                            ?.name ??
+                            .watch<CartProvider>()
+                            .cartResponse
+                            ?.items
+                            ?.elementAt(index)
+                            ?.productName ??
                         "",
                     style: GoogleFonts.roboto(
                       fontSize: 14,
@@ -505,11 +531,11 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                 ),
                 Text(
                   context
-                          .watch<CommonProvider>()
-                          .productResponse
-                          ?.data
-                          ?.data?[index]
-                          ?.price ??
+                          .watch<CartProvider>()
+                          .cartResponse
+                          ?.items
+                          ?.elementAt(index)
+                          ?.totalPrice ??
                       "0",
                   style: GoogleFonts.roboto(
                     fontSize: 14,
