@@ -7,8 +7,11 @@ import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/cart/checkout_screen.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
+import 'package:grozaar/view/common/general/notification_screen.dart';
+import 'package:grozaar/view/common/general/promotion_screen.dart';
 import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
+import 'package:grozaar/view/common/order/order_list_screen.dart';
 import 'package:grozaar/view/common/product/product_details_screen.dart';
 import 'package:grozaar/view/common/welcome_screen.dart';
 import 'package:grozaar/view/profile/profile_edit_screen.dart';
@@ -81,6 +84,9 @@ class _GrozaarState extends State<Grozaar> {
             loginPage: (context) => const LoginPage(),
             profilePage: (context) => const CustomerProfilePage(),
             profileEditPage: (context) => const ProfileEditPage(),
+            orderListPage: (context) => const OrderListPage(),
+            promotionPage: (context) => const PromotionPage(),
+            notificationPage: (context) => const NotificationPage(),
           },
         ),
       ),

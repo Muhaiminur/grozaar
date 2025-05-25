@@ -252,7 +252,9 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().blue1,
                                   ),
                                 ),
-                                onTap: () async {},
+                                onTap: () {
+                                  Navigator.pushNamed(context, orderListPage);
+                                },
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
                                   size: 24,
@@ -278,7 +280,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().blue1,
                                   ),
                                 ),
-                                onTap: () async {},
+                                onTap: () {},
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
                                   size: 24,
@@ -304,7 +306,9 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().blue1,
                                   ),
                                 ),
-                                onTap: () async {},
+                                onTap: () {
+                                  Navigator.pushNamed(context, promotionPage);
+                                },
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
                                   size: 24,
@@ -330,7 +334,12 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().blue1,
                                   ),
                                 ),
-                                onTap: () async {},
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    notificationPage,
+                                  );
+                                },
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
                                   size: 24,
@@ -356,7 +365,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().red1,
                                   ),
                                 ),
-                                onTap: () async {},
+                                onTap: () {},
                               ),
                             ],
                           ),

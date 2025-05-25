@@ -13,4 +13,6 @@ const checkoutPage = "/checkoutPage";
 const loginPage = "/loginPage";
 const profilePage = "/profilePage";
 const profileEditPage = "/profileEditPage";
-
+const orderListPage = "/orderListPage";
+const notificationPage = "/notificationPage";
+const promotionPage = "/promotionPage";
