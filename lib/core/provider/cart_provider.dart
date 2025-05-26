@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
 import 'package:grozaar/model/cart_response.dart';
 
+import '../../model/order_history_response.dart';
 import '../api/api_url.dart';
 import '../api/interceptor.dart';
 import '../singleton/logger.dart';
@@ -20,6 +21,10 @@ class CartProvider extends BaseApiController with ChangeNotifier {
   CartResponse? _cartResponse;
 
   CartResponse? get cartResponse => _cartResponse;
+
+  OrderHistoryResponse? _orderHistoryResponse;
+
+  OrderHistoryResponse? get orderHistoryResponse => _orderHistoryResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -189,6 +194,34 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       }
       notifyListeners();
       return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<OrderHistoryResponse?> ongoingOrderCall() async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(ApiUrl.ongoingOrderUrl);
+      _orderHistoryResponse = OrderHistoryResponse.fromJson(response.data);
+      notifyListeners();
+      return _orderHistoryResponse;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return OrderHistoryResponse();
     } finally {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();

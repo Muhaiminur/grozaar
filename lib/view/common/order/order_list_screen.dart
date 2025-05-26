@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
+import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
 
 class OrderListPage extends StatefulWidget {
@@ -25,7 +28,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    //context.read<CommonProvider>().categoryCall();
+    context.read<CartProvider>().ongoingOrderCall();
   }
 
   @override
@@ -175,7 +178,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                           ],
                         ),
                       ),
-                      //ongoing ? restaurentView() : userView(),
+                      ongoing ? onGoingView() : onGoingView(),
                     ],
                   ),
                 ),
@@ -185,5 +188,184 @@ class OrderListPageScreenState extends State<OrderListPage> {
         ),
       ),
     );
+  }
+
+  Widget onGoingView() {
+    return context.watch<CartProvider>().orderHistoryResponse != null &&
+            context.watch<CartProvider>().orderHistoryResponse?.data?.data !=
+                null &&
+            context
+                .watch<CartProvider>()
+                .orderHistoryResponse!
+                .data!
+                .data!
+                .isNotEmpty
+        ? ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount:
+              context
+                  .watch<CartProvider>()
+                  .orderHistoryResponse
+                  ?.data
+                  ?.data
+                  ?.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              color: ProjectColors().white,
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Color(0x0a0f291a), width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+              ),
+              child: Container(
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 5,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            context
+                                    .watch<CartProvider>()
+                                    .orderHistoryResponse
+                                    ?.data
+                                    ?.data
+                                    ?.elementAt(index)
+                                    ?.invoiceNo ??
+                                "",
+                            style: GoogleFonts.roboto(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        Text(
+                          context
+                                  .watch<CartProvider>()
+                                  .orderHistoryResponse
+                                  ?.data
+                                  ?.data
+                                  ?.elementAt(index)
+                                  ?.time ??
+                              "",
+                          style: GoogleFonts.roboto(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: ProjectColors().blue1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        context
+                                .watch<CartProvider>()
+                                .orderHistoryResponse
+                                ?.data
+                                ?.data
+                                ?.elementAt(index)
+                                ?.price ??
+                            "",
+                        style: GoogleFonts.roboto(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: ProjectColors().blue1,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                ProjectColors().primaryColor,
+                              ),
+                              padding: WidgetStateProperty.all(
+                                EdgeInsets.only(left: 25, right: 25),
+                              ),
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(23),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              context
+                                      .watch<CartProvider>()
+                                      .orderHistoryResponse
+                                      ?.data
+                                      ?.data
+                                      ?.elementAt(index)
+                                      ?.status ??
+                                  "",
+                              style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: ProjectColors().white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all(
+                                ProjectColors().white,
+                              ),
+                              padding: WidgetStateProperty.all(
+                                EdgeInsets.only(left: 25, right: 25),
+                              ),
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(23),
+                                  side: BorderSide(
+                                    width: 1,
+                                    color: Color(0xFFC3C8D0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              "Details",
+                              style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: ProjectColors().blue3,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        )
+        : ColorLoader();
   }
 }
