@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +68,75 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                   child: Column(
                     spacing: 15,
                     mainAxisSize: MainAxisSize.max,
-                    children: [],
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 10,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "Order Info",
+                            style: GoogleFonts.roboto(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.start,
+                          ),
+                          Spacer(),
+                          Text(
+                            context
+                                    .watch<CartProvider>()
+                                    .orderDetailsResponse
+                                    ?.data
+                                    ?.invoiceNo ??
+                                "",
+                            style: GoogleFonts.roboto(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().blue1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                      Card(
+                        color: ProjectColors().white,
+                        margin: EdgeInsets.all(5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Delivery Information",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: ProjectColors().blue3,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                textAlign: TextAlign.start,
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
                 ),
               ],

@@ -359,7 +359,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                                 arguments: {
                                   "id":
                                       context
-                                          .watch<CartProvider>()
+                                          .read<CartProvider>()
                                           .orderHistoryResponse
                                           ?.data
                                           ?.data
