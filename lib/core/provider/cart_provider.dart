@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
 import 'package:grozaar/model/cart_response.dart';
 
+import '../../model/order_details_response.dart';
 import '../../model/order_history_response.dart';
 import '../api/api_url.dart';
 import '../api/interceptor.dart';
@@ -25,6 +26,10 @@ class CartProvider extends BaseApiController with ChangeNotifier {
   OrderHistoryResponse? _orderHistoryResponse;
 
   OrderHistoryResponse? get orderHistoryResponse => _orderHistoryResponse;
+
+  OrderDetailsResponse? _orderDetailsResponse;
+
+  OrderDetailsResponse? get orderDetailsResponse => _orderDetailsResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -222,6 +227,62 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       }
       notifyListeners();
       return OrderHistoryResponse();
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<OrderHistoryResponse?> completeOrderCall() async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(ApiUrl.completeOrderUrl);
+      _orderHistoryResponse = OrderHistoryResponse.fromJson(response.data);
+      notifyListeners();
+      return _orderHistoryResponse;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return OrderHistoryResponse();
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<OrderDetailsResponse?> orderDetailsCall(String id) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get("${ApiUrl.orderDetails}$id/details");
+      _orderDetailsResponse = OrderDetailsResponse.fromJson(response.data);
+      notifyListeners();
+      return _orderDetailsResponse;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return OrderDetailsResponse();
     } finally {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();

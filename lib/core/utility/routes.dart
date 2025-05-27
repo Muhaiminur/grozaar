@@ -16,3 +16,4 @@ const profileEditPage = "/profileEditPage";
 const orderListPage = "/orderListPage";
 const notificationPage = "/notificationPage";
 const promotionPage = "/promotionPage";
+const orderDetailsPage = "/orderDetailsPage";

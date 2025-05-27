@@ -14,4 +14,6 @@ class ApiUrl {
   static const String cartDeleteUrl = "/remove";
   static const String checkOutUrl = "user/checkout-confirm";
   static const String ongoingOrderUrl = "user/ongoing-orders";
+  static const String completeOrderUrl = "user/completed-orders";
+  static const String orderDetails = "user/order/";
 }

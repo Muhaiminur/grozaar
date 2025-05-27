@@ -23,6 +23,7 @@ import '../core/provider/common_provider.dart';
 import '../core/utility/keys.dart';
 import '../core/utility/route_observer.dart';
 import '../core/utility/routes.dart';
+import 'common/order/order_details_screen.dart';
 import 'profile/customer_profile_screen.dart';
 
 class Grozaar extends StatefulWidget {
@@ -87,6 +88,10 @@ class _GrozaarState extends State<Grozaar> {
             orderListPage: (context) => const OrderListPage(),
             promotionPage: (context) => const PromotionPage(),
             notificationPage: (context) => const NotificationPage(),
+            orderDetailsPage:
+                (context) => OrderDetailsPage(
+              args: ModalRoute.of(context)!.settings.arguments as Map,
+            ),
           },
         ),
       ),
