@@ -130,12 +130,99 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                 softWrap: true,
                                 textAlign: TextAlign.start,
                               ),
-
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    size: 15,
+                                    color: Color(0xFF808A9A),
+                                  ),
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.shippingInfo
+                                            ?.address ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    context
+                                                .watch<CartProvider>()
+                                                .orderDetailsResponse
+                                                ?.data
+                                                ?.customer
+                                                ?.fullName ==
+                                            "Customer"
+                                        ? Icons.home_outlined
+                                        : Icons.person_outline_sharp,
+                                    size: 15,
+                                    color: Color(0xFF808A9A),
+                                  ),
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.customer
+                                            ?.fullName ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.call_outlined,
+                                    size: 15,
+                                    color: Color(0xFF808A9A),
+                                  ),
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.shippingInfo
+                                            ?.phone ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),

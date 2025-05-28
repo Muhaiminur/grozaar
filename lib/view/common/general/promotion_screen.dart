@@ -1,16 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grozaar/core/provider/cart_provider.dart';
-import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/provider/common_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
-import '../../../core/utility/routes.dart';
 
 class PromotionPage extends StatefulWidget {
   const PromotionPage({super.key});
@@ -30,7 +27,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CartProvider>().showCart();
+    context.read<CommonProvider>().promotionCall();
   }
 
   @override
@@ -67,192 +64,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
                   topLeft: Radius.circular(10),
                 ),
               ),
-              child: Column(
-                spacing: 5,
-                children: [
-                  cartList(),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Subtotal",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-
-                      Text(
-                        context
-                                .watch<CartProvider>()
-                                .cartResponse
-                                ?.subTotalPrice ??
-                            "0",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Container(height: 1, color: ProjectColors().white3),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Delivery Charge",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-
-                      Text(
-                        context
-                                .watch<CartProvider>()
-                                .cartResponse
-                                ?.deliveryCost ??
-                            "0",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Container(height: 1, color: ProjectColors().white3),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Tax",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-
-                      Text(
-                        context
-                                .watch<CartProvider>()
-                                .cartResponse
-                                ?.totalTaxPrice ??
-                            "0",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().blue1,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Container(height: 1, color: ProjectColors().white3),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().primaryColor,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-
-                      Text(
-                        context.watch<CartProvider>().cartResponse?.total ??
-                            "0",
-                        style: GoogleFonts.roboto(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: ProjectColors().primaryColor,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      minimumSize: WidgetStateProperty.all(Size.zero),
-                      // Set
-                      shape: WidgetStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(23),
-                        ),
-                      ),
-                      backgroundColor: WidgetStateProperty.all(
-                        ProjectColors().primaryColor,
-                      ),
-                      padding: WidgetStateProperty.all(
-                        EdgeInsets.fromLTRB(45, 10, 45, 10),
-                      ),
-                      textStyle: WidgetStateProperty.all(
-                        TextStyle(
-                          fontSize: 16,
-                          color: ProjectColors().white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, checkoutPage);
-                    },
-                    child: Text(
-                      "Checkout",
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: ProjectColors().white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: Column(children: [promoList()]),
             ),
           ),
         ),
@@ -264,337 +76,97 @@ class PromotionPageScreenState extends State<PromotionPage> {
     _loadHomeData(isReload: true);
   }
 
-  Widget cartList() {
-    return context.watch<CartProvider>().cartResponse != null &&
-            context.watch<CartProvider>().cartResponse?.items != null &&
-            context.watch<CartProvider>().cartResponse!.items!.isNotEmpty
+  Widget promoList() {
+    return context.watch<CommonProvider>().promotionResponse != null &&
+            context.watch<CommonProvider>().promotionResponse?.data?.data !=
+                null &&
+            context
+                .watch<CommonProvider>()
+                .promotionResponse!
+                .data!
+                .data!
+                .isNotEmpty
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-          itemCount: context.watch<CartProvider>().cartResponse?.items?.length,
+          itemCount:
+              context
+                  .watch<CommonProvider>()
+                  .promotionResponse
+                  ?.data
+                  ?.data
+                  ?.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
               color: ProjectColors().white,
               elevation: 1,
               shape: RoundedRectangleBorder(
+                side: BorderSide(color: Color(0x0a0f291a), width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(6)),
               ),
               child: Container(
-                padding: EdgeInsets.all(5),
-                child: Row(
-                  spacing: 10,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 5,
                   children: [
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                    Text(
+                      context
+                              .watch<CommonProvider>()
+                              .promotionResponse
+                              ?.data
+                              ?.data
+                              ?.elementAt(index)
+                              ?.title ??
+                          "",
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: ProjectColors().blue3,
                       ),
-                      child: CachedNetworkImage(
-                        height: 90,
-                        width: 90,
-                        imageUrl:
-                            context
-                                .watch<CartProvider>()
-                                .cartResponse
-                                ?.items
-                                ?.elementAt(index)
-                                ?.imageUrl ??
-                            "",
-                        placeholder:
-                            (context, url) => Image.asset(
-                              "assets/images/placeholder_image.png",
-                              height: 90,
-                              width: 90,
-                              fit: BoxFit.cover,
-                            ),
-                        errorWidget:
-                            (context, url, error) => Image.asset(
-                              "assets/images/placeholder_image.png",
-                              height: 90,
-                              width: 90,
-                              fit: BoxFit.cover,
-                            ),
-                        fit: BoxFit.cover,
-                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  context
-                                          .watch<CartProvider>()
-                                          .cartResponse
-                                          ?.items
-                                          ?.elementAt(index)
-                                          ?.productName ??
-                                      "",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: ProjectColors().blue3,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<CartProvider>()
-                                      .deleteToCart(
-                                        context
-                                                .read<CartProvider>()
-                                                .cartResponse
-                                                ?.items
-                                                ?.elementAt(index)
-                                                ?.productId ??
-                                            "0",
-                                      )
-                                      .then((value) {
-                                        context.read<CartProvider>().showCart();
-                                      });
-                                },
-                                icon: Icon(
-                                  Icons.close,
-                                  color: ProjectColors().blue5,
-                                  size: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            context
-                                    .watch<CartProvider>()
-                                    .cartResponse
-                                    ?.items
-                                    ?.elementAt(index)
-                                    ?.category
-                                    ?.name ??
-                                "",
-                            style: GoogleFonts.roboto(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: ProjectColors().blue1,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            textAlign: TextAlign.start,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                context
-                                        .watch<CartProvider>()
-                                        .cartResponse
-                                        ?.items
-                                        ?.elementAt(index)
-                                        ?.price ??
-                                    "0",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: ProjectColors().blue2,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                textAlign: TextAlign.start,
-                              ),
-                              SizedBox(width: 2),
-                              Text(
-                                "/${context.watch<CartProvider>().cartResponse?.items?.elementAt(index)?.productUnit?.name ?? ""}",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue2,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                textAlign: TextAlign.start,
-                              ),
-                              Spacer(),
-                              IconButton(
-                                onPressed: () {
-                                  if (int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.quantity ??
-                                                "0",
-                                          ) >
-                                          1 &&
-                                      int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.quantity ??
-                                                "0",
-                                          ) <
-                                          int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.totalStockQuantity ??
-                                                "0",
-                                          )) {
-                                    context
-                                        .read<CartProvider>()
-                                        .removeToCart(
-                                          context
-                                                  .read<CartProvider>()
-                                                  .cartResponse
-                                                  ?.items
-                                                  ?.elementAt(index)
-                                                  ?.productId ??
-                                              "0",
-                                          "1",
-                                        )
-                                        .then((value) {
-                                          if (value == 200) {
-                                            context
-                                                .read<CartProvider>()
-                                                .showCart();
-                                          }
-                                        });
-                                  }
-                                  setState(() {});
-                                },
-                                icon: Icon(Icons.remove_circle_outline_sharp),
-                                color: ProjectColors().blue1,
-                                iconSize: 20,
-                              ),
-                              Text(
-                                int.parse(
-                                  context
-                                          .watch<CartProvider>()
-                                          .cartResponse
-                                          ?.items
-                                          ?.elementAt(index)
-                                          ?.quantity ??
-                                      "0",
-                                ).toString(),
-                                style: GoogleFonts.roboto(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue3,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                context
-                                        .watch<CartProvider>()
-                                        .cartResponse
-                                        ?.items
-                                        ?.elementAt(index)
-                                        ?.productUnit
-                                        ?.name ??
-                                    "",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: ProjectColors().blue3,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                textAlign: TextAlign.start,
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  if (int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.quantity ??
-                                                "0",
-                                          ) >=
-                                          1 &&
-                                      int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.quantity ??
-                                                "0",
-                                          ) <
-                                          int.parse(
-                                            context
-                                                    .read<CartProvider>()
-                                                    .cartResponse
-                                                    ?.items
-                                                    ?.elementAt(index)
-                                                    ?.totalStockQuantity ??
-                                                "1",
-                                          )) {
-                                    context
-                                        .read<CartProvider>()
-                                        .addToCart(
-                                          context
-                                                  .read<CartProvider>()
-                                                  .cartResponse
-                                                  ?.items
-                                                  ?.elementAt(index)
-                                                  ?.productId ??
-                                              "0",
-                                          "1",
-                                        )
-                                        .then((value) {
-                                          if (value == 200) {
-                                            context
-                                                .read<CartProvider>()
-                                                .showCart();
-                                          }
-                                        });
-                                  }
-                                  Log().printInfo(
-                                    "msg" +
-                                        (int.parse(
-                                                  context
-                                                          .read<CartProvider>()
-                                                          .cartResponse
-                                                          ?.items
-                                                          ?.elementAt(index)
-                                                          ?.quantity ??
-                                                      "0",
-                                                ) +
-                                                1)
-                                            .toString(),
-                                  );
-                                  setState(() {});
-                                },
-                                icon: Icon(Icons.add_circle),
-                                color: ProjectColors().primaryColor,
-                                iconSize: 20,
-                              ),
-                            ],
-                          ),
-                        ],
+                    Text(
+                      context
+                              .watch<CommonProvider>()
+                              .promotionResponse
+                              ?.data
+                              ?.data
+                              ?.elementAt(index)
+                              ?.description ??
+                          "",
+                      style: GoogleFonts.roboto(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: ProjectColors().blue3,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
+                    ),
+                    Text(
+                      context
+                              .watch<CommonProvider>()
+                              .promotionResponse
+                              ?.data
+                              ?.data
+                              ?.elementAt(index)
+                              ?.endDate ??
+                          "",
+                      style: GoogleFonts.roboto(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: ProjectColors().blue1,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 ),

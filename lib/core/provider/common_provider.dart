@@ -7,6 +7,7 @@ import 'package:grozaar/model/category_response.dart';
 import 'package:grozaar/model/home_response.dart';
 import 'package:grozaar/model/product_details_response.dart';
 import 'package:grozaar/model/product_response.dart';
+import 'package:grozaar/model/promotion_response.dart';
 
 import '../api/api_url.dart';
 import '../api/interceptor.dart';
@@ -35,6 +36,10 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
   ProductDetailsResponse? _productDetailsResponse;
 
   ProductDetailsResponse? get productDetailsResponse => _productDetailsResponse;
+
+  PromotionResponse? _promotionResponse;
+
+  PromotionResponse? get promotionResponse => _promotionResponse;
 
   //Getter
   bool get isLoading => _isLoading;
@@ -75,7 +80,7 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
 
   Future<int> categoryCall() async {
     Future.delayed(Duration.zero, () async {
-      CustomProgressDialog.show(message: "Loadiøng", isDismissible: false);
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
     });
     try {
       final response = await getDio()!.get(ApiUrl.categoryUrl);
@@ -138,11 +143,39 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
 
   Future<int> productDetailsCall(String id) async {
     Future.delayed(Duration.zero, () async {
-      CustomProgressDialog.show(message: "Loadiøng", isDismissible: false);
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
     });
     try {
       final response = await getDio()!.get(ApiUrl.productDetailsUrl + id);
       _productDetailsResponse = ProductDetailsResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      CustomProgressDialog.hide();
+      _isLoading = false;
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> promotionCall() async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.get(ApiUrl.promotionUrl);
+      _promotionResponse = PromotionResponse.fromJson(response.data);
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {
