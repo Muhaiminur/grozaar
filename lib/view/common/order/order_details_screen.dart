@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
+import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -223,6 +225,151 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                           ),
                         ),
                       ),
+                      Card(
+                        color: ProjectColors().white,
+                        margin: EdgeInsets.all(5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Order Summery",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: ProjectColors().blue3,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                textAlign: TextAlign.start,
+                              ),
+                              SizedBox(height: 5),
+                              productList(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Delivery Charge",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.taxAmount ??
+                                        "0",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Tax",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.taxAmount ??
+                                        "0",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: ProjectColors().blue1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 1,
+                                color: ProjectColors().white3,
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Total",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: ProjectColors().primaryColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+
+                                  Text(
+                                    context
+                                            .watch<CartProvider>()
+                                            .orderDetailsResponse
+                                            ?.data
+                                            ?.price ??
+                                        "0",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: ProjectColors().primaryColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -232,5 +379,117 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
         ),
       ),
     );
+  }
+
+  Widget productList() {
+    return context.watch<CartProvider>().orderDetailsResponse != null &&
+            context
+                    .watch<CartProvider>()
+                    .orderDetailsResponse
+                    ?.data
+                    ?.orderItems !=
+                null &&
+            context
+                .watch<CartProvider>()
+                .orderDetailsResponse!
+                .data!
+                .orderItems!
+                .isNotEmpty
+        ? ListView.builder(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount:
+              context
+                  .watch<CartProvider>()
+                  .orderDetailsResponse
+                  ?.data
+                  ?.orderItems
+                  ?.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
+                  child: CachedNetworkImage(
+                    height: 25,
+                    width: 25,
+                    imageUrl:
+                        context
+                            .watch<CartProvider>()
+                            .orderDetailsResponse
+                            ?.data
+                            ?.orderItems
+                            ?.elementAt(index)
+                            ?.product
+                            ?.imageUrl ??
+                        "",
+                    placeholder:
+                        (context, url) => Image.asset(
+                          "assets/images/placeholder_image.png",
+                          height: 25,
+                          width: 25,
+                          fit: BoxFit.cover,
+                        ),
+                    errorWidget:
+                        (context, url, error) => Image.asset(
+                          "assets/images/placeholder_image.png",
+                          height: 25,
+                          width: 25,
+                          fit: BoxFit.cover,
+                        ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    context
+                            .watch<CartProvider>()
+                            .orderDetailsResponse
+                            ?.data
+                            ?.orderItems
+                            ?.elementAt(index)
+                            ?.productName ??
+                        "",
+                    style: GoogleFonts.roboto(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: ProjectColors().blue1,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Text(
+                  context
+                          .watch<CartProvider>()
+                          .orderDetailsResponse
+                          ?.data
+                          ?.orderItems
+                          ?.elementAt(index)
+                          ?.price ??
+                      "0",
+                  style: GoogleFonts.roboto(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: ProjectColors().blue3,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            );
+          },
+        )
+        : ColorLoader();
   }
 }
