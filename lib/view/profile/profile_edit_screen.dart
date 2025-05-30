@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
-import 'package:grozaar/core/utility/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
@@ -147,9 +146,10 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                                 radius: 20,
                                 child: IconButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      profileEditPage,
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfileEditPage(),
+                                      ),
                                     );
                                   },
                                   icon: Icon(

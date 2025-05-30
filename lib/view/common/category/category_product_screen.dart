@@ -4,12 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/common/product/product_details_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
-import '../../../core/utility/routes.dart';
 
 class CategoryProductPage extends StatefulWidget {
   final Map args;
@@ -246,19 +247,22 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  productDetailsPage,
-                  arguments: {
-                    "id":
-                        context
-                            .read<CommonProvider>()
-                            .productResponse
-                            ?.data
-                            ?.data?[index]
-                            ?.id ??
-                        "",
-                  },
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder:
+                        (context) => ProductDetailsPage(
+                          args: {
+                            "id":
+                                context
+                                    .read<CommonProvider>()
+                                    .productResponse
+                                    ?.data
+                                    ?.data?[index]
+                                    ?.id ??
+                                "",
+                          },
+                        ),
+                  ),
                 );
               },
               child: Column(
@@ -414,7 +418,25 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (logged.isNotEmpty) {
+                              context
+                                  .read<CartProvider>()
+                                  .addToCart(
+                                    context
+                                            .read<CommonProvider>()
+                                            .productResponse
+                                            ?.data
+                                            ?.data?[index]
+                                            ?.id ??
+                                        "0",
+                                    "1",
+                                  )
+                                  .then((value) {
+                                    if (value == 200) {}
+                                  });
+                            }
+                          },
                           child: Text(
                             "ADD",
                             style: GoogleFonts.roboto(

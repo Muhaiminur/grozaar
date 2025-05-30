@@ -11,6 +11,7 @@ import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
 import '../../../core/utility/routes.dart';
+import 'checkout_screen.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -237,7 +238,11 @@ class CartPageScreenState extends State<CartPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, checkoutPage);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CheckoutPage(),
+                        ),
+                      );
                     },
                     child: Text(
                       "Checkout",

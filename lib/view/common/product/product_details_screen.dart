@@ -6,6 +6,7 @@ import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
 
@@ -415,7 +416,16 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               ),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (logged.isNotEmpty) {
+                              context
+                                  .read<CartProvider>()
+                                  .addToCart(widget.args["id"], "1")
+                                  .then((value) {
+                                    if (value == 200) {}
+                                  });
+                            }
+                          },
                           child: Row(
                             children: [
                               Icon(

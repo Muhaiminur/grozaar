@@ -302,7 +302,7 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                     ),
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -483,6 +483,8 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 190),
+
                 ],
               ),
             ),

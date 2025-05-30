@@ -290,6 +290,36 @@ class CartProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
+  Future<int?> orderReceiveCall(String id) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final response = await getDio()!.post(
+        "${ApiUrl.orderDetails}$id${ApiUrl.orderReceiveUrl}",
+        data: {"status": "received"},
+      );
+      notifyListeners();
+      return response.statusCode;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
   void clear() {
     _resMessage = "";
     _isLoading = false;

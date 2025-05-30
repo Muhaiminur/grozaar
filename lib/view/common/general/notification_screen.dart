@@ -240,7 +240,6 @@ class NotificationPageScreenState extends State<NotificationPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, checkoutPage);
                     },
                     child: Text(
                       "Checkout",

@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grozaar/view/common/product/product_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/colors.dart';
 import '../../../core/utility/customStrings.dart';
-import '../../../core/utility/routes.dart';
 
 class ProductView extends StatefulWidget {
   final String id;
@@ -40,10 +40,10 @@ class _ProductViewState extends State<ProductView> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          productDetailsPage,
-          arguments: {"id": widget.id},
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetailsPage(args: {"id": widget.id}),
+          ),
         );
       },
       child: Card(
@@ -141,9 +141,7 @@ class _ProductViewState extends State<ProductView> {
                               .read<CartProvider>()
                               .addToCart(widget.id, "1")
                               .then((value) {
-                                if (value == 200) {
-
-                                }
+                                if (value == 200) {}
                               });
                         }
                       },

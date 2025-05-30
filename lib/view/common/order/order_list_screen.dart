@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
-import 'package:grozaar/core/utility/routes.dart';
+import 'package:grozaar/view/common/order/order_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/provider/cart_provider.dart';
@@ -353,7 +353,25 @@ class OrderListPageScreenState extends State<OrderListPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => OrderDetailsPage(
+                                        args: {
+                                          "id":
+                                              context
+                                                  .read<CartProvider>()
+                                                  .orderHistoryResponse
+                                                  ?.data
+                                                  ?.data
+                                                  ?.elementAt(index)
+                                                  ?.id ??
+                                              "0",
+                                        },
+                                      ),
+                                ),
+                              );
+                              /*Navigator.pushNamed(
                                 context,
                                 orderDetailsPage,
                                 arguments: {
@@ -367,7 +385,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                                           ?.id ??
                                       "0",
                                 },
-                              );
+                              );*/
                             },
                             child: Text(
                               "Details",
@@ -548,20 +566,23 @@ class OrderListPageScreenState extends State<OrderListPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                orderDetailsPage,
-                                arguments: {
-                                  "id":
-                                      context
-                                          .watch<CartProvider>()
-                                          .orderHistoryResponse
-                                          ?.data
-                                          ?.data
-                                          ?.elementAt(index)
-                                          ?.id ??
-                                      "0",
-                                },
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => OrderDetailsPage(
+                                        args: {
+                                          "id":
+                                              context
+                                                  .watch<CartProvider>()
+                                                  .orderHistoryResponse
+                                                  ?.data
+                                                  ?.data
+                                                  ?.elementAt(index)
+                                                  ?.id ??
+                                              "0",
+                                        },
+                                      ),
+                                ),
                               );
                             },
                             child: Text(

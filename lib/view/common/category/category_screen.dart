@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
-import '../../../core/utility/routes.dart';
+import 'category_product_screen.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -86,27 +86,30 @@ class CategoryPageScreenState extends State<CategoryPage> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              categoryProductPage,
-              arguments: {
-                "id":
-                    context
-                        .read<CommonProvider>()
-                        .categoryResponse
-                        ?.data
-                        ?.data?[index]
-                        ?.id ??
-                    "",
-                "name":
-                    context
-                        .read<CommonProvider>()
-                        .categoryResponse
-                        ?.data
-                        ?.data?[index]
-                        ?.name ??
-                    "",
-              },
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder:
+                    (context) => CategoryProductPage(
+                      args: {
+                        "id":
+                            context
+                                .read<CommonProvider>()
+                                .categoryResponse
+                                ?.data
+                                ?.data?[index]
+                                ?.id ??
+                            "",
+                        "name":
+                            context
+                                .read<CommonProvider>()
+                                .categoryResponse
+                                ?.data
+                                ?.data?[index]
+                                ?.name ??
+                            "",
+                      },
+                    ),
+              ),
             );
           },
           child: Column(

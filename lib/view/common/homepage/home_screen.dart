@@ -6,6 +6,8 @@ import 'package:grozaar/core/provider/common_provider.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
+import 'package:grozaar/view/common/category/category_product_screen.dart';
+import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
 import 'package:provider/provider.dart';
 
@@ -159,7 +161,11 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.pushNamed(context, categoryPage);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const CategoryPage(),
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -279,27 +285,30 @@ class HomePageScreenState extends State<HomePage> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              categoryProductPage,
-              arguments: {
-                "id":
-                    context
-                        .read<CommonProvider>()
-                        .homeResponse
-                        ?.data
-                        ?.categories?[index]
-                        ?.id ??
-                    "",
-                "name":
-                    context
-                        .read<CommonProvider>()
-                        .homeResponse
-                        ?.data
-                        ?.categories?[index]
-                        ?.name ??
-                    "",
-              },
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder:
+                    (context) => CategoryProductPage(
+                      args: {
+                        "id":
+                            context
+                                .read<CommonProvider>()
+                                .homeResponse
+                                ?.data
+                                ?.categories?[index]
+                                ?.id ??
+                            "",
+                        "name":
+                            context
+                                .read<CommonProvider>()
+                                .homeResponse
+                                ?.data
+                                ?.categories?[index]
+                                ?.name ??
+                            "",
+                      },
+                    ),
+              ),
             );
           },
           child: Column(

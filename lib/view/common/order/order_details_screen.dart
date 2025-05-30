@@ -441,8 +441,68 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                       ),
                       SingleChildScrollView(
                         physics: NeverScrollableScrollPhysics(),
-                        child: timeline(),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: timeline(),
+                        ),
                       ),
+                      Visibility(
+                        visible:
+                            context
+                                        .watch<CartProvider>()
+                                        .orderDetailsResponse
+                                        ?.data
+                                        ?.order
+                                        ?.status ==
+                                    "received"
+                                ? false
+                                : true,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            minimumSize: WidgetStateProperty.all(Size.zero),
+                            // Set
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(23),
+                              ),
+                            ),
+                            backgroundColor: WidgetStateProperty.all(
+                              ProjectColors().primaryColor,
+                            ),
+                            padding: WidgetStateProperty.all(
+                              EdgeInsets.fromLTRB(45, 10, 45, 10),
+                            ),
+                            textStyle: WidgetStateProperty.all(
+                              TextStyle(
+                                fontSize: 16,
+                                color: ProjectColors().white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<CartProvider>()
+                                .orderReceiveCall(widget.args["id"])
+                                .then((value) {
+                                  if (value == 200 || value == 001) {
+                                    context
+                                        .read<CartProvider>()
+                                        .orderDetailsCall(widget.args["id"]);
+                                  }
+                                });
+                          },
+                          child: Text(
+                            "Order Receive",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 70),
                     ],
                   ),
                 ),
@@ -604,7 +664,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                               ?.order
                               ?.orderHistories
                               ?.elementAt(index)
-                              ?.title ??
+                              ?.statusTitle ??
                           "",
                     ),
                   ),
@@ -620,10 +680,42 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                 0,
             itemExtent: 90,
             connectorBuilder: (context, index, type) {
-              return DashedLineConnector(color: ProjectColors().primaryColor);
+              return context
+                          .watch<CartProvider>()
+                          .orderDetailsResponse
+                          ?.data
+                          ?.order
+                          ?.orderHistories
+                          ?.elementAt(index)
+                          ?.status ??
+                      false
+                  ? SolidLineConnector(color: ProjectColors().primaryColor)
+                  : DashedLineConnector(color: ProjectColors().primaryColor);
             },
             indicatorBuilder: (context, index) {
-              return DotIndicator(color: ProjectColors().primaryColor, size: 20);
+              return context
+                          .watch<CartProvider>()
+                          .orderDetailsResponse
+                          ?.data
+                          ?.order
+                          ?.orderHistories
+                          ?.elementAt(index)
+                          ?.status ??
+                      false
+                  ? Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: Icon(
+                      Icons.check_circle,
+                      color: ProjectColors().primaryColor,
+                      size: 30,
+                    ),
+                  )
+                  : OutlinedDotIndicator(
+                    color: ProjectColors().primaryColor,
+                    size: 20,
+                  );
             },
           ),
         )

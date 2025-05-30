@@ -1,5 +1,6 @@
 class ApiUrl {
   static String baseUrl = "https://inventory.grozaarbd.com/api/v1/";
+
   //static String baseUrl = "https://grozaar.heizoelscout.com/api/v1/";
   static const String homepageUrl = "user/get-homepage?is_home_page=1";
   static const String categoryUrl = "user/get-categories?page=1&par_page=20";
@@ -18,4 +19,5 @@ class ApiUrl {
   static const String completeOrderUrl = "user/completed-orders";
   static const String orderDetails = "user/order/";
   static const String promotionUrl = "user/get-promotions";
+  static const String orderReceiveUrl = "/status-change";
 }

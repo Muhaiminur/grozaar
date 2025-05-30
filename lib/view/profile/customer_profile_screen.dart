@@ -4,6 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/common/general/promotion_screen.dart';
+import 'package:grozaar/view/common/order/order_list_screen.dart';
+import 'package:grozaar/view/profile/profile_edit_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
@@ -160,13 +163,18 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            profileEditPage,
-                                          ).then((_) {
-                                            setState(() {});
-                                            _loadHomeData(isReload: false);
-                                          });
+                                          Navigator.of(context)
+                                              .push(
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (context) =>
+                                                          ProfileEditPage(),
+                                                ),
+                                              )
+                                              .then((_) {
+                                                setState(() {});
+                                                _loadHomeData(isReload: false);
+                                              });
                                         },
                                         icon: Icon(
                                           Icons.edit,
@@ -253,7 +261,13 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(context, orderListPage);
+                                  //Navigator.pushNamed(context, orderListPage);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => const OrderListPage(),
+                                    ),
+                                  );
                                 },
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
@@ -307,7 +321,11 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(context, promotionPage);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PromotionPage(),
+                                    ),
+                                  );
                                 },
                                 trailing: Icon(
                                   Icons.arrow_circle_right_sharp,
@@ -335,9 +353,10 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    notificationPage,
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PromotionPage(),
+                                    ),
                                   );
                                 },
                                 trailing: Icon(

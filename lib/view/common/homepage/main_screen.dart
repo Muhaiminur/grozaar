@@ -8,7 +8,9 @@ import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
+import 'package:grozaar/view/common/general/promotion_screen.dart';
 import 'package:grozaar/view/profile/customer_profile_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';
@@ -32,12 +34,16 @@ class MainPageScreenState extends State<MainPage> {
   GlobalKey btnKey = GlobalKey();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  PersistentTabController? _controller;
+  int index = 0;
+
   @override
   void initState() {
     super.initState();
     logged = SharedPref.getString(CustomStrings().token);
     _page = widget.initialIndex ?? 0;
     _pageController = PageController(initialPage: _page);
+    _controller = PersistentTabController(initialIndex: 0);
   }
 
   @override
@@ -67,8 +73,48 @@ class MainPageScreenState extends State<MainPage> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        floatingActionButton: _page == 0 ? SizedBox() : const SizedBox.shrink(),
-        body: PageView(
+        body: PersistentTabView(
+          context,
+          controller: _controller,
+          screens: _buildScreens(),
+          items: _navBarsItems(),
+          decoration: NavBarDecoration(),
+          bottomScreenMargin: 10,
+          handleAndroidBackButtonPress: false,
+          // Default is true.
+          resizeToAvoidBottomInset: false,
+          // This needs to be true if you want to move up the screen on a non-scrollable screen when keyboard appears. Default is true.
+          stateManagement: true,
+          // Default is true.
+          hideNavigationBarWhenKeyboardAppears: true,
+          popBehaviorOnSelectedNavBarItemPress: PopBehavior.once,
+          padding: const EdgeInsets.only(top: 5, bottom: 0),
+          backgroundColor: ProjectColors().white,
+          isVisible: true,
+          animationSettings: const NavBarAnimationSettings(
+            navBarItemAnimation: ItemAnimationSettings(
+              // Navigation Bar's items animation properties.
+              duration: Duration(milliseconds: 400),
+              curve: Curves.ease,
+            ),
+            screenTransitionAnimation: ScreenTransitionAnimationSettings(
+              // Screen transition animation on change of selected tab.
+              animateTabTransition: true,
+              duration: Duration(milliseconds: 200),
+              screenTransitionAnimationType:
+                  ScreenTransitionAnimationType.fadeIn,
+            ),
+          ),
+          confineToSafeArea: true,
+          navBarHeight: kBottomNavigationBarHeight,
+          navBarStyle: NavBarStyle.style15,
+          // Choose the na
+          onItemSelected: (value) {
+            index = value;
+            setState(() {});
+          }, // v bar style with this property
+        ),
+        /*PageView(
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           controller: _pageController,
@@ -130,7 +176,7 @@ class MainPageScreenState extends State<MainPage> {
               ],
             ),
           ),
-        ),
+        ),*/
       ),
     );
   }
@@ -147,6 +193,118 @@ class MainPageScreenState extends State<MainPage> {
       duration: const Duration(milliseconds: 10),
       curve: Curves.ease,
     );
+  }
+
+  List<Widget> _buildScreens() {
+    return [
+      HomePage(),
+      CategoryPage(),
+      CartPage(),
+      PromotionPage(),
+      logged.isNotEmpty ? CustomerProfilePage() : LoginPage(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: SvgPicture.asset(
+          Assets.imagesIcHome,
+          colorFilter:
+              index == 0
+                  ? ColorFilter.mode(
+                    ProjectColors().primaryColor,
+                    BlendMode.srcIn,
+                  )
+                  : ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn),
+        ),
+        iconSize: 56,
+        title: CustomStrings().home,
+        activeColorPrimary: ProjectColors().primaryColor,
+        textStyle: GoogleFonts.raleway(
+          color:
+              index == 0 ? ProjectColors().primaryColor : ProjectColors().blue1,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        inactiveColorPrimary: ProjectColors().blue1,
+        contentPadding: 10,
+        activeColorSecondary: ProjectColors().primaryColor,
+        inactiveColorSecondary: ProjectColors().blue1,
+      ),
+      PersistentBottomNavBarItem(
+        icon: SvgPicture.asset(
+          Assets.imagesIcCategory,
+          colorFilter:
+              index == 2
+                  ? ColorFilter.mode(
+                    ProjectColors().primaryColor,
+                    BlendMode.srcIn,
+                  )
+                  : ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn),
+        ),
+        title: CustomStrings().categories,
+        activeColorPrimary: ProjectColors().primaryColor,
+      ),
+
+      PersistentBottomNavBarItem(
+        icon: SvgPicture.asset(
+          Assets.imagesIcCart,
+          colorFilter:
+              index == 2
+                  ? ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn)
+                  : ColorFilter.mode(ProjectColors().white, BlendMode.srcIn),
+        ),
+        activeColorPrimary: ProjectColors().primaryColor,
+        activeColorSecondary: ProjectColors().white,
+      ),
+      PersistentBottomNavBarItem(
+        icon: SvgPicture.asset(
+          Assets.imagesIcFab,
+          colorFilter:
+              index == 3
+                  ? ColorFilter.mode(
+                    ProjectColors().primaryColor,
+                    BlendMode.srcIn,
+                  )
+                  : ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn),
+        ),
+        title: CustomStrings().favourite,
+        activeColorPrimary: ProjectColors().primaryColor,
+        textStyle: GoogleFonts.raleway(
+          color: ProjectColors().blue1,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        inactiveColorPrimary: ProjectColors().blue1,
+        contentPadding: 10,
+        activeColorSecondary: ProjectColors().primaryColor,
+        inactiveColorSecondary: ProjectColors().blue1,
+      ),
+      PersistentBottomNavBarItem(
+        icon: SvgPicture.asset(
+          Assets.imagesIcUser,
+          colorFilter:
+              index == 4
+                  ? ColorFilter.mode(
+                    ProjectColors().primaryColor,
+                    BlendMode.srcIn,
+                  )
+                  : ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn),
+        ),
+        title: CustomStrings().profile,
+        activeColorPrimary: ProjectColors().primaryColor,
+        textStyle: GoogleFonts.raleway(
+          color: ProjectColors().blue1,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        inactiveColorPrimary: ProjectColors().blue1,
+        contentPadding: 10,
+        activeColorSecondary: ProjectColors().primaryColor,
+        inactiveColorSecondary: ProjectColors().blue1,
+      ),
+    ];
   }
 }
 

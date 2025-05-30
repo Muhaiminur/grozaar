@@ -4,6 +4,7 @@ class Assets {
 
   static const String assetsImagesIcSplash = 'assets/images/ic_splash.svg';
   static const String imagesIcCategory = 'assets/images/ic_category.svg';
+  static const String imagesIcCart = 'assets/images/ic_cart.svg';
   static const String imagesIcEmail = 'assets/images/ic_email.svg';
   static const String imagesIcFab = 'assets/images/ic_fab.svg';
   static const String imagesIcHome = 'assets/images/ic_home.svg';
