@@ -21,4 +21,5 @@ class ProjectColors {
   Color blue5 = Color(0xFF261D5F);
   Color ash1 = Color(0xFFF3F1FB);
   Color red1 = Color(0xFFDB1414);
+  Color green1 = Color(0xFF2BBE7E);
 }

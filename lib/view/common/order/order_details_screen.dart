@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:provider/provider.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 
 import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
@@ -95,6 +96,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                     .watch<CartProvider>()
                                     .orderDetailsResponse
                                     ?.data
+                                    ?.order
                                     ?.invoiceNo ??
                                 "",
                             style: GoogleFonts.roboto(
@@ -116,7 +118,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -132,6 +134,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                 softWrap: true,
                                 textAlign: TextAlign.start,
                               ),
+                              SizedBox(height: 10),
                               Row(
                                 children: [
                                   Icon(
@@ -144,6 +147,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
+                                            ?.order
                                             ?.shippingInfo
                                             ?.address ??
                                         "",
@@ -166,6 +170,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                                 .watch<CartProvider>()
                                                 .orderDetailsResponse
                                                 ?.data
+                                                ?.order
                                                 ?.customer
                                                 ?.fullName ==
                                             "Customer"
@@ -179,6 +184,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
+                                            ?.order
                                             ?.customer
                                             ?.fullName ??
                                         "",
@@ -206,6 +212,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
+                                            ?.order
                                             ?.shippingInfo
                                             ?.phone ??
                                         "",
@@ -226,13 +233,58 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                         ),
                       ),
                       Card(
-                        color: ProjectColors().white,
+                        color: ProjectColors().primaryColor,
                         margin: EdgeInsets.all(5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Order Time",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: ProjectColors().white,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                textAlign: TextAlign.start,
+                              ),
+                              Spacer(),
+                              Text(
+                                context
+                                        .watch<CartProvider>()
+                                        .orderDetailsResponse
+                                        ?.data
+                                        ?.order
+                                        ?.time ??
+                                    "0 Days",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: ProjectColors().white,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: ProjectColors().white,
+                        margin: EdgeInsets.all(10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -272,7 +324,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
-                                            ?.taxAmount ??
+                                            ?.deliveryCost ??
                                         "0",
                                     style: GoogleFonts.roboto(
                                       fontSize: 14,
@@ -309,6 +361,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
+                                            ?.order
                                             ?.taxAmount ??
                                         "0",
                                     style: GoogleFonts.roboto(
@@ -351,6 +404,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                             .watch<CartProvider>()
                                             .orderDetailsResponse
                                             ?.data
+                                            ?.order
                                             ?.price ??
                                         "0",
                                     style: GoogleFonts.roboto(
@@ -370,6 +424,25 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                           ),
                         ),
                       ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Order Timeline",
+                          style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: ProjectColors().primaryColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: timeline(),
+                      ),
                     ],
                   ),
                 ),
@@ -387,12 +460,14 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                     .watch<CartProvider>()
                     .orderDetailsResponse
                     ?.data
+                    ?.order
                     ?.orderItems !=
                 null &&
             context
                 .watch<CartProvider>()
                 .orderDetailsResponse!
                 .data!
+                .order!
                 .orderItems!
                 .isNotEmpty
         ? ListView.builder(
@@ -403,6 +478,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                   .watch<CartProvider>()
                   .orderDetailsResponse
                   ?.data
+                  ?.order
                   ?.orderItems
                   ?.length,
           itemBuilder: (BuildContext context, int index) {
@@ -424,6 +500,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                             .watch<CartProvider>()
                             .orderDetailsResponse
                             ?.data
+                            ?.order
                             ?.orderItems
                             ?.elementAt(index)
                             ?.product
@@ -452,6 +529,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                             .watch<CartProvider>()
                             .orderDetailsResponse
                             ?.data
+                            ?.order
                             ?.orderItems
                             ?.elementAt(index)
                             ?.productName ??
@@ -472,6 +550,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                           .watch<CartProvider>()
                           .orderDetailsResponse
                           ?.data
+                          ?.order
                           ?.orderItems
                           ?.elementAt(index)
                           ?.price ??
@@ -491,5 +570,63 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
           },
         )
         : ColorLoader();
+  }
+
+  Widget timeline() {
+    return context.watch<CartProvider>().orderDetailsResponse != null &&
+            context
+                    .watch<CartProvider>()
+                    .orderDetailsResponse
+                    ?.data
+                    ?.order
+                    ?.orderHistories !=
+                null &&
+            context
+                .watch<CartProvider>()
+                .orderDetailsResponse!
+                .data!
+                .order!
+                .orderHistories!
+                .isNotEmpty
+        ? FixedTimeline.tileBuilder(
+          builder: TimelineTileBuilder.connected(
+            connectionDirection: ConnectionDirection.before,
+            contentsAlign: ContentsAlign.basic,
+            contentsBuilder:
+                (context, index) => Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      context
+                              .watch<CartProvider>()
+                              .orderDetailsResponse
+                              ?.data
+                              ?.order
+                              ?.orderHistories
+                              ?.elementAt(index)
+                              ?.title ??
+                          "",
+                    ),
+                  ),
+                ),
+            itemCount:
+                context
+                    .watch<CartProvider>()
+                    .orderDetailsResponse
+                    ?.data
+                    ?.order
+                    ?.orderHistories
+                    ?.length ??
+                0,
+            itemExtent: 90,
+            connectorBuilder: (context, index, type) {
+              return DashedLineConnector(color: ProjectColors().primaryColor);
+            },
+            indicatorBuilder: (context, index) {
+              return DotIndicator(color: ProjectColors().primaryColor, size: 20);
+            },
+          ),
+        )
+        : SizedBox();
   }
 }

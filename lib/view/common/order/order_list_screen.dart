@@ -498,7 +498,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
-                                ProjectColors().primaryColor,
+                                ProjectColors().green1,
                               ),
                               padding: WidgetStateProperty.all(
                                 EdgeInsets.only(left: 25, right: 25),
