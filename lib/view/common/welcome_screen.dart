@@ -35,7 +35,7 @@ class WelcomePageScreenState extends State<WelcomePage> {
               alignment: Alignment.center,
               child: Image.asset(
                 "assets/images/ic_welcome.png",
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
           ),
