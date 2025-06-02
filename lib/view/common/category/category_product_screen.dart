@@ -324,7 +324,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 3, right: 3),
+                    padding: EdgeInsets.only(left: 5, right: 5),
                     child: Row(
                       children: [
                         Icon(
@@ -373,7 +373,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 3, right: 3),
+                    padding: EdgeInsets.only(left: 5, right: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

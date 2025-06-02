@@ -384,7 +384,17 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     color: ProjectColors().red1,
                                   ),
                                 ),
-                                onTap: () {},
+                                onTap: () async {
+                                  await SharedPref.remove(
+                                    CustomStrings().token,
+                                  );
+                                  await SharedPref.clear();
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    loginPage,
+                                    (route) => false,
+                                  );
+                                },
                               ),
                             ],
                           ),
