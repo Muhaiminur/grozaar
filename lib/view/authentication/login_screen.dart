@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
+import 'package:grozaar/view/common/homepage/main_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
@@ -366,10 +367,15 @@ class LoginPageScreenState extends State<LoginPage> {
                                         CustomStrings().token,
                                         "Bearer ${context.read<AuthProvider>().logInResponse.data!.token!}",
                                       );
-                                      Navigator.pushReplacementNamed(
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) => MainPage(),
+                                        ),(route) => false,
+                                      );
+                                      /*Navigator.pushReplacementNamed(
                                         context,
                                         mainPage,
-                                      );
+                                      );*/
                                     }
                                   });
                             }

@@ -72,7 +72,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               children: [
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 70),
                   decoration: BoxDecoration(
                     color: ProjectColors().white,
                     borderRadius: BorderRadius.only(
@@ -334,6 +334,28 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                           ),
                         ),
                       ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Already have an Account?",
+                          style: GoogleFonts.roboto(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: ProjectColors().blue1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+
                     ],
                   ),
                 ),

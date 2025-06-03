@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/authentication/login_screen.dart';
+import 'package:grozaar/view/authentication/registration_screen.dart';
 import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/general/promotion_screen.dart';
@@ -201,7 +202,7 @@ class MainPageScreenState extends State<MainPage> {
       CategoryPage(),
       CartPage(),
       PromotionPage(),
-      logged.isNotEmpty ? CustomerProfilePage() : LoginPage(),
+      logged.isNotEmpty ? CustomerProfilePage() : RegistrationPage(),
     ];
   }
 
