@@ -61,6 +61,7 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Set
         child: CustomAppBar(

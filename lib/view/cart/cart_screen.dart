@@ -42,6 +42,7 @@ class CartPageScreenState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Set
         child: CustomAppBar(
@@ -60,7 +61,7 @@ class CartPageScreenState extends State<CartPage> {
           child: Container(
             color: ProjectColors().primaryColor,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 50),
               decoration: BoxDecoration(
                 color: ProjectColors().white,
                 borderRadius: BorderRadius.only(
@@ -358,7 +359,7 @@ class CartPageScreenState extends State<CartPage> {
                                                 .cartResponse
                                                 ?.items
                                                 ?.elementAt(index)
-                                                ?.productId ??
+                                                ?.cartId ??
                                             "0",
                                       )
                                       .then((value) {

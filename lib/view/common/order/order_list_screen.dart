@@ -40,6 +40,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Set
         child: CustomAppBar(
@@ -388,7 +389,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                               );*/
                             },
                             child: Text(
-                              "Details",
+                              "View Details",
                               style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,
@@ -586,7 +587,7 @@ class OrderListPageScreenState extends State<OrderListPage> {
                               );
                             },
                             child: Text(
-                              "Details",
+                              "View Details",
                               style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12,

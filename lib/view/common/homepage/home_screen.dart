@@ -47,6 +47,7 @@ class HomePageScreenState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 0,

@@ -38,6 +38,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ProjectColors().white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight), // Set
         child: CustomAppBar(
@@ -89,6 +90,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
+      physics: NeverScrollableScrollPhysics(),
           itemCount:
               context
                   .watch<CommonProvider>()
