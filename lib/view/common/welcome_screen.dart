@@ -30,12 +30,14 @@ class WelcomePageScreenState extends State<WelcomePage> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height / 1.8,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             child: Align(
               alignment: Alignment.center,
               child: Image.asset(
                 "assets/images/ic_welcome.png",
                 fit: BoxFit.cover,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
               ),
             ),
           ),
