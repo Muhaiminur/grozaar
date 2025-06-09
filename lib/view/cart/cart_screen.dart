@@ -14,7 +14,9 @@ import '../../../core/utility/routes.dart';
 import 'checkout_screen.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  bool? hideBack;
+
+  CartPage({super.key,this.hideBack});
 
   @override
   CartPageScreenState createState() => CartPageScreenState();
@@ -50,6 +52,7 @@ class CartPageScreenState extends State<CartPage> {
           onTap: () {
             Navigator.pop(context);
           },
+          hideBack: widget.hideBack ?? false,
         ),
       ),
       body: RefreshIndicator(

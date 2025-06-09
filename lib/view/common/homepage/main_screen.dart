@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
-import 'package:grozaar/view/authentication/login_screen.dart';
 import 'package:grozaar/view/authentication/registration_screen.dart';
 import 'package:grozaar/view/cart/cart_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
@@ -199,10 +198,14 @@ class MainPageScreenState extends State<MainPage> {
   List<Widget> _buildScreens() {
     return [
       HomePage(),
-      CategoryPage(),
-      CartPage(),
-      PromotionPage(),
-      logged.isNotEmpty ? CustomerProfilePage() : RegistrationPage(),
+      CategoryPage(hideBack: true),
+      logged.isNotEmpty
+          ? CartPage(hideBack: true)
+          : RegistrationPage(hideBack: true),
+      PromotionPage(hideBack: true),
+      logged.isNotEmpty
+          ? CustomerProfilePage(hideBack: true)
+          : RegistrationPage(hideBack: true),
     ];
   }
 

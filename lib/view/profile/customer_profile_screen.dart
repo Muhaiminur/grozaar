@@ -15,7 +15,9 @@ import '../../core/provider/auth_provider.dart';
 import '../../core/utility/routes.dart';
 
 class CustomerProfilePage extends StatefulWidget {
-  const CustomerProfilePage({super.key});
+  bool? hideBack;
+
+  CustomerProfilePage({super.key, this.hideBack});
 
   @override
   CustomerProfilePageScreenState createState() =>
@@ -52,6 +54,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
           onTap: () {
             Navigator.pop(context);
           },
+          hideBack: widget.hideBack ?? false,
         ),
       ),
       body: SafeArea(

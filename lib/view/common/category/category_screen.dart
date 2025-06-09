@@ -11,7 +11,9 @@ import '../../../core/utility/custom_appbar.dart';
 import 'category_product_screen.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+  bool? hideBack;
+
+  CategoryPage({super.key, this.hideBack});
 
   @override
   CategoryPageScreenState createState() => CategoryPageScreenState();
@@ -47,6 +49,7 @@ class CategoryPageScreenState extends State<CategoryPage> {
           onTap: () {
             Navigator.pop(context);
           },
+          hideBack: widget.hideBack ?? false,
         ),
       ),
       body: RefreshIndicator(

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
-import 'package:grozaar/core/utility/routes.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
@@ -15,7 +14,9 @@ import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  bool? hideBack;
+
+  HomePage({super.key, this.hideBack});
 
   @override
   HomePageScreenState createState() => HomePageScreenState();
@@ -164,7 +165,7 @@ class HomePageScreenState extends State<HomePage> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const CategoryPage(),
+                                  builder: (context) => CategoryPage(),
                                 ),
                               );
                             },

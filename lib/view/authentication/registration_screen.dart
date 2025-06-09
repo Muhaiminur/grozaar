@@ -9,10 +9,11 @@ import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
 import '../../core/provider/auth_provider.dart';
 import '../../core/singleton/logger.dart';
-import '../../core/utility/routes.dart';
 
 class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
+  bool? hideBack;
+
+  RegistrationPage({super.key, this.hideBack});
 
   @override
   RegistrationPageScreenState createState() => RegistrationPageScreenState();
@@ -62,6 +63,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
           onTap: () {
             Navigator.pop(context);
           },
+          hideBack: widget.hideBack ?? false,
         ),
       ),
       body: SafeArea(
@@ -356,7 +358,6 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                           textAlign: TextAlign.start,
                         ),
                       ),
-
                     ],
                   ),
                 ),

@@ -68,9 +68,9 @@ class _GrozaarState extends State<Grozaar> {
           routes: {
             splash: (context) => const Splash(),
             welcomePage: (context) => const WelcomePage(),
-            homePage: (context) => const HomePage(),
+            homePage: (context) => HomePage(),
             mainPage: (context) => const MainPage(),
-            categoryPage: (context) => const CategoryPage(),
+            categoryPage: (context) => CategoryPage(),
             categoryProductPage:
                 (context) => CategoryProductPage(
                   args: ModalRoute.of(context)!.settings.arguments as Map,
@@ -79,19 +79,19 @@ class _GrozaarState extends State<Grozaar> {
                 (context) => ProductDetailsPage(
                   args: ModalRoute.of(context)!.settings.arguments as Map,
                 ),
-            cartPage: (context) => const CartPage(),
+            cartPage: (context) => CartPage(),
             checkoutPage: (context) => const CheckoutPage(),
-            registrationPage: (context) => const RegistrationPage(),
+            registrationPage: (context) => RegistrationPage(),
             loginPage: (context) => const LoginPage(),
-            profilePage: (context) => const CustomerProfilePage(),
+            profilePage: (context) => CustomerProfilePage(),
             profileEditPage: (context) => const ProfileEditPage(),
             orderListPage: (context) => const OrderListPage(),
-            promotionPage: (context) => const PromotionPage(),
+            promotionPage: (context) => PromotionPage(),
             notificationPage: (context) => const NotificationPage(),
             orderDetailsPage:
                 (context) => OrderDetailsPage(
-              args: ModalRoute.of(context)!.settings.arguments as Map,
-            ),
+                  args: ModalRoute.of(context)!.settings.arguments as Map,
+                ),
           },
         ),
       ),

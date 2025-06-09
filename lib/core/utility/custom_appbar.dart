@@ -4,9 +4,15 @@ import 'package:grozaar/core/utility/colors.dart';
 
 class CustomAppBar extends StatefulWidget {
   final String title;
+  bool? hideBack;
   final Function() onTap;
 
-  const CustomAppBar({super.key, required this.title, required this.onTap});
+  CustomAppBar({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.hideBack,
+  });
 
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
@@ -40,15 +46,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         centerTitle: true,
         backgroundColor: ProjectColors().primaryColor,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: ProjectColors().white,
-            size: 28,
-          ),
-          iconSize: 40,
-          onPressed: widget.onTap,
-        ),
+        leading:
+            !(widget.hideBack != null && widget.hideBack!)
+                ? IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: ProjectColors().white,
+                    size: 28,
+                  ),
+                  iconSize: 40,
+                  onPressed: widget.onTap,
+                )
+                : SizedBox(),
       ),
     );
   }

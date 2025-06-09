@@ -10,7 +10,9 @@ import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
 
 class PromotionPage extends StatefulWidget {
-  const PromotionPage({super.key});
+  bool? hideBack;
+
+  PromotionPage({super.key,this.hideBack});
 
   @override
   PromotionPageScreenState createState() => PromotionPageScreenState();
@@ -46,6 +48,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
           onTap: () {
             Navigator.pop(context);
           },
+          hideBack: widget.hideBack ?? false,
         ),
       ),
       body: RefreshIndicator(

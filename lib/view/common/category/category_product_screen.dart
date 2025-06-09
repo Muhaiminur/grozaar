@@ -271,38 +271,147 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
+                    height: 110,
+                    width: 110,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
-                    child: CachedNetworkImage(
-                      height: 110,
-                      width: 110,
-                      imageUrl:
-                          context
-                              .watch<CommonProvider>()
-                              .productResponse
-                              ?.data
-                              ?.data?[index]
-                              ?.imageUrl ??
-                          "",
-                      placeholder:
-                          (context, url) => Image.asset(
-                            "assets/images/placeholder_image.png",
-                            height: 110,
-                            width: 110,
-                            fit: BoxFit.cover,
-                          ),
-                      errorWidget:
-                          (context, url, error) => Image.asset(
-                            "assets/images/placeholder_image.png",
-                            height: 110,
-                            width: 110,
-                            fit: BoxFit.cover,
-                          ),
-                      fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        CachedNetworkImage(
+                          height: 110,
+                          width: 110,
+                          imageUrl:
+                              context
+                                  .watch<CommonProvider>()
+                                  .productResponse
+                                  ?.data
+                                  ?.data?[index]
+                                  ?.imageUrl ??
+                              "",
+                          placeholder:
+                              (context, url) => Image.asset(
+                                "assets/images/placeholder_image.png",
+                                height: 110,
+                                width: 110,
+                                fit: BoxFit.cover,
+                              ),
+                          errorWidget:
+                              (context, url, error) => Image.asset(
+                                "assets/images/placeholder_image.png",
+                                height: 110,
+                                width: 110,
+                                fit: BoxFit.cover,
+                              ),
+                          fit: BoxFit.cover,
+                        ),
+
+                        context
+                                .watch<CommonProvider>()
+                                .productResponse!
+                                .data!
+                                .data![index]!
+                                .price!
+                                .isNotEmpty
+                            ? Align(
+                              alignment: Alignment.topRight,
+                              child: Card(
+                                color: ProjectColors().white2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsGeometry.fromLTRB(
+                                    10,
+                                    5,
+                                    10,
+                                    5,
+                                  ),
+                                  child: Text(
+                                    context
+                                            .watch<CommonProvider>()
+                                            .productResponse
+                                            ?.data
+                                            ?.data?[index]
+                                            ?.price ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: ProjectColors().primaryColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            )
+                            : SizedBox(),
+                      ],
                     ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Card(
+                        elevation: 0,
+                        color: ProjectColors().white2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsetsGeometry.fromLTRB(5, 5, 5, 5),
+                          child: Text(
+                            "${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productMeta?.unitValue ?? "0"}+"
+                            "+ ${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productUnit?.symbol ?? "0"}",
+                            style: GoogleFonts.roboto(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().primaryColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Card(
+                        color: ProjectColors().white2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsetsGeometry.fromLTRB(5, 5, 10, 5),
+                          child: Text(
+                            context
+                                    .watch<CommonProvider>()
+                                    .productResponse
+                                    ?.data
+                                    ?.data?[index]
+                                    ?.brand
+                                    ?.name ??
+                                "",
+                            style: GoogleFonts.roboto(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().primaryColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Flexible(
                     child: Text(
@@ -327,47 +436,76 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                   Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.star,
-                          color: ProjectColors().yellow,
-                          size: 12,
-                        ),
-                        SizedBox(width: 5),
-                        Flexible(
-                          child: Text(
-                            context
-                                    .watch<CommonProvider>()
-                                    .productResponse
-                                    ?.data
-                                    ?.data?[index]
-                                    ?.rating
-                                    ?.averageRating ??
-                                "0",
-                            style: GoogleFonts.roboto(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: ProjectColors().blue1,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            textAlign: TextAlign.center,
+                        Text(
+                          context
+                                  .watch<CommonProvider>()
+                                  .productResponse
+                                  ?.data
+                                  ?.data?[index]
+                                  ?.createdAt ??
+                              "",
+                          style: GoogleFonts.roboto(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: ProjectColors().blue1,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          textAlign: TextAlign.center,
                         ),
-                        SizedBox(width: 5),
-                        Flexible(
-                          child: Text(
-                            "(${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.rating?.totalReviewCount ?? "0"}+)",
-                            style: GoogleFonts.roboto(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: ProjectColors().blue1,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            textAlign: TextAlign.center,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: ProjectColors().yellow,
+                                size: 12,
+                              ),
+                              SizedBox(width: 5),
+                              Flexible(
+                                child: Text(
+                                  context
+                                          .watch<CommonProvider>()
+                                          .productResponse
+                                          ?.data
+                                          ?.data?[index]
+                                          ?.rating
+                                          ?.averageRating ??
+                                      "0",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: ProjectColors().blue1,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Flexible(
+                                child: Text(
+                                  "(${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.rating?.totalReviewCount ?? "0"}+)",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: ProjectColors().blue1,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -380,70 +518,104 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Text(
-                            context
-                                    .watch<CommonProvider>()
-                                    .productResponse
-                                    ?.data
-                                    ?.data?[index]
-                                    ?.price ??
-                                "0",
-                            style: GoogleFonts.roboto(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: ProjectColors().blue3,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
+                          flex: 3,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                context
+                                        .watch<CommonProvider>()
+                                        .productResponse
+                                        ?.data
+                                        ?.data?[index]
+                                        ?.subTotal ??
+                                    "0",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: ProjectColors().blue3,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                softWrap: true,
+                              ),
+                              SizedBox(width: 2),
+                              Flexible(
+                                child: Text(
+                                  context
+                                          .watch<CommonProvider>()
+                                          .productResponse
+                                          ?.data
+                                          ?.data?[index]
+                                          ?.price ??
+                                      "0",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: ProjectColors().blue1,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.start,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            minimumSize: WidgetStateProperty.all(Size.zero),
-                            // Set
-                            shape: WidgetStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              minimumSize: WidgetStateProperty.all(Size.zero),
+                              // Set
+                              shape: WidgetStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              backgroundColor: WidgetStateProperty.all(
+                                ProjectColors().primaryColor,
+                              ),
+                              padding: WidgetStateProperty.all(
+                                EdgeInsets.all(5),
+                              ),
+                              textStyle: WidgetStateProperty.all(
+                                TextStyle(
+                                  fontSize: 12,
+                                  color: ProjectColors().white,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                            backgroundColor: WidgetStateProperty.all(
-                              ProjectColors().primaryColor,
-                            ),
-                            padding: WidgetStateProperty.all(EdgeInsets.all(5)),
-                            textStyle: WidgetStateProperty.all(
-                              TextStyle(
+                            onPressed: () {
+                              if (logged.isNotEmpty) {
+                                context
+                                    .read<CartProvider>()
+                                    .addToCart(
+                                      context
+                                              .read<CommonProvider>()
+                                              .productResponse
+                                              ?.data
+                                              ?.data?[index]
+                                              ?.id ??
+                                          "0",
+                                      "1",
+                                    )
+                                    .then((value) {
+                                      if (value == 200) {}
+                                    });
+                              }
+                            },
+                            child: Text(
+                              "ADD",
+                              style: GoogleFonts.roboto(
                                 fontSize: 12,
-                                color: ProjectColors().white,
                                 fontWeight: FontWeight.w500,
+                                color: ProjectColors().white,
                               ),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (logged.isNotEmpty) {
-                              context
-                                  .read<CartProvider>()
-                                  .addToCart(
-                                    context
-                                            .read<CommonProvider>()
-                                            .productResponse
-                                            ?.data
-                                            ?.data?[index]
-                                            ?.id ??
-                                        "0",
-                                    "1",
-                                  )
-                                  .then((value) {
-                                    if (value == 200) {}
-                                  });
-                            }
-                          },
-                          child: Text(
-                            "ADD",
-                            style: GoogleFonts.roboto(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: ProjectColors().white,
                             ),
                           ),
                         ),
