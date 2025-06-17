@@ -7,6 +7,7 @@ import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
+import 'package:grozaar/view/common/general/search_screen.dart';
 import 'package:grozaar/view/common/product/product_list_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
 import 'package:provider/provider.dart';
@@ -102,6 +103,13 @@ class HomePageScreenState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: TextFormField(
+                    readOnly: true,
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SearchPage()),
+                      );
+                    },
                     style: GoogleFonts.roboto(
                       color: ProjectColors().blue1,
                       fontSize: 14,
@@ -246,8 +254,8 @@ class HomePageScreenState extends State<HomePage> {
                                 MaterialPageRoute(
                                   builder:
                                       (context) => ProductListPage(
-                                    args: {"type": "bestProduct"},
-                                  ),
+                                        args: {"type": "bestProduct"},
+                                      ),
                                 ),
                               );
                             },

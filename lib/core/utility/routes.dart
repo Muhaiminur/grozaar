@@ -18,3 +18,4 @@ const notificationPage = "/notificationPage";
 const promotionPage = "/promotionPage";
 const orderDetailsPage = "/orderDetailsPage";
 const productListPage = "/productListPage";
+const searchPage = "/searchPage";

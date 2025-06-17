@@ -141,6 +141,37 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
+  Future<int> searchProductCall(
+    String product,
+    String page,
+    String parPage,
+  ) async {
+    try {
+      final response = await getDio()!.get(
+        ApiUrl.categoryProductUrl,
+        queryParameters: {"search": product, "page": page, "parPage": parPage},
+      );
+      _productResponse = ProductResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false;
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
   Future<int> newArrivalProductCall(String page, String parPage) async {
     try {
       Future.delayed(Duration.zero, () async {
