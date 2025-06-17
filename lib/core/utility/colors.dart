@@ -22,4 +22,6 @@ class ProjectColors {
   Color ash1 = Color(0xFFF3F1FB);
   Color red1 = Color(0xFFDB1414);
   Color green1 = Color(0xFF2BBE7E);
+  Color transparentColor =  Color(0x00000000);
+
 }

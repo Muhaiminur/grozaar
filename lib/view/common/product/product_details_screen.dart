@@ -108,23 +108,63 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 5),
-                    child: Text(
-                      context
-                              .watch<CommonProvider>()
-                              .productDetailsResponse
-                              ?.data
-                              ?.product
-                              ?.name ??
-                          "",
-                      style: GoogleFonts.roboto(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                        color: ProjectColors().blue3,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      textAlign: TextAlign.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            context
+                                    .watch<CommonProvider>()
+                                    .productDetailsResponse
+                                    ?.data
+                                    ?.product
+                                    ?.name ??
+                                "",
+                            style: GoogleFonts.roboto(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                              color: ProjectColors().blue3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        Card(
+                          color: ProjectColors().white,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: ProjectColors().green1,
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsGeometry.fromLTRB(5, 5, 5, 5),
+                            child: Text(
+                              context
+                                      .watch<CommonProvider>()
+                                      .productDetailsResponse
+                                      ?.data
+                                      ?.product
+                                      ?.brand
+                                      ?.name ??
+                                  "",
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue3,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -132,6 +172,25 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text(
+                          context
+                                  .watch<CommonProvider>()
+                                  .productDetailsResponse
+                                  ?.data
+                                  ?.product
+                                  ?.createdAt ??
+                              "",
+                          style: GoogleFonts.roboto(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: ProjectColors().blue1,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          textAlign: TextAlign.start,
+                        ),
+                        SizedBox(width: 15),
                         Icon(
                           Icons.star,
                           color: ProjectColors().yellow,
@@ -335,18 +394,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 5),
-                    child: Text(
-                      "Related Items",
-                      style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: ProjectColors().blue3,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      textAlign: TextAlign.start,
-                    ),
+                    child: relatedItems(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 5),
@@ -456,6 +504,153 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
         ),
       ),
     );
+  }
+
+  Widget relatedItems() {
+    return context.watch<CommonProvider>().productDetailsResponse != null &&
+            context
+                .watch<CommonProvider>()
+                .productDetailsResponse!
+                .data!
+                .relatedItems!
+                .data!
+                .isNotEmpty
+        ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Related Items",
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: ProjectColors().blue3,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+            LimitedBox(
+              maxHeight: 100,
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(5),
+                scrollDirection: Axis.horizontal,
+                itemCount:
+                    context
+                        .watch<CommonProvider>()
+                        .productDetailsResponse
+                        ?.data
+                        ?.relatedItems
+                        ?.data
+                        ?.length,
+                itemBuilder: (BuildContext context, int position) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ProductDetailsPage(
+                                args: {
+                                  "id":
+                                      context
+                                          .read<CommonProvider>()
+                                          .productDetailsResponse
+                                          ?.data
+                                          ?.relatedItems
+                                          ?.data?[position]
+                                          ?.id,
+                                },
+                              ),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      color: ProjectColors().white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          color: ProjectColors().white,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.all(5),
+                      child: Padding(
+                        padding: EdgeInsets.all(0),
+                        child: SizedBox(
+                          width: 56,
+                          height: 56,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 28,
+                                child: CachedNetworkImage(
+                                  height: 60,
+                                  width: 60,
+                                  imageUrl:
+                                      context
+                                          .watch<CommonProvider>()
+                                          .productDetailsResponse
+                                          ?.data
+                                          ?.relatedItems
+                                          ?.data?[position]
+                                          ?.imageUrl ??
+                                      "",
+                                  placeholder:
+                                      (context, url) => Image.asset(
+                                        "assets/images/placeholder_image.png",
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.fill,
+                                        scale: 10,
+                                      ),
+                                  errorWidget:
+                                      (context, url, error) => Image.asset(
+                                        "assets/images/placeholder_image.png",
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.fill,
+                                        scale: 10,
+                                      ),
+                                  fit: BoxFit.cover,
+                                  imageBuilder:
+                                      (context, imageProvider) => CircleAvatar(
+                                        backgroundImage: imageProvider,
+                                      ),
+                                ),
+                              ),
+                              Text(
+                                context
+                                        .watch<CommonProvider>()
+                                        .productDetailsResponse
+                                        ?.data
+                                        ?.relatedItems
+                                        ?.data?[position]
+                                        ?.name ??
+                                    "",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: ProjectColors().blue2,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        )
+        : SizedBox();
   }
 
   Future<void> _handleRefresh() async {

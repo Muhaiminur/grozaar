@@ -524,6 +524,8 @@ class ProductDetailsResponseDataProduct {
   String? latestPromotionItem;
   ProductDetailsResponseDataProductCategory? category;
   ProductDetailsResponseDataProductBrand? brand;
+  String? createdAt;
+
 
   ProductDetailsResponseDataProduct({
     this.id,
@@ -538,6 +540,7 @@ class ProductDetailsResponseDataProduct {
     this.latestPromotionItem,
     this.category,
     this.brand,
+    this.createdAt
   });
 
   ProductDetailsResponseDataProduct.fromJson(Map<String, dynamic> json) {
@@ -561,6 +564,7 @@ class ProductDetailsResponseDataProduct {
             )
             : null;
     notes = json['notes']?.toString();
+    createdAt = json['created_at']?.toString();
     latestPromotionItem = json['latest_promotion_item']?.toString();
     category =
         (json['category'] != null && (json['category'] is Map))
@@ -598,6 +602,7 @@ class ProductDetailsResponseDataProduct {
     if (brand != null) {
       data['brand'] = brand!.toJson();
     }
+    data['created_at'] = createdAt;
     return data;
   }
 }
