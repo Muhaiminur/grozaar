@@ -257,6 +257,8 @@ class CartPageScreenState extends State<CartPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 60),
+
                 ],
               ),
             ),
@@ -277,6 +279,7 @@ class CartPageScreenState extends State<CartPage> {
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
+          physics: NeverScrollableScrollPhysics(),
           itemCount: context.watch<CartProvider>().cartResponse?.items?.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(

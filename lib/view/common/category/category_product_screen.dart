@@ -69,7 +69,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
         child: Container(
           color: ProjectColors().primaryColor,
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
             decoration: BoxDecoration(
               color: ProjectColors().white,
               borderRadius: BorderRadius.only(
@@ -313,7 +313,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                 .productResponse!
                                 .data!
                                 .data![index]!
-                                .price!
+                                .promotionText!
                                 .isNotEmpty
                             ? Align(
                               alignment: Alignment.topRight,
@@ -337,7 +337,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                             .productResponse
                                             ?.data
                                             ?.data?[index]
-                                            ?.price ??
+                                            ?.promotionText ??
                                         "",
                                     style: GoogleFonts.roboto(
                                       fontSize: 10,

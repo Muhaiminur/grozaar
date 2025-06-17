@@ -5,6 +5,7 @@ import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
@@ -170,11 +171,17 @@ class LoginPageScreenState extends State<LoginPage> {
                                 ),
                                 hintText: "Enter User Name",
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: ProjectColors().white4,
+                                  ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: ProjectColors().white4,
+                                  ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                               ),
@@ -246,11 +253,17 @@ class LoginPageScreenState extends State<LoginPage> {
                                 ),
                                 hintText: "*********",
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: ProjectColors().white4,
+                                  ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: ProjectColors().white4,
+                                  ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                                 suffixIcon: IconButton(
@@ -368,11 +381,7 @@ class LoginPageScreenState extends State<LoginPage> {
                                         CustomStrings().token,
                                         "Bearer ${context.read<AuthProvider>().logInResponse.data!.token!}",
                                       );
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) => MainPage(),
-                                        ),(route) => false,
-                                      );
+                                      Restart.restartApp();
                                       /*Navigator.pushReplacementNamed(
                                         context,
                                         mainPage,
