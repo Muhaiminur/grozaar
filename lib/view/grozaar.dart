@@ -13,6 +13,7 @@ import 'package:grozaar/view/common/homepage/home_screen.dart';
 import 'package:grozaar/view/common/homepage/main_screen.dart';
 import 'package:grozaar/view/common/order/order_list_screen.dart';
 import 'package:grozaar/view/common/product/product_details_screen.dart';
+import 'package:grozaar/view/common/product/product_list_screen.dart';
 import 'package:grozaar/view/common/welcome_screen.dart';
 import 'package:grozaar/view/profile/profile_edit_screen.dart';
 import 'package:grozaar/view/splash_screen.dart';
@@ -90,6 +91,10 @@ class _GrozaarState extends State<Grozaar> {
             notificationPage: (context) => const NotificationPage(),
             orderDetailsPage:
                 (context) => OrderDetailsPage(
+                  args: ModalRoute.of(context)!.settings.arguments as Map,
+                ),
+            productListPage:
+                (context) => ProductListPage(
                   args: ModalRoute.of(context)!.settings.arguments as Map,
                 ),
           },

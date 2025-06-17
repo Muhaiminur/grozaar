@@ -20,4 +20,6 @@ class ApiUrl {
   static const String orderDetails = "user/order/";
   static const String promotionUrl = "user/get-promotions";
   static const String orderReceiveUrl = "/status-change";
+  static const String newArrivalUrl = "user/new-arrival-products";
+  static const String bestSellingUrl = "user/best-selling-products";
 }

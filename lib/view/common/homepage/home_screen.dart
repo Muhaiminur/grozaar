@@ -7,6 +7,7 @@ import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/category/category_screen.dart';
+import 'package:grozaar/view/common/product/product_list_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
 import 'package:provider/provider.dart';
 
@@ -204,14 +205,14 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              /*Navigator.pushNamed(
-                                context,
-                                allFarmsPage,
-                                arguments: {
-                                  'from': CustomStrings.allFarms,
-                                  'farmTag': '',
-                                },
-                              );*/
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => ProductListPage(
+                                        args: {"type": "newProduct"},
+                                      ),
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -241,14 +242,14 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              /*Navigator.pushNamed(
-                                context,
-                                allFarmsPage,
-                                arguments: {
-                                  'from': CustomStrings.allFarms,
-                                  'farmTag': '',
-                                },
-                              );*/
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => ProductListPage(
+                                    args: {"type": "bestProduct"},
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -436,7 +437,7 @@ class HomePageScreenState extends State<HomePage> {
                       .homeResponse
                       ?.data
                       ?.newArrivalProducts?[position]
-                      ?.price ??
+                      ?.subTotal ??
                   "",
               discount:
                   context
@@ -508,7 +509,7 @@ class HomePageScreenState extends State<HomePage> {
                       .homeResponse
                       ?.data
                       ?.bestSellingProducts?[position]
-                      ?.price ??
+                      ?.subTotal ??
                   "",
               discount:
                   context

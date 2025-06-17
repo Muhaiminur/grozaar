@@ -141,6 +141,68 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
+  Future<int> newArrivalProductCall(String page, String parPage) async {
+    try {
+      Future.delayed(Duration.zero, () async {
+        CustomProgressDialog.show(message: "Loading", isDismissible: false);
+      });
+      final response = await getDio()!.get(
+        ApiUrl.newArrivalUrl,
+        queryParameters: {"page": page, "parPage": parPage},
+      );
+      _productResponse = ProductResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      CustomProgressDialog.hide();
+      _isLoading = false;
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int> bestSellProductCall(String page, String parPage) async {
+    try {
+      Future.delayed(Duration.zero, () async {
+        CustomProgressDialog.show(message: "Loading", isDismissible: false);
+      });
+      final response = await getDio()!.get(
+        ApiUrl.bestSellingUrl,
+        queryParameters: {"page": page, "parPage": parPage},
+      );
+      _productResponse = ProductResponse.fromJson(response.data);
+      notifyListeners();
+      return response.statusCode!;
+    } on DioException catch (e) {
+      try {
+        _resMessage = e.toString();
+        Log().printError(_resMessage);
+        final responseJson = json.decode(e.response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } on Exception catch (_) {
+        Log().showMessageToast(message: AppInterceptors.handleError(e));
+        rethrow;
+      }
+      notifyListeners();
+      return e.response!.statusCode!;
+    } finally {
+      CustomProgressDialog.hide();
+      _isLoading = false;
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
   Future<int> productDetailsCall(String id) async {
     Future.delayed(Duration.zero, () async {
       CustomProgressDialog.show(message: "Loading", isDismissible: false);
