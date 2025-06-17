@@ -255,7 +255,7 @@ class HomePageScreenState extends State<HomePage> {
                       ),
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: bestList()),
-                      SizedBox(height: 50),
+                      SizedBox(height: 70),
                     ],
                   ),
                 ),
@@ -438,6 +438,14 @@ class HomePageScreenState extends State<HomePage> {
                       ?.newArrivalProducts?[position]
                       ?.price ??
                   "",
+              discount:
+                  context
+                      .watch<CommonProvider>()
+                      .homeResponse
+                      ?.data
+                      ?.newArrivalProducts?[position]
+                      ?.promotionText ??
+                  "",
             );
           },
         )
@@ -501,6 +509,14 @@ class HomePageScreenState extends State<HomePage> {
                       ?.data
                       ?.bestSellingProducts?[position]
                       ?.price ??
+                  "",
+              discount:
+                  context
+                      .watch<CommonProvider>()
+                      .homeResponse
+                      ?.data
+                      ?.bestSellingProducts?[position]
+                      ?.promotionText ??
                   "",
             );
           },

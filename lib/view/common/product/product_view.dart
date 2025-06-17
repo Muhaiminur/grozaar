@@ -14,6 +14,7 @@ class ProductView extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String price;
+  final String discount;
 
   const ProductView({
     super.key,
@@ -21,6 +22,7 @@ class ProductView extends StatefulWidget {
     required this.imageUrl,
     required this.name,
     required this.price,
+    required this.discount,
   });
 
   @override
@@ -67,23 +69,60 @@ class _ProductViewState extends State<ProductView> {
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  child: CachedNetworkImage(
-                    width: 140,
-                    height: 140,
-                    imageUrl: widget.imageUrl,
-                    placeholder:
-                        (context, url) => Image.asset(
-                          "assets/images/placeholder_image.png",
-                          height: 140,
-                          width: 140,
-                        ),
-                    errorWidget:
-                        (context, url, error) => Image.asset(
-                          "assets/images/placeholder_image.png",
-                          height: 140,
-                          width: 140,
-                        ),
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      CachedNetworkImage(
+                        width: 140,
+                        height: 140,
+                        imageUrl: widget.imageUrl,
+                        placeholder:
+                            (context, url) => Image.asset(
+                              "assets/images/placeholder_image.png",
+                              height: 140,
+                              width: 140,
+                            ),
+                        errorWidget:
+                            (context, url, error) => Image.asset(
+                              "assets/images/placeholder_image.png",
+                              height: 140,
+                              width: 140,
+                            ),
+                        fit: BoxFit.cover,
+                      ),
+                      widget.discount.isNotEmpty
+                          ? Align(
+                            alignment: Alignment.topRight,
+                            child: Card(
+                              color: ProjectColors().white2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsetsGeometry.fromLTRB(
+                                  10,
+                                  5,
+                                  10,
+                                  5,
+                                ),
+                                child: Text(
+                                  widget.discount,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: ProjectColors().primaryColor,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          )
+                          : SizedBox(),
+                    ],
                   ),
                 ),
                 Text(

@@ -30,63 +30,73 @@ class HomeResponseDataBestSellingProductsRating {
 }
 
 class HomeResponseDataBestSellingProducts {
-  /*
+/*
 {
-  "id": 1,
-  "price": "20.91",
-  "image": "products/1745483907_841631781_1.jpeg",
-  "image_url": "https://grozaar.heizoelscout.com/storage/products/1745483907_841631781_1.jpeg",
-  "name": "Both Product",
-  "barcode_image_url": "https://grozaar.heizoelscout.com/storage",
+  "id": 37,
+  "price": "10.20",
+  "tax_price": "0.00",
+  "promotion_price": "0.00",
+  "sub_total": "10.20",
+  "image_url": "https://inventory.grozaarbd.com/storage/products/1748770754_1755049383_1.webp",
+  "name": "Leilani Manning",
   "rating": {
-    "averageRating": "1.5",
-    "totalReviewCount": 1
-  }
+    "averageRating": "0",
+    "totalReviewCount": 0
+  },
+  "promotion_text": "",
+  "old_price": ""
 }
 */
 
   String? id;
   String? price;
-  String? image;
+  String? taxPrice;
+  String? promotionPrice;
+  String? subTotal;
   String? imageUrl;
   String? name;
-  String? barcodeImageUrl;
   HomeResponseDataBestSellingProductsRating? rating;
+  String? promotionText;
+  String? oldPrice;
 
   HomeResponseDataBestSellingProducts({
     this.id,
     this.price,
-    this.image,
+    this.taxPrice,
+    this.promotionPrice,
+    this.subTotal,
     this.imageUrl,
     this.name,
-    this.barcodeImageUrl,
     this.rating,
+    this.promotionText,
+    this.oldPrice,
   });
-
   HomeResponseDataBestSellingProducts.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     price = json['price']?.toString();
-    image = json['image']?.toString();
+    taxPrice = json['tax_price']?.toString();
+    promotionPrice = json['promotion_price']?.toString();
+    subTotal = json['sub_total']?.toString();
     imageUrl = json['image_url']?.toString();
     name = json['name']?.toString();
-    barcodeImageUrl = json['barcode_image_url']?.toString();
-    rating =
-        (json['rating'] != null && (json['rating'] is Map))
-            ? HomeResponseDataBestSellingProductsRating.fromJson(json['rating'])
-            : null;
+    rating = (json['rating'] != null && (json['rating'] is Map)) ? HomeResponseDataBestSellingProductsRating.fromJson(json['rating']) : null;
+    promotionText = json['promotion_text']?.toString();
+    oldPrice = json['old_price']?.toString();
   }
-
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['price'] = price;
-    data['image'] = image;
+    data['tax_price'] = taxPrice;
+    data['promotion_price'] = promotionPrice;
+    data['sub_total'] = subTotal;
     data['image_url'] = imageUrl;
     data['name'] = name;
-    data['barcode_image_url'] = barcodeImageUrl;
     if (rating != null) {
       data['rating'] = rating!.toJson();
     }
+    data['promotion_text'] = promotionText;
+    data['old_price'] = oldPrice;
     return data;
   }
 }
@@ -123,61 +133,76 @@ class HomeResponseDataNewArrivalProductsRating {
 class HomeResponseDataNewArrivalProducts {
   /*
 {
-  "id": 2,
-  "price": "22.95",
-  "image": "products/1745483961_598300393_1.jpg",
-  "image_url": "https://grozaar.heizoelscout.com/storage/products/1745483961_598300393_1.jpg",
-  "name": "customer product",
-  "barcode_image_url": "https://grozaar.heizoelscout.com/storage",
+  "id": 37,
+  "price": "10.20",
+  "tax_price": "0.00",
+  "promotion_price": "0.00",
+  "sub_total": "10.20",
+  "image_url": "https://inventory.grozaarbd.com/storage/products/1748770754_1755049383_1.webp",
+  "name": "Leilani Manning",
   "rating": {
     "averageRating": "0",
     "totalReviewCount": 0
-  }
+  },
+  "promotion_text": "",
+  "old_price": ""
 }
 */
 
   String? id;
   String? price;
-  String? image;
+  String? taxPrice;
+  String? promotionPrice;
+  String? subTotal;
   String? imageUrl;
   String? name;
-  String? barcodeImageUrl;
   HomeResponseDataNewArrivalProductsRating? rating;
+  String? promotionText;
+  String? oldPrice;
 
   HomeResponseDataNewArrivalProducts({
     this.id,
     this.price,
-    this.image,
+    this.taxPrice,
+    this.promotionPrice,
+    this.subTotal,
     this.imageUrl,
     this.name,
-    this.barcodeImageUrl,
     this.rating,
+    this.promotionText,
+    this.oldPrice,
   });
 
   HomeResponseDataNewArrivalProducts.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     price = json['price']?.toString();
-    image = json['image']?.toString();
+    taxPrice = json['tax_price']?.toString();
+    promotionPrice = json['promotion_price']?.toString();
+    subTotal = json['sub_total']?.toString();
     imageUrl = json['image_url']?.toString();
     name = json['name']?.toString();
-    barcodeImageUrl = json['barcode_image_url']?.toString();
     rating =
         (json['rating'] != null && (json['rating'] is Map))
             ? HomeResponseDataNewArrivalProductsRating.fromJson(json['rating'])
             : null;
+    promotionText = json['promotion_text']?.toString();
+    oldPrice = json['old_price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['price'] = price;
-    data['image'] = image;
+    data['tax_price'] = taxPrice;
+    data['promotion_price'] = promotionPrice;
+    data['sub_total'] = subTotal;
     data['image_url'] = imageUrl;
     data['name'] = name;
-    data['barcode_image_url'] = barcodeImageUrl;
     if (rating != null) {
       data['rating'] = rating!.toJson();
     }
+    data['promotion_text'] = promotionText;
+    data['old_price'] = oldPrice;
     return data;
   }
 }
