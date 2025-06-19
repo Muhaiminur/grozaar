@@ -10,13 +10,12 @@ import 'package:provider/provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
-import '../../../core/utility/routes.dart';
 import 'checkout_screen.dart';
 
 class CartPage extends StatefulWidget {
   bool? hideBack;
 
-  CartPage({super.key,this.hideBack});
+  CartPage({super.key, this.hideBack});
 
   @override
   CartPageScreenState createState() => CartPageScreenState();
@@ -94,7 +93,10 @@ class CartPageScreenState extends State<CartPage> {
                       ),
 
                       Text(
-                        context.watch<CartProvider>().cartResponse?.subTotalPrice ??
+                        context
+                                .watch<CartProvider>()
+                                .cartResponse
+                                ?.subTotalPrice ??
                             "0",
                         style: GoogleFonts.roboto(
                           fontSize: 14,
@@ -243,9 +245,7 @@ class CartPageScreenState extends State<CartPage> {
                     ),
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => CheckoutPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => CheckoutPage()),
                       );
                     },
                     child: Text(
@@ -258,7 +258,6 @@ class CartPageScreenState extends State<CartPage> {
                     ),
                   ),
                   SizedBox(height: 60),
-
                 ],
               ),
             ),
@@ -581,18 +580,7 @@ class CartPageScreenState extends State<CartPage> {
                                         });
                                   }
                                   Log().printInfo(
-                                    "msg" +
-                                        (int.parse(
-                                                  context
-                                                          .read<CartProvider>()
-                                                          .cartResponse
-                                                          ?.items
-                                                          ?.elementAt(index)
-                                                          ?.quantity ??
-                                                      "0",
-                                                ) +
-                                                1)
-                                            .toString(),
+                                    "msg${int.parse(context.read<CartProvider>().cartResponse?.items?.elementAt(index)?.quantity ?? "0") + 1}",
                                   );
                                   setState(() {});
                                 },
@@ -610,6 +598,19 @@ class CartPageScreenState extends State<CartPage> {
               ),
             );
           },
+        )
+        : context.watch<CartProvider>().cartResponse != null &&
+            context.watch<CartProvider>().cartResponse?.items != null &&
+            context.watch<CartProvider>().cartResponse!.items!.isEmpty
+        ? Center(
+          child: Text(
+            "No Item Added",
+            style: GoogleFonts.roboto(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: ProjectColors().primaryColor,
+            ),
+          ),
         )
         : ColorLoader();
   }

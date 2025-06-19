@@ -101,7 +101,7 @@ class HomePageScreenState extends State<HomePage> {
                 ),
                 //search bar
                 Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
                   child: TextFormField(
                     readOnly: true,
                     onTap: () {
@@ -284,7 +284,7 @@ class HomePageScreenState extends State<HomePage> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.78,
       ),
       itemCount:
           context
@@ -362,6 +362,7 @@ class HomePageScreenState extends State<HomePage> {
                   fit: BoxFit.cover,
                 ),
               ),
+              SizedBox(height: 3),
               Expanded(
                 child: Text(
                   context

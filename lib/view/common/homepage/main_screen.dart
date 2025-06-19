@@ -16,6 +16,7 @@ import '../../../core/singleton/logger.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/dialogUtil.dart';
 import '../../../generated/assets.dart';
+import '../../authentication/login_screen.dart';
 import 'home_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -73,12 +74,60 @@ class MainPageScreenState extends State<MainPage> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        body: PersistentTabView(
+        floatingActionButton: SizedBox(
+          width: 45,
+          height: 45,
+          child: FloatingActionButton(
+          backgroundColor: ProjectColors().primaryColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(30)),
+          onPressed: () {},
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: SvgPicture.asset(
+                  Assets.imagesIcCart,
+                  colorFilter:
+                  index == 2
+                      ? ColorFilter.mode(
+                    ProjectColors().blue1,
+                    BlendMode.srcIn,
+                  )
+                      : ColorFilter.mode(
+                    ProjectColors().white,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 10,
+                top: 10,
+                child: CircleAvatar(
+                  radius: 5,
+                  backgroundColor: ProjectColors().red1,
+                  child: Text(
+                    "",
+                    style: GoogleFonts.raleway(
+                      color: ProjectColors().white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: /*PersistentTabView(
           context,
           controller: _controller,
           screens: _buildScreens(),
           items: _navBarsItems(),
-          decoration: NavBarDecoration(),
+          decoration: NavBarDecoration(
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 50)],
+          ),
           bottomScreenMargin: 10,
           handleAndroidBackButtonPress: false,
           // Default is true.
@@ -113,14 +162,14 @@ class MainPageScreenState extends State<MainPage> {
             index = value;
             setState(() {});
           }, // v bar style with this property
-        ),
-        /*PageView(
+        ),*/ PageView(
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
           controller: _pageController,
           children: [
             HomePage(),
             CategoryPage(),
+            CartPage(),
             CartPage(),
             logged.isNotEmpty ? CustomerProfilePage() : LoginPage(),
           ],
@@ -140,6 +189,7 @@ class MainPageScreenState extends State<MainPage> {
                 });
                 navigationTapped(index);
               },
+
               items: [
                 BottomNavigationBarItem(
                   icon: NavItem(
@@ -176,7 +226,7 @@ class MainPageScreenState extends State<MainPage> {
               ],
             ),
           ),
-        ),*/
+        ),
       ),
     );
   }
@@ -222,14 +272,13 @@ class MainPageScreenState extends State<MainPage> {
                   )
                   : ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn),
         ),
-        iconSize: 56,
         title: CustomStrings().home,
         activeColorPrimary: ProjectColors().primaryColor,
         textStyle: GoogleFonts.raleway(
           color:
               index == 0 ? ProjectColors().primaryColor : ProjectColors().blue1,
           fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontWeight: index == 0 ? FontWeight.w800 : FontWeight.w600,
         ),
         inactiveColorPrimary: ProjectColors().blue1,
         contentPadding: 10,
@@ -240,7 +289,7 @@ class MainPageScreenState extends State<MainPage> {
         icon: SvgPicture.asset(
           Assets.imagesIcCategory,
           colorFilter:
-              index == 2
+              index == 1
                   ? ColorFilter.mode(
                     ProjectColors().primaryColor,
                     BlendMode.srcIn,
@@ -249,15 +298,48 @@ class MainPageScreenState extends State<MainPage> {
         ),
         title: CustomStrings().categories,
         activeColorPrimary: ProjectColors().primaryColor,
+        textStyle: GoogleFonts.raleway(
+          color:
+              index == 0 ? ProjectColors().primaryColor : ProjectColors().blue1,
+          fontSize: 12,
+          fontWeight: index == 1 ? FontWeight.w800 : FontWeight.w600,
+        ),
       ),
-
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset(
-          Assets.imagesIcCart,
-          colorFilter:
-              index == 2
-                  ? ColorFilter.mode(ProjectColors().blue1, BlendMode.srcIn)
-                  : ColorFilter.mode(ProjectColors().white, BlendMode.srcIn),
+        icon: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: SvgPicture.asset(
+                Assets.imagesIcCart,
+                colorFilter:
+                    index == 2
+                        ? ColorFilter.mode(
+                          ProjectColors().blue1,
+                          BlendMode.srcIn,
+                        )
+                        : ColorFilter.mode(
+                          ProjectColors().white,
+                          BlendMode.srcIn,
+                        ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: CircleAvatar(
+                radius: 5,
+                backgroundColor: ProjectColors().red1,
+                child: Text(
+                  "",
+                  style: GoogleFonts.raleway(
+                    color: ProjectColors().white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         activeColorPrimary: ProjectColors().primaryColor,
         activeColorSecondary: ProjectColors().white,
@@ -278,7 +360,7 @@ class MainPageScreenState extends State<MainPage> {
         textStyle: GoogleFonts.raleway(
           color: ProjectColors().blue1,
           fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontWeight: index == 3 ? FontWeight.w800 : FontWeight.w600,
         ),
         inactiveColorPrimary: ProjectColors().blue1,
         contentPadding: 10,
@@ -301,7 +383,7 @@ class MainPageScreenState extends State<MainPage> {
         textStyle: GoogleFonts.raleway(
           color: ProjectColors().blue1,
           fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontWeight: index == 4 ? FontWeight.w800 : FontWeight.w600,
         ),
         inactiveColorPrimary: ProjectColors().blue1,
         contentPadding: 10,

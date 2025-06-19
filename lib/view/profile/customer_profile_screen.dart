@@ -8,6 +8,7 @@ import 'package:grozaar/view/common/general/promotion_screen.dart';
 import 'package:grozaar/view/common/order/order_list_screen.dart';
 import 'package:grozaar/view/profile/profile_edit_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
@@ -393,11 +394,7 @@ class CustomerProfilePageScreenState extends State<CustomerProfilePage> {
                                     CustomStrings().token,
                                   );
                                   await SharedPref.clear();
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    loginPage,
-                                    (route) => false,
-                                  );
+                                  Restart.restartApp();
                                 },
                               ),
                             ],

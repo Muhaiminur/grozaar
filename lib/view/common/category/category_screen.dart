@@ -83,7 +83,9 @@ class CategoryPageScreenState extends State<CategoryPage> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.75,
+        crossAxisSpacing: 4,
+          mainAxisSpacing: 4
       ),
       itemCount:
           context.watch<CommonProvider>().categoryResponse?.data?.data?.length,

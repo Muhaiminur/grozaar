@@ -79,7 +79,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             ),
             child: Row(
               children: [
-                SizedBox(width: 90, child: categoryList()),
+                SizedBox(width: 80, child: categoryList()),
+                SizedBox(width: 5),
                 Expanded(child: productList()),
               ],
             ),
@@ -200,7 +201,16 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                 "",
                             style: GoogleFonts.roboto(
                               fontSize: 12,
-                              fontWeight: FontWeight.w500,
+                              fontWeight:
+                                  cat ==
+                                          context
+                                              .read<CommonProvider>()
+                                              .categoryResponse
+                                              ?.data
+                                              ?.data?[position]
+                                              ?.name
+                                      ? FontWeight.w900
+                                      : FontWeight.w500,
                               color: ProjectColors().blue3,
                             ),
                             maxLines: 2,
@@ -383,31 +393,33 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           ),
                         ),
                       ),
-                      Card(
-                        color: ProjectColors().white2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsGeometry.fromLTRB(5, 5, 10, 5),
-                          child: Text(
-                            context
-                                    .watch<CommonProvider>()
-                                    .productResponse
-                                    ?.data
-                                    ?.data?[index]
-                                    ?.brand
-                                    ?.name ??
-                                "",
-                            style: GoogleFonts.roboto(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: ProjectColors().primaryColor,
+                      Flexible(
+                        child: Card(
+                          color: ProjectColors().white2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsGeometry.fromLTRB(5, 5, 10, 5),
+                            child: Text(
+                              context
+                                      .watch<CommonProvider>()
+                                      .productResponse
+                                      ?.data
+                                      ?.data?[index]
+                                      ?.brand
+                                      ?.name ??
+                                  "",
+                              style: GoogleFonts.roboto(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().primaryColor,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              textAlign: TextAlign.center,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),

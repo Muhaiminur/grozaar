@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/view/common/homepage/main_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
@@ -12,7 +13,6 @@ import '../../core/provider/auth_provider.dart';
 import '../../core/provider/cart_provider.dart';
 import '../../core/singleton/logger.dart';
 import '../../core/utility/customColorLoader.dart';
-import '../../core/utility/routes.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -42,6 +42,7 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
     context.read<AuthProvider>().userDetailsCall().then((value) {
       emailController.text = value.email ?? "";
       phoneController.text = value.phone ?? "";
+      //addressController.text = value. ?? "";
       context.read<CartProvider>().showCart();
     });
   }
@@ -467,9 +468,10 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                             )
                             .then((value) {
                               if (value == 200) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  mainPage,
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => MainPage(),
+                                  ),
                                 );
                               }
                             });
@@ -485,7 +487,6 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
                     ),
                   ),
                   SizedBox(height: 190),
-
                 ],
               ),
             ),
