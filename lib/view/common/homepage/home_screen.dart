@@ -284,7 +284,9 @@ class HomePageScreenState extends State<HomePage> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        childAspectRatio: 0.78,
+        childAspectRatio: 0.75,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 3
       ),
       itemCount:
           context
