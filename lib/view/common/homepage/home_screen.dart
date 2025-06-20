@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:grozaar/core/utility/routes.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
-import 'package:grozaar/view/common/category/category_screen.dart';
 import 'package:grozaar/view/common/general/search_screen.dart';
 import 'package:grozaar/view/common/product/product_list_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
+import '../../../core/utility/keys.dart';
 
 class HomePage extends StatefulWidget {
   bool? hideBack;
@@ -172,11 +173,12 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => CategoryPage(),
-                                ),
-                              );
+                              GlobalVariableKeys.navigatorState.currentState
+                                  ?.pushNamedAndRemoveUntil(
+                                    mainPage,
+                                    arguments: 1,
+                                    (route) => false,
+                                  );
                             },
                           ),
                         ],
@@ -213,13 +215,10 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => ProductListPage(
-                                        args: {"type": "newProduct"},
-                                      ),
-                                ),
+                              Navigator.pushNamed(
+                                context,
+                                productListPage,
+                                arguments: {"type": "newProduct"},
                               );
                             },
                           ),
@@ -250,13 +249,10 @@ class HomePageScreenState extends State<HomePage> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => ProductListPage(
-                                        args: {"type": "bestProduct"},
-                                      ),
-                                ),
+                              Navigator.pushNamed(
+                                context,
+                                productListPage,
+                                arguments: {"type": "bestProduct"},
                               );
                             },
                           ),
@@ -286,7 +282,7 @@ class HomePageScreenState extends State<HomePage> {
         crossAxisCount: 4,
         childAspectRatio: 0.75,
         mainAxisSpacing: 5,
-        crossAxisSpacing: 3
+        crossAxisSpacing: 3,
       ),
       itemCount:
           context

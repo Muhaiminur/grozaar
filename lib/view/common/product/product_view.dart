@@ -175,7 +175,7 @@ class _ProductViewState extends State<ProductView> {
                         ),
                       ),
                       onPressed: () {
-                        if (logged.isNotEmpty) {
+                        if (/*logged.isNotEmpty*/true) {
                           context
                               .read<CartProvider>()
                               .addToCart(widget.id, "1")

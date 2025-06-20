@@ -328,7 +328,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
                               ),
                             ),
                             onPressed: () {
-                              if (logged.isNotEmpty) {
+                              if (/*logged.isNotEmpty*/true) {
                                 context
                                     .read<CartProvider>()
                                     .addToCart(

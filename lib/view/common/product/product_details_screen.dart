@@ -466,7 +466,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             ),
                           ),
                           onPressed: () {
-                            if (logged.isNotEmpty) {
+                            if (/*logged.isNotEmpty*/true) {
                               context
                                   .read<CartProvider>()
                                   .addToCart(widget.args["id"], "1")

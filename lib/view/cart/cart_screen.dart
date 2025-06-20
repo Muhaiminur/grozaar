@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/customColorLoader.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../core/utility/routes.dart';
 import 'checkout_screen.dart';
 
 class CartPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class CartPageScreenState extends State<CartPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CartProvider>().showCart();
+    context.read<CartProvider>().showCart(true);
   }
 
   @override
@@ -244,9 +245,13 @@ class CartPageScreenState extends State<CartPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CheckoutPage()),
-                      );
+                      logged.isNotEmpty
+                          ? Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CheckoutPage(),
+                            ),
+                          )
+                          : Navigator.pushNamed(context, registrationPage);
                     },
                     child: Text(
                       "Checkout",
@@ -368,7 +373,9 @@ class CartPageScreenState extends State<CartPage> {
                                             "0",
                                       )
                                       .then((value) {
-                                        context.read<CartProvider>().showCart();
+                                        context.read<CartProvider>().showCart(
+                                          true,
+                                        );
                                       });
                                 },
                                 icon: Icon(
@@ -480,7 +487,7 @@ class CartPageScreenState extends State<CartPage> {
                                           if (value == 200) {
                                             context
                                                 .read<CartProvider>()
-                                                .showCart();
+                                                .showCart(true);
                                           }
                                         });
                                   }
@@ -575,7 +582,7 @@ class CartPageScreenState extends State<CartPage> {
                                           if (value == 200) {
                                             context
                                                 .read<CartProvider>()
-                                                .showCart();
+                                                .showCart(true);
                                           }
                                         });
                                   }

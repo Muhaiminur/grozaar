@@ -331,7 +331,7 @@ class LoginPageScreenState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 100),
+                      SizedBox(height: 0),
 
                       SizedBox(
                         width: double.infinity,

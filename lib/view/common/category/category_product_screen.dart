@@ -603,7 +603,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              if (logged.isNotEmpty) {
+                              if (/*logged.isNotEmpty*/true) {
                                 context
                                     .read<CartProvider>()
                                     .addToCart(

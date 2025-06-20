@@ -18,6 +18,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
   String _resMessage = '';
   int _statusCode = 0;
   int _workCode = 0;
+  String _uuid = '';
 
   CartResponse? _cartResponse;
 
@@ -36,6 +37,8 @@ class CartProvider extends BaseApiController with ChangeNotifier {
 
   String get resMessage => _resMessage;
 
+  String get uuid => _uuid;
+
   int get statusCode => _statusCode;
 
   int get workCode => _workCode;
@@ -48,10 +51,14 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       final response = await getDio()!.post(
         ApiUrl.cartAddUrl,
         data: {"product_id": id, "quantity": quantity},
+        queryParameters: {"uuid": _uuid},
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
       Log().showMessageToast(message: responseJson["message"]);
+      if (response.statusCode == 200) {
+        _uuid = responseJson["uuid"];
+      }
       return response.statusCode!;
     } on DioException catch (e) {
       try {
@@ -68,6 +75,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
     } finally {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
+      showCart(false);
       notifyListeners(); // Notify listeners that the data has changed
     }
   }
@@ -80,6 +88,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       final response = await getDio()!.post(
         ApiUrl.cartDeductUrl,
         data: {"product_id": id, "quantity": quantity},
+        queryParameters: {"uuid": _uuid},
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
@@ -101,6 +110,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
       notifyListeners(); // Notify listeners that the data has changed
+      showCart(false);
     }
   }
 
@@ -111,6 +121,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
     try {
       final response = await getDio()!.delete(
         "${ApiUrl.cartUrl}/$id${ApiUrl.cartDeleteUrl}",
+        queryParameters: {"uuid": _uuid},
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
@@ -132,15 +143,21 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
       notifyListeners(); // Notify listeners that the data has changed
+      showCart(false);
     }
   }
 
-  Future<int> showCart() async {
-    Future.delayed(Duration.zero, () async {
-      CustomProgressDialog.show(message: "Loading", isDismissible: false);
-    });
+  Future<int> showCart(bool showProgress) async {
+    if(showProgress){
+      Future.delayed(Duration.zero, () async {
+        CustomProgressDialog.show(message: "Loading", isDismissible: false);
+      });
+    }
     try {
-      final response = await getDio()!.get(ApiUrl.cartUrl);
+      final response = await getDio()!.get(
+        ApiUrl.cartUrl,
+        queryParameters: {"uuid": _uuid},
+      );
       _cartResponse = CartResponse.fromJson(response.data);
       notifyListeners();
       return response.statusCode!;
@@ -203,6 +220,8 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
       notifyListeners(); // Notify listeners that the data has changed
+      showCart(false);
+
     }
   }
 

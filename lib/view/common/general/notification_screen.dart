@@ -30,7 +30,7 @@ class NotificationPageScreenState extends State<NotificationPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CartProvider>().showCart();
+    context.read<CartProvider>().showCart(true);
   }
 
   @override
@@ -360,7 +360,7 @@ class NotificationPageScreenState extends State<NotificationPage> {
                                             "0",
                                       )
                                       .then((value) {
-                                        context.read<CartProvider>().showCart();
+                                        context.read<CartProvider>().showCart(true);
                                       });
                                 },
                                 icon: Icon(
@@ -472,7 +472,7 @@ class NotificationPageScreenState extends State<NotificationPage> {
                                           if (value == 200) {
                                             context
                                                 .read<CartProvider>()
-                                                .showCart();
+                                                .showCart(true);
                                           }
                                         });
                                   }
@@ -567,7 +567,7 @@ class NotificationPageScreenState extends State<NotificationPage> {
                                           if (value == 200) {
                                             context
                                                 .read<CartProvider>()
-                                                .showCart();
+                                                .showCart(true);
                                           }
                                         });
                                   }
