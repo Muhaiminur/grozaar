@@ -10,6 +10,8 @@ import '../../model/order_history_response.dart';
 import '../api/api_url.dart';
 import '../api/interceptor.dart';
 import '../singleton/logger.dart';
+import '../singleton/shared_pref.dart';
+import '../utility/customStrings.dart';
 import '../utility/progressBar.dart';
 
 class CartProvider extends BaseApiController with ChangeNotifier {
@@ -18,7 +20,6 @@ class CartProvider extends BaseApiController with ChangeNotifier {
   String _resMessage = '';
   int _statusCode = 0;
   int _workCode = 0;
-  String _uuid = '';
 
   CartResponse? _cartResponse;
 
@@ -37,8 +38,6 @@ class CartProvider extends BaseApiController with ChangeNotifier {
 
   String get resMessage => _resMessage;
 
-  String get uuid => _uuid;
-
   int get statusCode => _statusCode;
 
   int get workCode => _workCode;
@@ -51,13 +50,18 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       final response = await getDio()!.post(
         ApiUrl.cartAddUrl,
         data: {"product_id": id, "quantity": quantity},
-        queryParameters: {"uuid": _uuid},
+        queryParameters: {
+          CustomStrings().uuid: SharedPref.getString(CustomStrings().uuid),
+        },
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
       Log().showMessageToast(message: responseJson["message"]);
       if (response.statusCode == 200) {
-        _uuid = responseJson["uuid"];
+        SharedPref.setString(
+          CustomStrings().uuid,
+          responseJson[CustomStrings().uuid],
+        );
       }
       return response.statusCode!;
     } on DioException catch (e) {
@@ -88,7 +92,9 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       final response = await getDio()!.post(
         ApiUrl.cartDeductUrl,
         data: {"product_id": id, "quantity": quantity},
-        queryParameters: {"uuid": _uuid},
+        queryParameters: {
+          CustomStrings().uuid: SharedPref.getString(CustomStrings().uuid),
+        },
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
@@ -121,7 +127,9 @@ class CartProvider extends BaseApiController with ChangeNotifier {
     try {
       final response = await getDio()!.delete(
         "${ApiUrl.cartUrl}/$id${ApiUrl.cartDeleteUrl}",
-        queryParameters: {"uuid": _uuid},
+        queryParameters: {
+          CustomStrings().uuid: SharedPref.getString(CustomStrings().uuid),
+        },
       );
       notifyListeners();
       final responseJson = json.decode(response.toString());
@@ -148,7 +156,7 @@ class CartProvider extends BaseApiController with ChangeNotifier {
   }
 
   Future<int> showCart(bool showProgress) async {
-    if(showProgress){
+    if (showProgress) {
       Future.delayed(Duration.zero, () async {
         CustomProgressDialog.show(message: "Loading", isDismissible: false);
       });
@@ -156,7 +164,9 @@ class CartProvider extends BaseApiController with ChangeNotifier {
     try {
       final response = await getDio()!.get(
         ApiUrl.cartUrl,
-        queryParameters: {"uuid": _uuid},
+        queryParameters: {
+          CustomStrings().uuid: SharedPref.getString(CustomStrings().uuid),
+        },
       );
       _cartResponse = CartResponse.fromJson(response.data);
       notifyListeners();
@@ -199,6 +209,9 @@ class CartProvider extends BaseApiController with ChangeNotifier {
             "email": email.toString(),
           },
         },
+        queryParameters: {
+          CustomStrings().uuid: SharedPref.getString(CustomStrings().uuid),
+        },
       );
       final responseJson = json.decode(response.toString());
       Log().showMessageToast(message: responseJson["message"]);
@@ -221,7 +234,6 @@ class CartProvider extends BaseApiController with ChangeNotifier {
       CustomProgressDialog.hide();
       notifyListeners(); // Notify listeners that the data has changed
       showCart(false);
-
     }
   }
 

@@ -56,7 +56,7 @@ class SplashScreenState extends State<Splash> {
     if (logged.isEmpty) {
       Navigator.pushReplacementNamed(context, welcomePage);
     } else {
-      Navigator.pushReplacementNamed(context, mainPage);
+      Navigator.pushReplacementNamed(context, mainPage,arguments: 0);
     }
   }
 

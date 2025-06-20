@@ -260,7 +260,6 @@ class HomePageScreenState extends State<HomePage> {
                       ),
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: bestList()),
-                      SizedBox(height: 70),
                     ],
                   ),
                 ),

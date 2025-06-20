@@ -40,10 +40,10 @@ class MainPageScreenState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    context.read<CartProvider>().showCart(false);
     logged = SharedPref.getString(CustomStrings().token);
     _page = widget.initialIndex ?? 0;
     _pageController = PageController(initialPage: _page);
-    context.read<CartProvider>().showCart(false);
   }
 
   @override
@@ -113,19 +113,32 @@ class MainPageScreenState extends State<MainPage> {
                               .items!
                               .isNotEmpty
                       ? Positioned(
-                        right: 10,
+                        right: 0,
                         top: 0,
-                        child: Text(
-                          context
-                              .watch<CartProvider>()
-                              .cartResponse!
-                              .items!
-                              .length
-                              .toString(),
-                          style: GoogleFonts.raleway(
-                            color: ProjectColors().red1,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
+                        child: Card(
+                          color: ProjectColors().red1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: BorderSide(
+                              width: 1,
+                              color: ProjectColors().white,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsetsGeometry.fromLTRB(5, 0, 5, 0),
+                            child: Text(
+                              context
+                                  .watch<CartProvider>()
+                                  .cartResponse!
+                                  .items!
+                                  .length
+                                  .toString(),
+                              style: GoogleFonts.raleway(
+                                color: ProjectColors().white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
                           ),
                         ),
                       )
@@ -143,10 +156,10 @@ class MainPageScreenState extends State<MainPage> {
           children: [
             HomePage(),
             CategoryPage(hideBack: true),
-            PromotionPage(hideBack: true),
             logged.isNotEmpty
                 ? CustomerProfilePage(hideBack: true)
                 : RegistrationPage(hideBack: true),
+            PromotionPage(hideBack: true),
           ],
         ),
         bottomNavigationBar: Container(
@@ -193,19 +206,19 @@ class MainPageScreenState extends State<MainPage> {
               ),
               BottomNavigationBarItem(
                 icon: NavItem(
-                  iconString: Assets.imagesIcFab,
-                  isSelected: 2 == _page,
-                  label: CustomStrings().favourite,
-                ),
-                label: CustomStrings().favourite,
-              ),
-              BottomNavigationBarItem(
-                icon: NavItem(
                   iconString: Assets.imagesIcUser,
-                  isSelected: 3 == _page,
+                  isSelected: 2 == _page,
                   label: CustomStrings().profile,
                 ),
                 label: CustomStrings().profile,
+              ),
+              BottomNavigationBarItem(
+                icon: NavItem(
+                  iconString: Assets.imagesIcFab,
+                  isSelected: 3 == _page,
+                  label: CustomStrings().favourite,
+                ),
+                label: CustomStrings().favourite,
               ),
             ],
           ),

@@ -17,6 +17,7 @@ class CustomStrings {
   String confirm = "Confirm";
   String deviceType = 'DEVICE-TYPE';
   String token = 'Authorization';
+  String uuid = 'uuid';
   String android = 'android';
   String ios = 'ios';
   String getStarted = 'Get Started';

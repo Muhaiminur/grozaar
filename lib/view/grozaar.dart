@@ -71,7 +71,11 @@ class _GrozaarState extends State<Grozaar> {
             splash: (context) => const Splash(),
             welcomePage: (context) => const WelcomePage(),
             homePage: (context) => HomePage(),
-            mainPage: (context) => const MainPage(),
+            mainPage:
+                (context) => MainPage(
+                  initialIndex:
+                      ModalRoute.of(context)!.settings.arguments as int,
+                ),
             categoryPage: (context) => CategoryPage(),
             categoryProductPage:
                 (context) => CategoryProductPage(
