@@ -179,6 +179,37 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
+  Future<int?> forgetPassword({String? email}) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final params = <String, dynamic>{};
+      params["email"] = email;
+      final response = await getDio()!.post(
+        ApiUrl.forgetPasswordUrl,
+        data: params,
+      );
+      if (response.statusCode == 200) {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } else {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      }
+      notifyListeners();
+      return response.statusCode;
+    } on DioException catch (e) {
+      final responseJson = json.decode(e.response.toString());
+      Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
   void clear() {
     _resMessage = "";
     _isLoading = false;
