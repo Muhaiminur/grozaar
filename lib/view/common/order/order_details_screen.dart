@@ -455,9 +455,9 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                         ?.data
                                         ?.order
                                         ?.status ==
-                                    "received"
-                                ? false
-                                : true,
+                                    "delivered"
+                                ? true
+                                : false,
                         child: ElevatedButton(
                           style: ButtonStyle(
                             minimumSize: WidgetStateProperty.all(Size.zero),

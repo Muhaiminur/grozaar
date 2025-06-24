@@ -92,7 +92,6 @@ class CartPageScreenState extends State<CartPage> {
                         softWrap: true,
                         textAlign: TextAlign.start,
                       ),
-
                       Text(
                         context
                                 .watch<CartProvider>()
@@ -415,7 +414,7 @@ class CartPageScreenState extends State<CartPage> {
                                         .cartResponse
                                         ?.items
                                         ?.elementAt(index)
-                                        ?.price ??
+                                        ?.subTotal ??
                                     "0",
                                 style: GoogleFonts.roboto(
                                   fontSize: 14,

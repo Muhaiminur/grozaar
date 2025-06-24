@@ -420,16 +420,41 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             SizedBox(height: 5),
                             Text(
                               (int.parse(counter) *
-                                      double.parse(
-                                        context
-                                                .watch<CommonProvider>()
-                                                .productDetailsResponse
-                                                ?.data
-                                                ?.product
-                                                ?.price ??
-                                            "1",
-                                      ))
-                                  .toString(),
+                                              double.parse(
+                                                context
+                                                        .watch<CommonProvider>()
+                                                        .productDetailsResponse
+                                                        ?.data
+                                                        ?.product
+                                                        ?.price ??
+                                                    "1",
+                                              ))
+                                          .toString()
+                                          .length >
+                                      5
+                                  ? (int.parse(counter) *
+                                          double.parse(
+                                            context
+                                                    .watch<CommonProvider>()
+                                                    .productDetailsResponse
+                                                    ?.data
+                                                    ?.product
+                                                    ?.price ??
+                                                "1",
+                                          ))
+                                      .toString()
+                                      .substring(0, 5)
+                                  : (int.parse(counter) *
+                                          double.parse(
+                                            context
+                                                    .watch<CommonProvider>()
+                                                    .productDetailsResponse
+                                                    ?.data
+                                                    ?.product
+                                                    ?.price ??
+                                                "1",
+                                          ))
+                                      .toString(),
                               style: GoogleFonts.roboto(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -466,10 +491,10 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             ),
                           ),
                           onPressed: () {
-                            if (/*logged.isNotEmpty*/true) {
+                            if ( /*logged.isNotEmpty*/ true) {
                               context
                                   .read<CartProvider>()
-                                  .addToCart(widget.args["id"], "1")
+                                  .addToCart(widget.args["id"], counter)
                                   .then((value) {
                                     if (value == 200) {}
                                   });
