@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../core/provider/cart_provider.dart';
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
+import '../../../core/utility/routes.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final Map args;
@@ -141,26 +142,53 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             ),
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: Padding(
-                            padding: EdgeInsetsGeometry.fromLTRB(5, 5, 5, 5),
-                            child: Text(
-                              context
-                                      .watch<CommonProvider>()
-                                      .productDetailsResponse
-                                      ?.data
-                                      ?.product
-                                      ?.brand
-                                      ?.name ??
-                                  "",
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: ProjectColors().blue3,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                productListPage,
+                                arguments: {
+                                  "type": "brandProduct",
+                                  "brandId":
+                                      context
+                                          .read<CommonProvider>()
+                                          .productDetailsResponse
+                                          ?.data
+                                          ?.product
+                                          ?.brand?.id ??
+                                      "0",
+                                  "brandName":
+                                      context
+                                          .read<CommonProvider>()
+                                          .productDetailsResponse
+                                          ?.data
+                                          ?.product
+                                          ?.brand?.name ??
+                                      "",
+                                },
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsetsGeometry.fromLTRB(5, 5, 5, 5),
+                              child: Text(
+                                context
+                                        .watch<CommonProvider>()
+                                        .productDetailsResponse
+                                        ?.data
+                                        ?.product
+                                        ?.brand
+                                        ?.name ??
+                                    "",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: ProjectColors().blue3,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                                textAlign: TextAlign.center,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
@@ -421,38 +449,52 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             Text(
                               (int.parse(counter) *
                                               double.parse(
-                                                context
-                                                        .watch<CommonProvider>()
-                                                        .productDetailsResponse
-                                                        ?.data
-                                                        ?.product
-                                                        ?.price ??
-                                                    "1",
+                                                (context
+                                                            .watch<
+                                                              CommonProvider
+                                                            >()
+                                                            .productDetailsResponse
+                                                            ?.data
+                                                            ?.product
+                                                            ?.price ??
+                                                        "1")
+                                                    .replaceAll(
+                                                      RegExp(r'[^0-9]'),
+                                                      '',
+                                                    ),
                                               ))
                                           .toString()
                                           .length >
                                       5
                                   ? (int.parse(counter) *
                                           double.parse(
-                                            context
-                                                    .watch<CommonProvider>()
-                                                    .productDetailsResponse
-                                                    ?.data
-                                                    ?.product
-                                                    ?.price ??
-                                                "1",
+                                            (context
+                                                        .watch<CommonProvider>()
+                                                        .productDetailsResponse
+                                                        ?.data
+                                                        ?.product
+                                                        ?.price ??
+                                                    "1")
+                                                .replaceAll(
+                                                  RegExp(r'[^0-9]'),
+                                                  '',
+                                                ),
                                           ))
                                       .toString()
                                       .substring(0, 5)
                                   : (int.parse(counter) *
                                           double.parse(
-                                            context
-                                                    .watch<CommonProvider>()
-                                                    .productDetailsResponse
-                                                    ?.data
-                                                    ?.product
-                                                    ?.price ??
-                                                "1",
+                                            (context
+                                                        .watch<CommonProvider>()
+                                                        .productDetailsResponse
+                                                        ?.data
+                                                        ?.product
+                                                        ?.price ??
+                                                    "1")
+                                                .replaceAll(
+                                                  RegExp(r'[^0-9]'),
+                                                  '',
+                                                ),
                                           ))
                                       .toString(),
                               style: GoogleFonts.roboto(

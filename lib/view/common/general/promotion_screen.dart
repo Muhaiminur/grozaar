@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
@@ -12,7 +13,7 @@ import '../../../core/utility/custom_appbar.dart';
 class PromotionPage extends StatefulWidget {
   bool? hideBack;
 
-  PromotionPage({super.key,this.hideBack});
+  PromotionPage({super.key, this.hideBack});
 
   @override
   PromotionPageScreenState createState() => PromotionPageScreenState();
@@ -93,7 +94,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
         ? ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
-      physics: NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemCount:
               context
                   .watch<CommonProvider>()
@@ -135,7 +136,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
                       softWrap: true,
                       textAlign: TextAlign.start,
                     ),
-                    Text(
+                    HtmlWidget(
                       context
                               .watch<CommonProvider>()
                               .promotionResponse
@@ -144,15 +145,11 @@ class PromotionPageScreenState extends State<PromotionPage> {
                               ?.elementAt(index)
                               ?.description ??
                           "",
-                      style: GoogleFonts.roboto(
+                      textStyle: GoogleFonts.roboto(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         color: ProjectColors().blue3,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      textAlign: TextAlign.start,
                     ),
                     Text(
                       context
@@ -179,6 +176,8 @@ class PromotionPageScreenState extends State<PromotionPage> {
             );
           },
         )
+        : context.watch<CommonProvider>().promotionResponse!.data!.data!.isEmpty
+        ? SizedBox()
         : ColorLoader();
   }
 }

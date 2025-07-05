@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grozaar/core/api/base_api_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../model/user_details_response.dart';
 import '../../model/user_response.dart';
@@ -140,6 +141,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     String? phone,
     String? password,
     String? manNumber,
+    XFile? profileImage,
   }) async {
     Future.delayed(Duration.zero, () async {
       CustomProgressDialog.show(message: "Loading", isDismissible: false);
@@ -159,6 +161,12 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       }
       if (manNumber != null && manNumber.isNotEmpty) {
         params["manager_phone"] = manNumber;
+      }
+      if (profileImage != null) {
+        params["avatar"] = await MultipartFile.fromFile(
+          profileImage.path,
+          filename: profileImage.name,
+        );
       }
       final response = await getDio()!.post(ApiUrl.userUpdateUrl, data: params);
       if (response.statusCode == 200) {

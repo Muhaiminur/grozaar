@@ -1,14 +1,20 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/singleton/shared_pref.dart';
 import '../../../core/utility/custom_appbar.dart';
 import '../../core/provider/auth_provider.dart';
+import '../../core/singleton/logger.dart';
+import '../../core/utility/permission_service.dart';
 
 class ProfileEditPage extends StatefulWidget {
   const ProfileEditPage({super.key});
@@ -31,6 +37,9 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
   final regPasswordController = TextEditingController();
   bool passwordVisible = true;
   bool regPasswordVisible = true;
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? tinFile;
 
   @override
   void initState() {
@@ -147,11 +156,7 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                                 radius: 20,
                                 child: IconButton(
                                   onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => ProfileEditPage(),
-                                      ),
-                                    );
+                                    showImagePickerModal(contextImage: context);
                                   },
                                   icon: Icon(
                                     Icons.edit,
@@ -733,5 +738,156 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
         ],
       ),
     );
+  }
+
+  void showImagePickerModal({required BuildContext contextImage}) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      builder:
+          (context) => StatefulBuilder(
+            builder: (
+              BuildContext context,
+              void Function(void Function()) setState,
+            ) {
+              return Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Wrap(
+                  children: [
+                    ListTile(
+                      minLeadingWidth: 10,
+                      leading: Icon(
+                        Icons.image_outlined,
+                        color: ProjectColors().black,
+                        size: 24,
+                      ),
+                      title: Text(CustomStrings().openGallery),
+                      onTap: () async {
+                        Navigator.pop(context);
+                        if (Platform.isAndroid) {
+                          openGallery();
+                        } else {
+                          PermissionService.checkPermission(
+                            permissionName: CustomStrings().storage,
+                          ).then((value) {
+                            if (value) {
+                              openGallery();
+                            } else {
+                              openAppSettings();
+                            }
+                          });
+                        }
+                      },
+                    ),
+                    ListTile(
+                      minLeadingWidth: 10,
+                      leading: Icon(
+                        Icons.photo_camera_outlined,
+                        color: ProjectColors().black,
+                        size: 24,
+                      ),
+                      title: Text(CustomStrings().openCamera),
+                      onTap: () async {
+                        Navigator.pop(context);
+                        if (Platform.isAndroid) {
+                          openCamera();
+                        } else {
+                          PermissionService.checkPermission(
+                            permissionName: CustomStrings().camera,
+                          ).then((value) {
+                            if (value) {
+                              openCamera();
+                            } else {
+                              openAppSettings();
+                            }
+                          });
+                        }
+                      },
+                    ),
+
+                    ListTile(
+                      title: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(34),
+                            border: Border.all(width: 1, color: Colors.black),
+                          ),
+                          height: 40,
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.close, size: 20),
+                              SizedBox(width: 4),
+                              Text("Close"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+    );
+  }
+
+  void openGallery() async {
+    XFile? pickedFile;
+    if (_picker.supportsImageSource(ImageSource.gallery)) {
+      pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          tinFile = pickedFile;
+        });
+        context.read<AuthProvider>().userUpdateCall(profileImage: tinFile).then(
+              (value) {
+            if (value == 200) {
+              context.read<AuthProvider>().userDetailsCall();
+            }
+          },
+        );
+      } else {
+        // Handle the case when no image is picked
+        Log().showMessageToast(message: CustomStrings().noImageSelected);
+      }
+    } else {
+      Log().showMessageToast(message: CustomStrings().permissionNotGiven);
+    }
+    setState(() {});
+  }
+
+  void openCamera() async {
+    XFile? pickedFile;
+    if (_picker.supportsImageSource(ImageSource.camera)) {
+      pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        setState(() {
+          tinFile = pickedFile;
+        });
+        context.read<AuthProvider>().userUpdateCall(profileImage: tinFile).then(
+          (value) {
+            if (value == 200) {
+              context.read<AuthProvider>().userDetailsCall();
+            }
+          },
+        );
+      } else {
+        // Handle the case when no image is picked
+        Log().showMessageToast(message: CustomStrings().noImageSelected);
+      }
+    } else {
+      Log().showMessageToast(message: CustomStrings().permissionNotGiven);
+    }
   }
 }

@@ -198,40 +198,6 @@ class HomePageScreenState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "New Arrivals",
-                            style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: ProjectColors().blue3,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              CustomStrings().seeAll,
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: ProjectColors().blue2,
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                productListPage,
-                                arguments: {"type": "newProduct"},
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      LimitedBox(maxHeight: 230, child: newArrivalList()),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
                             "Best Selling",
                             style: GoogleFonts.roboto(
                               fontSize: 16,
@@ -260,6 +226,41 @@ class HomePageScreenState extends State<HomePage> {
                       ),
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: bestList()),
+
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "New Arrivals",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              CustomStrings().seeAll,
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue2,
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                productListPage,
+                                arguments: {"type": "newProduct"},
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      LimitedBox(maxHeight: 230, child: newArrivalList()),
                     ],
                   ),
                 ),

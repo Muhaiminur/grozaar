@@ -34,7 +34,7 @@ class Log {
     Fluttertoast.cancel();
     Fluttertoast.showToast(
       msg: message,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.BOTTOM_RIGHT,
       toastLength: Toast.LENGTH_LONG,
       timeInSecForIosWeb: 1,
       textColor: Colors.white,

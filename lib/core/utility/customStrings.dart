@@ -32,4 +32,12 @@ class CustomStrings {
   String required = "Required";
   String invalidEmail = "Invalid Email";
   String loginModel = 'loginModel';
+  String camera = "camera";
+  String storage = "storage";
+  String openCamera = 'Open Camera';
+  String openGallery = 'Select from Gallery';
+  String chooseOption = "Choose an Option";
+  String permissionNotGiven = "Permission Not Given";
+  String noImageSelected = "No image selected.";
+
 }

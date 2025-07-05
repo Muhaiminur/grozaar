@@ -110,15 +110,25 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     String catId,
     String page,
     String parPage,
+    String brandId,
   ) async {
     try {
+      Map<String, dynamic> map = {};
+      if (brandId.isNotEmpty) {
+        map['brand_id'] = brandId;
+      }
+      if (catId.isNotEmpty) {
+        map['category_id'] = catId;
+      }
+      if (page.isNotEmpty) {
+        map['page'] = page;
+      }
+      if (parPage.isNotEmpty) {
+        map['parPage'] = parPage;
+      }
       final response = await getDio()!.get(
         ApiUrl.categoryProductUrl,
-        queryParameters: {
-          "category_id": catId,
-          "page": page,
-          "parPage": parPage,
-        },
+        queryParameters: map,
       );
       _productResponse = ProductResponse.fromJson(response.data);
       notifyListeners();

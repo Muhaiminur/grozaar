@@ -40,6 +40,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
       widget.args["id"],
       "1",
       "20",
+      "",
     );
   }
 
@@ -133,6 +134,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                         widget.args["id"],
                     "1",
                     "20",
+                    "",
                   );
                   setState(() {
                     cat =
@@ -560,7 +562,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                           .productResponse
                                           ?.data
                                           ?.data?[index]
-                                          ?.price ??
+                                          ?.oldPrice ??
                                       "0",
                                   style: GoogleFonts.roboto(
                                     fontSize: 10,
@@ -603,7 +605,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              if (/*logged.isNotEmpty*/true) {
+                              if ( /*logged.isNotEmpty*/ true) {
                                 context
                                     .read<CartProvider>()
                                     .addToCart(

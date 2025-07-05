@@ -35,6 +35,10 @@ class ProductListPageScreenState extends State<ProductListPage> {
     logged = SharedPref.getString(CustomStrings().token);
     if (widget.args["type"] == "newProduct") {
       context.read<CommonProvider>().newArrivalProductCall("1", "20");
+    }
+    if (widget.args["type"] == "brandProduct") {
+      String id = widget.args["brandId"];
+      context.read<CommonProvider>().categoryProductCall("", "1", "20", id);
     } else {
       context.read<CommonProvider>().bestSellProductCall("1", "20");
     }
@@ -55,7 +59,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
           title:
               widget.args["type"] == "newProduct"
                   ? "New Arrivals"
-                  : "Best Selling",
+                  :  widget.args["type"] == "brandProduct"?widget.args["brandName"]:"Best Selling",
           onTap: () {
             Navigator.pop(context);
           },
@@ -328,7 +332,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
                               ),
                             ),
                             onPressed: () {
-                              if (/*logged.isNotEmpty*/true) {
+                              if ( /*logged.isNotEmpty*/ true) {
                                 context
                                     .read<CartProvider>()
                                     .addToCart(

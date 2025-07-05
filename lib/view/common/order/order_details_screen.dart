@@ -454,7 +454,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                                         .orderDetailsResponse
                                         ?.data
                                         ?.order
-                                        ?.status ==
+                                        ?.status?.toLowerCase() ==
                                     "delivered"
                                 ? true
                                 : false,
