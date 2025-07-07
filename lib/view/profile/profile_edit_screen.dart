@@ -850,13 +850,17 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
         setState(() {
           tinFile = pickedFile;
         });
-        context.read<AuthProvider>().userUpdateCall(profileImage: tinFile).then(
-              (value) {
-            if (value == 200) {
-              context.read<AuthProvider>().userDetailsCall();
-            }
-          },
-        );
+        context
+            .read<AuthProvider>()
+            .userUpdateCall(
+              profileImage: tinFile,
+              username: nameController.text,
+            )
+            .then((value) {
+              if (value == 200) {
+                context.read<AuthProvider>().userDetailsCall();
+              }
+            });
       } else {
         // Handle the case when no image is picked
         Log().showMessageToast(message: CustomStrings().noImageSelected);
@@ -875,13 +879,20 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
         setState(() {
           tinFile = pickedFile;
         });
-        context.read<AuthProvider>().userUpdateCall(profileImage: tinFile).then(
-          (value) {
-            if (value == 200) {
-              context.read<AuthProvider>().userDetailsCall();
-            }
-          },
-        );
+        context
+            .read<AuthProvider>()
+            .userUpdateCall(
+              profileImage: tinFile,
+              username: nameController.text,
+            )
+            .then((value) {
+              if (value == 200) {
+                context.read<AuthProvider>().userDetailsCall();
+                setState(() {
+
+                });
+              }
+            });
       } else {
         // Handle the case when no image is picked
         Log().showMessageToast(message: CustomStrings().noImageSelected);

@@ -176,7 +176,7 @@ class PromotionPageScreenState extends State<PromotionPage> {
             );
           },
         )
-        : context.watch<CommonProvider>().promotionResponse!.data!.data!.isEmpty
+        : context.watch<CommonProvider>().promotionResponse != null&&context.watch<CommonProvider>().promotionResponse!.data!.data!.isEmpty
         ? SizedBox()
         : ColorLoader();
   }

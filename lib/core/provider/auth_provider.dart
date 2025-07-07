@@ -147,7 +147,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       CustomProgressDialog.show(message: "Loading", isDismissible: false);
     });
     try {
-      final params = <String, dynamic>{};
+      Map<String, dynamic> params = {};
       params["_method"] = "put";
       if (username != null && username.isNotEmpty) {
         params["first_name"] = username;
@@ -168,7 +168,8 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
           filename: profileImage.name,
         );
       }
-      final response = await getDio()!.post(ApiUrl.userUpdateUrl, data: params);
+      var formData = FormData.fromMap(params);
+      final response = await getDio()!.post(ApiUrl.userUpdateUrl, data: formData);
       if (response.statusCode == 200) {
       } else {
         final responseJson = json.decode(response.toString());
@@ -179,6 +180,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     } on DioException catch (e) {
       final responseJson = json.decode(e.response.toString());
       Log().showMessageToast(message: responseJson["message"]);
+     // Log().printInfo(responseJson.toString());
       return e.response!.statusCode!;
     } finally {
       _isLoading = false; // Set loading flag to false
