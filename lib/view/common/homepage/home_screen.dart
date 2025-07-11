@@ -8,7 +8,6 @@ import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
 import 'package:grozaar/view/common/category/category_product_screen.dart';
 import 'package:grozaar/view/common/general/search_screen.dart';
-import 'package:grozaar/view/common/product/product_list_screen.dart';
 import 'package:grozaar/view/common/product/product_view.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +27,8 @@ class HomePage extends StatefulWidget {
 class HomePageScreenState extends State<HomePage> {
   String logged = "";
   int _carouselCurrent = 0;
+  final controller = ScrollController();
+  int page = 1;
   final CarouselSliderController _carouselSliderController =
       CarouselSliderController();
 
@@ -35,16 +36,35 @@ class HomePageScreenState extends State<HomePage> {
   void initState() {
     //context.read<CommonProvider>().homePageCall();
     super.initState();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        if (context
+            .read<CommonProvider>()
+            .newArrivalResponse!
+            .data!
+            .links!
+            .next!
+            .isNotEmpty) {
+          context.read<CommonProvider>().newArrivalCall(
+            (++page).toString(),
+            "10",
+          );
+        }
+      }
+    });
     _loadHomeData(isReload: false);
   }
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
     context.read<CommonProvider>().homePageCall();
+    page = 1;
+    context.read<CommonProvider>().newArrivalCall(page.toString(), "10");
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
@@ -186,6 +206,37 @@ class HomePageScreenState extends State<HomePage> {
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: categoryList()),
                       SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Promotion",
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: ProjectColors().blue3,
+                            ),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              CustomStrings().seeAll,
+                              style: GoogleFonts.roboto(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: ProjectColors().blue2,
+                              ),
+                            ),
+                            onTap: () {
+                              /*Navigator.pushNamed(
+                                context,
+                                productListPage,
+                                arguments: {"type": "bestProduct"},
+                              );*/
+                            },
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 5),
                       LimitedBox(
                         maxHeight: 125,
@@ -260,7 +311,7 @@ class HomePageScreenState extends State<HomePage> {
                         ],
                       ),
                       SizedBox(height: 5),
-                      LimitedBox(maxHeight: 230, child: newArrivalList()),
+                      newArrivalList(),
                     ],
                   ),
                 ),
@@ -398,60 +449,69 @@ class HomePageScreenState extends State<HomePage> {
                 null &&
             context
                 .watch<CommonProvider>()
-                .homeResponse!
+                .newArrivalResponse!
                 .data!
-                .newArrivalProducts!
+                .data!
                 .isNotEmpty
-        ? ListView.builder(
+        ? GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.5,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+          ),
           shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
+          physics: const ScrollPhysics(),
+          controller: controller,
+          //addAutomaticKeepAlives: true,
+          scrollDirection: Axis.vertical,
           itemCount:
               context
                   .watch<CommonProvider>()
-                  .homeResponse
+                  .newArrivalResponse
                   ?.data
-                  ?.newArrivalProducts
+                  ?.data
                   ?.length,
           itemBuilder: (BuildContext context, int position) {
             return ProductView(
               id:
                   context
                       .read<CommonProvider>()
-                      .homeResponse
+                      .newArrivalResponse
                       ?.data
-                      ?.newArrivalProducts?[position]
+                      ?.data?[position]
                       ?.id ??
                   "",
               imageUrl:
                   context
                       .watch<CommonProvider>()
-                      .homeResponse
+                      .newArrivalResponse
                       ?.data
-                      ?.newArrivalProducts?[position]
+                      ?.data?[position]
                       ?.imageUrl ??
                   "",
               name:
                   context
                       .watch<CommonProvider>()
-                      .homeResponse
+                      .newArrivalResponse
                       ?.data
-                      ?.newArrivalProducts?[position]
+                      ?.data?[position]
                       ?.name ??
                   "",
               price:
                   context
                       .watch<CommonProvider>()
-                      .homeResponse
+                      .newArrivalResponse
                       ?.data
-                      ?.newArrivalProducts?[position]
+                      ?.data?[position]
                       ?.subTotal ??
                   "",
               discount:
                   context
                       .watch<CommonProvider>()
-                      .homeResponse
+                      .newArrivalResponse
                       ?.data
-                      ?.newArrivalProducts?[position]
+                      ?.data?[position]
                       ?.promotionText ??
                   "",
             );

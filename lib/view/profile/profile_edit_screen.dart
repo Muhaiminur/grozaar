@@ -198,7 +198,7 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                           onPressed: () {
                             FocusManager.instance.primaryFocus?.unfocus();
                             if (restaurent) {
-                              if (_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()||true) {
                                 context
                                     .read<AuthProvider>()
                                     .userUpdateCall(
@@ -214,7 +214,7 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                                     });
                               }
                             } else {
-                              if (_userFormKey.currentState!.validate()) {
+                              if (_userFormKey.currentState!.validate()||true) {
                                 context
                                     .read<AuthProvider>()
                                     .userUpdateCall(

@@ -12,6 +12,7 @@ class CustomStrings {
   String home = "Home";
   String categories = "Categories";
   String favourite = "Favourite";
+  String offer = "Offer";
   String profile = "Profile";
   String cancel = "Cancel";
   String confirm = "Confirm";

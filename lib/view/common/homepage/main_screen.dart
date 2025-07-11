@@ -214,11 +214,11 @@ class MainPageScreenState extends State<MainPage> {
               ),
               BottomNavigationBarItem(
                 icon: NavItem(
-                  iconString: Assets.imagesIcFab,
+                  iconString: Assets.imagesIcOffer,
                   isSelected: 3 == _page,
-                  label: CustomStrings().favourite,
+                  label: CustomStrings().offer,
                 ),
-                label: CustomStrings().favourite,
+                label: CustomStrings().offer,
               ),
             ],
           ),

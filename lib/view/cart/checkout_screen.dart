@@ -515,13 +515,7 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
               children: [
                 Expanded(
                   child: Text(
-                    context
-                            .watch<CartProvider>()
-                            .cartResponse
-                            ?.items
-                            ?.elementAt(index)
-                            ?.productName ??
-                        "",
+                    "${context.watch<CartProvider>().cartResponse?.items?.elementAt(index)?.productName ?? ""} (${context.watch<CartProvider>().cartResponse?.items?.elementAt(index)?.quantity ?? "0"})",
                     style: GoogleFonts.roboto(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
