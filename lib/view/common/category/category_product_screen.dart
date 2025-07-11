@@ -35,13 +35,33 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CommonProvider>().categoryCall();
-    context.read<CommonProvider>().categoryProductCall(
-      widget.args["id"],
-      "1",
-      "20",
-      "",
-    );
+    context.read<CommonProvider>().subCategoryCall(widget.args["id"]).then((
+      value,
+    ) {
+      if (context.read<CommonProvider>().subCategoryResponse != null &&
+          context.read<CommonProvider>().subCategoryResponse?.data?.data !=
+              null &&
+          context
+              .read<CommonProvider>()
+              .subCategoryResponse!
+              .data!
+              .data!
+              .isNotEmpty) {
+        context.read<CommonProvider>().categoryProductCall(
+          context
+                  .read<CommonProvider>()
+                  .subCategoryResponse
+                  ?.data
+                  ?.data
+                  ?.first
+                  ?.id ??
+              "",
+          "1",
+          "50",
+          "",
+        );
+      }
+    });
   }
 
   @override
@@ -81,6 +101,11 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             child: Row(
               children: [
                 SizedBox(width: 80, child: categoryList()),
+                Container(
+                  color: ProjectColors().blue1.withAlpha(50),
+                  height: double.infinity,
+                  width: 2,
+                ),
                 SizedBox(width: 5),
                 Expanded(child: productList()),
               ],
@@ -96,12 +121,12 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
   }
 
   Widget categoryList() {
-    return context.watch<CommonProvider>().categoryResponse != null &&
-            context.watch<CommonProvider>().categoryResponse?.data?.data !=
+    return context.watch<CommonProvider>().subCategoryResponse != null &&
+            context.watch<CommonProvider>().subCategoryResponse?.data?.data !=
                 null &&
             context
                 .watch<CommonProvider>()
-                .categoryResponse!
+                .subCategoryResponse!
                 .data!
                 .data!
                 .isNotEmpty
@@ -117,7 +142,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             itemCount:
                 context
                     .watch<CommonProvider>()
-                    .categoryResponse
+                    .subCategoryResponse
                     ?.data
                     ?.data
                     ?.length,
@@ -127,20 +152,20 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                   context.read<CommonProvider>().categoryProductCall(
                     context
                             .read<CommonProvider>()
-                            .categoryResponse
+                            .subCategoryResponse
                             ?.data
                             ?.data?[position]
                             ?.id ??
                         widget.args["id"],
                     "1",
-                    "20",
+                    "50",
                     "",
                   );
                   setState(() {
                     cat =
                         context
                             .read<CommonProvider>()
-                            .categoryResponse
+                            .subCategoryResponse
                             ?.data
                             ?.data?[position]
                             ?.name ??
@@ -163,7 +188,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           imageUrl:
                               context
                                   .watch<CommonProvider>()
-                                  .categoryResponse
+                                  .subCategoryResponse
                                   ?.data
                                   ?.data?[position]
                                   ?.imageUrl ??
@@ -196,7 +221,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           child: Text(
                             context
                                     .watch<CommonProvider>()
-                                    .categoryResponse
+                                    .subCategoryResponse
                                     ?.data
                                     ?.data?[position]
                                     ?.name ??
@@ -207,7 +232,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                   cat ==
                                           context
                                               .read<CommonProvider>()
-                                              .categoryResponse
+                                              .subCategoryResponse
                                               ?.data
                                               ?.data?[position]
                                               ?.name
@@ -229,6 +254,15 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             },
           ),
         )
+        : context.watch<CommonProvider>().subCategoryResponse?.data?.data !=
+                null &&
+            context
+                .watch<CommonProvider>()
+                .subCategoryResponse!
+                .data!
+                .data!
+                .isEmpty
+        ? SizedBox()
         : ColorLoader();
   }
 

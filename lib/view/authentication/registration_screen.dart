@@ -21,7 +21,7 @@ class RegistrationPage extends StatefulWidget {
 
 class RegistrationPageScreenState extends State<RegistrationPage> {
   String logged = "";
-  bool restaurent = true;
+  bool restaurent = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _userFormKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -135,6 +135,52 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                   ),
                                 ),
                                 backgroundColor: WidgetStateProperty.all(
+                                  !restaurent
+                                      ? ProjectColors().primaryColor
+                                      : Color(0xffF3F1FB),
+                                ),
+                                padding: WidgetStateProperty.all(
+                                  EdgeInsets.fromLTRB(14, 5, 14, 5),
+                                ),
+                                textStyle: WidgetStateProperty.all(
+                                  TextStyle(
+                                    fontSize: 15,
+                                    color:
+                                    !restaurent
+                                        ? ProjectColors().white
+                                        : ProjectColors().blue1,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  restaurent = false;
+                                });
+                              },
+                              child: Text(
+                                "Regular User",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color:
+                                  !restaurent
+                                      ? ProjectColors().white
+                                      : ProjectColors().blue1,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                elevation: WidgetStatePropertyAll(0),
+                                minimumSize: WidgetStateProperty.all(Size.zero),
+                                // Set
+                                shape: WidgetStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(23),
+                                  ),
+                                ),
+                                backgroundColor: WidgetStateProperty.all(
                                   restaurent
                                       ? ProjectColors().primaryColor
                                       : Color(0xffF3F1FB),
@@ -165,52 +211,6 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                   fontWeight: FontWeight.w500,
                                   color:
                                       restaurent
-                                          ? ProjectColors().white
-                                          : ProjectColors().blue1,
-                                ),
-                              ),
-                            ),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                elevation: WidgetStatePropertyAll(0),
-                                minimumSize: WidgetStateProperty.all(Size.zero),
-                                // Set
-                                shape: WidgetStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(23),
-                                  ),
-                                ),
-                                backgroundColor: WidgetStateProperty.all(
-                                  !restaurent
-                                      ? ProjectColors().primaryColor
-                                      : Color(0xffF3F1FB),
-                                ),
-                                padding: WidgetStateProperty.all(
-                                  EdgeInsets.fromLTRB(14, 5, 14, 5),
-                                ),
-                                textStyle: WidgetStateProperty.all(
-                                  TextStyle(
-                                    fontSize: 15,
-                                    color:
-                                        !restaurent
-                                            ? ProjectColors().white
-                                            : ProjectColors().blue1,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  restaurent = false;
-                                });
-                              },
-                              child: Text(
-                                "Regular User",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      !restaurent
                                           ? ProjectColors().white
                                           : ProjectColors().blue1,
                                 ),

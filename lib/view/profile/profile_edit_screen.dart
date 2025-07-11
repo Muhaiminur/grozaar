@@ -854,7 +854,10 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
             .read<AuthProvider>()
             .userUpdateCall(
               profileImage: tinFile,
-              username: nameController.text,
+              username:
+                  nameController.text.isNotEmpty
+                      ? nameController.text.toString()
+                      : regNameController.text.toString(),
             )
             .then((value) {
               if (value == 200) {
@@ -883,14 +886,15 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
             .read<AuthProvider>()
             .userUpdateCall(
               profileImage: tinFile,
-              username: nameController.text,
+              username:
+                  nameController.text.isNotEmpty
+                      ? nameController.text.toString()
+                      : regNameController.text.toString(),
             )
             .then((value) {
               if (value == 200) {
                 context.read<AuthProvider>().userDetailsCall();
-                setState(() {
-
-                });
+                setState(() {});
               }
             });
       } else {
