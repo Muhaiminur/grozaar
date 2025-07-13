@@ -34,6 +34,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
   }
 
   _loadHomeData({required bool isReload}) {
+    context.read<CommonProvider>().setProductResponse = null;
     logged = SharedPref.getString(CustomStrings().token);
     context.read<CommonProvider>().subCategoryCall(widget.args["id"]).then((
       value,

@@ -39,6 +39,10 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
 
   ProductResponse? get productResponse => _productResponse;
 
+  set setProductResponse(ProductResponse? value) {
+    _productResponse = value;
+  }
+
   ProductDetailsResponse? _productDetailsResponse;
 
   ProductDetailsResponse? get productDetailsResponse => _productDetailsResponse;
