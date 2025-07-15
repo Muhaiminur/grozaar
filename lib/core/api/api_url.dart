@@ -24,4 +24,5 @@ class ApiUrl {
   static const String newArrivalUrl = "user/new-arrival-products";
   static const String bestSellingUrl = "user/best-selling-products";
   static const String forgetPasswordUrl = "forget-password";
+  static const String forgetPasswordUpdateUrl = "forget-password/update";
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
@@ -317,6 +318,7 @@ class LoginPageScreenState extends State<LoginPage> {
                             onPressed: () {
                               //_showBottomView();
                               _showDialog(context);
+                              //_showPasswordDialog(context);
                             },
                             child: Text(
                               "Forget Password?",
@@ -656,6 +658,7 @@ class LoginPageScreenState extends State<LoginPage> {
                       .forgetPassword(email: usernameController.text)
                       .then((value) {
                         if (value == 200) {
+                          _showPasswordDialog(contextPage);
                           /*Log().showMessageToast(
                                     message: "Please Check Your Email",
                                   );*/
@@ -664,6 +667,278 @@ class LoginPageScreenState extends State<LoginPage> {
                       });
                 } else {
                   Log().showMessageToast(message: "Please Enter Email");
+                }
+              },
+              child: Text(
+                "Submit",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: ProjectColors().white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showPasswordDialog(BuildContext contextPage) {
+    showDialog(
+      context: contextPage,
+      useSafeArea: true,
+      builder: (BuildContext context) {
+        final passController = TextEditingController();
+        final conPassController = TextEditingController();
+        final otpController = TextEditingController();
+        return AlertDialog(
+          title: Text(
+            "Update Your Password",
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: ProjectColors().primaryColor,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [
+              TextFormField(
+                style: GoogleFonts.roboto(
+                  color: ProjectColors().blue1,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                controller: otpController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return CustomStrings().required;
+                  }
+                  return null; // Valid input
+                },
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  fillColor: ProjectColors().white,
+                  filled: true,
+                  hintStyle: GoogleFonts.roboto(
+                    color: ProjectColors().blue1,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(color: ProjectColors().primaryColor),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: "Enter OTP",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                ),
+              ),
+              TextFormField(
+                style: GoogleFonts.roboto(
+                  color: ProjectColors().blue1,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                controller: passController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return CustomStrings().required;
+                  }
+                  return null; // Valid input
+                },
+                decoration: InputDecoration(
+                  fillColor: ProjectColors().white,
+                  filled: true,
+                  hintStyle: GoogleFonts.roboto(
+                    color: ProjectColors().blue1,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(color: ProjectColors().primaryColor),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: "Enter Password",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                ),
+              ),
+              TextFormField(
+                style: GoogleFonts.roboto(
+                  color: ProjectColors().blue1,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                controller: conPassController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return CustomStrings().required;
+                  }
+                  if (value != conPassController.text) {
+                    return "Password And Confirm Password Did Not Match";
+                  }
+                  return null; // Valid input
+                },
+                decoration: InputDecoration(
+                  fillColor: ProjectColors().white,
+                  filled: true,
+                  hintStyle: GoogleFonts.roboto(
+                    color: ProjectColors().blue1,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(color: ProjectColors().primaryColor),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: "Enter Confirm Password",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all<EdgeInsets>(
+                  EdgeInsets.all(10),
+                ),
+                backgroundColor: WidgetStateProperty.all<Color>(
+                  ProjectColors().primaryColor,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: ProjectColors().white),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (conPassController.text.isNotEmpty && passController.text.isNotEmpty && otpController.text.isNotEmpty) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  Navigator.pop(context);
+                  contextPage
+                      .read<AuthProvider>()
+                      .forgetPasswordUpdate(
+                        otp: otpController.text,
+                        pass: conPassController.text,
+                      )
+                      .then((value) {
+                        if (value == 200) {
+                          Log().showMessageToast(
+                            message: "Please Login with your new password",
+                          );
+                          Navigator.pop(contextPage);
+                        }
+                      });
+                } else {
+                  Log().showMessageToast(message: "Required All Information");
                 }
               },
               child: Text(

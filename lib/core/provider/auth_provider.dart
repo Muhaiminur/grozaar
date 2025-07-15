@@ -169,7 +169,10 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
         );
       }
       var formData = FormData.fromMap(params);
-      final response = await getDio()!.post(ApiUrl.userUpdateUrl, data: formData);
+      final response = await getDio()!.post(
+        ApiUrl.userUpdateUrl,
+        data: formData,
+      );
       if (response.statusCode == 200) {
       } else {
         final responseJson = json.decode(response.toString());
@@ -180,7 +183,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     } on DioException catch (e) {
       final responseJson = json.decode(e.response.toString());
       Log().showMessageToast(message: responseJson["message"]);
-     // Log().printInfo(responseJson.toString());
+      // Log().printInfo(responseJson.toString());
       return e.response!.statusCode!;
     } finally {
       _isLoading = false; // Set loading flag to false
@@ -198,6 +201,39 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       params["email"] = email;
       final response = await getDio()!.post(
         ApiUrl.forgetPasswordUrl,
+        data: params,
+      );
+      if (response.statusCode == 200) {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } else {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      }
+      notifyListeners();
+      return response.statusCode;
+    } on DioException catch (e) {
+      final responseJson = json.decode(e.response.toString());
+      Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int?> forgetPasswordUpdate({String? otp, String? pass}) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final params = <String, dynamic>{};
+      params["forget_opt"] = otp;
+      params["password"] = pass;
+      params["password_confirmation"] = pass;
+      final response = await getDio()!.post(
+        ApiUrl.forgetPasswordUpdateUrl,
         data: params,
       );
       if (response.statusCode == 200) {
