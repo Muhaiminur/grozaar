@@ -586,15 +586,23 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                 ),
                 Expanded(
                   child: Text(
-                    context
-                            .watch<CartProvider>()
-                            .orderDetailsResponse
-                            ?.data
-                            ?.order
-                            ?.orderItems
-                            ?.elementAt(index)
-                            ?.productName ??
-                        "",
+                    "${context
+                      .watch<CartProvider>()
+                      .orderDetailsResponse
+                      ?.data
+                      ?.order
+                      ?.orderItems
+                      ?.elementAt(index)
+                      ?.productName ??
+                  ""} ( ${context
+                        .watch<CartProvider>()
+                        .orderDetailsResponse
+                        ?.data
+                        ?.order
+                        ?.orderItems
+                        ?.elementAt(index)
+                        ?.quantity ??
+                        ""} )",
                     style: GoogleFonts.roboto(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -614,7 +622,7 @@ class OrderDetailsPageScreenState extends State<OrderDetailsPage> {
                           ?.order
                           ?.orderItems
                           ?.elementAt(index)
-                          ?.price ??
+                          ?.subTotal ??
                       "0",
                   style: GoogleFonts.roboto(
                     fontSize: 14,

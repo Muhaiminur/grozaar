@@ -21,6 +21,8 @@ class CategoryPage extends StatefulWidget {
 
 class CategoryPageScreenState extends State<CategoryPage> {
   String logged = "";
+  final controller = ScrollController();
+  int page = 1;
 
   @override
   void initState() {
@@ -30,11 +32,29 @@ class CategoryPageScreenState extends State<CategoryPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CommonProvider>().categoryCall();
+    page = 1;
+    context.read<CommonProvider>().categoryCall(page.toString(), "20");
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        if (context
+            .read<CommonProvider>()
+            .productResponse!
+            .data!
+            .links!
+            .next!
+            .isNotEmpty) {
+          context.read<CommonProvider>().categoryCall(
+            (++page).toString(),
+            "20",
+          );
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
@@ -81,11 +101,12 @@ class CategoryPageScreenState extends State<CategoryPage> {
 
   Widget categoryList() {
     return GridView.builder(
+      controller: controller,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         childAspectRatio: 0.75,
         crossAxisSpacing: 4,
-          mainAxisSpacing: 4
+        mainAxisSpacing: 4,
       ),
       itemCount:
           context.watch<CommonProvider>().categoryResponse?.data?.data?.length,

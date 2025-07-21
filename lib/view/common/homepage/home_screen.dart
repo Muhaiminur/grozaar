@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/provider/common_provider.dart';
+import 'package:grozaar/core/singleton/logger.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:grozaar/core/utility/routes.dart';
@@ -27,7 +28,7 @@ class HomePage extends StatefulWidget {
 class HomePageScreenState extends State<HomePage> {
   String logged = "";
   int _carouselCurrent = 0;
-  final controller = ScrollController();
+  ScrollController controller = ScrollController();
   int page = 1;
   final CarouselSliderController _carouselSliderController =
       CarouselSliderController();
@@ -36,22 +37,6 @@ class HomePageScreenState extends State<HomePage> {
   void initState() {
     //context.read<CommonProvider>().homePageCall();
     super.initState();
-    controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {
-        if (context
-            .read<CommonProvider>()
-            .newArrivalResponse!
-            .data!
-            .links!
-            .next!
-            .isNotEmpty) {
-          context.read<CommonProvider>().newArrivalCall(
-            (++page).toString(),
-            "10",
-          );
-        }
-      }
-    });
     _loadHomeData(isReload: false);
   }
 
@@ -60,6 +45,36 @@ class HomePageScreenState extends State<HomePage> {
     context.read<CommonProvider>().homePageCall();
     page = 1;
     context.read<CommonProvider>().newArrivalCall(page.toString(), "10");
+    controller.addListener(() {
+      if (controller.position.pixels == controller.position.maxScrollExtent) {
+        Log().printInfo("paisi");
+        if (context
+            .read<CommonProvider>()
+            .newArrivalResponse!
+            .data!
+            .links!
+            .next!
+            .isNotEmpty) {
+          Log().printInfo("paisi"+context
+              .read<CommonProvider>()
+              .newArrivalResponse!
+              .data!
+              .links!
+              .next!);
+          context.read<CommonProvider>().newArrivalCall(
+            (++page).toString(),
+            "10",
+          );
+        }else{
+          Log().printInfo("paisi not"+context
+              .read<CommonProvider>()
+              .newArrivalResponse!
+              .data!
+              .links!
+              .next!);
+        }
+      }
+    });
   }
 
   @override
@@ -312,6 +327,8 @@ class HomePageScreenState extends State<HomePage> {
                       ),
                       SizedBox(height: 5),
                       newArrivalList(),
+                      SizedBox(height: 5),
+
                     ],
                   ),
                 ),
@@ -440,12 +457,8 @@ class HomePageScreenState extends State<HomePage> {
   }
 
   Widget newArrivalList() {
-    return context.watch<CommonProvider>().homeResponse != null &&
-            context
-                    .watch<CommonProvider>()
-                    .homeResponse
-                    ?.data
-                    ?.newArrivalProducts !=
+    return context.watch<CommonProvider>().newArrivalResponse != null &&
+            context.watch<CommonProvider>().newArrivalResponse?.data?.data !=
                 null &&
             context
                 .watch<CommonProvider>()
@@ -456,12 +469,11 @@ class HomePageScreenState extends State<HomePage> {
         ? GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.5,
+            childAspectRatio: 0.72,
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
           ),
           shrinkWrap: true,
-          physics: const ScrollPhysics(),
           controller: controller,
           //addAutomaticKeepAlives: true,
           scrollDirection: Axis.vertical,

@@ -23,7 +23,8 @@ class ProductListPage extends StatefulWidget {
 
 class ProductListPageScreenState extends State<ProductListPage> {
   String logged = "";
-  String counter = "1";
+  final controller = ScrollController();
+  int page = 1;
 
   @override
   void initState() {
@@ -33,19 +34,52 @@ class ProductListPageScreenState extends State<ProductListPage> {
 
   _loadHomeData({required bool isReload}) {
     logged = SharedPref.getString(CustomStrings().token);
+    page = 1;
     if (widget.args["type"] == "newProduct") {
-      context.read<CommonProvider>().newArrivalProductCall("1", "20");
-    }
-    if (widget.args["type"] == "brandProduct") {
+      context.read<CommonProvider>().newArrivalProductCall(page.toString(), "20");
+    } else if (widget.args["type"] == "brandProduct") {
       String id = widget.args["brandId"];
-      context.read<CommonProvider>().categoryProductCall("", "1", "20", id);
-    } else {
-      context.read<CommonProvider>().bestSellProductCall("1", "20");
+      context.read<CommonProvider>().categoryProductCall("", page.toString(), "20", id);
+    } else if (widget.args["type"] == "bestProduct") {
+      context.read<CommonProvider>().bestSellProductCall(page.toString(), "20");
     }
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        if (context
+            .read<CommonProvider>()
+            .productResponse!
+            .data!
+            .links!
+            .next!
+            .isNotEmpty) {
+          if (widget.args["type"] == "newProduct") {
+            context.read<CommonProvider>().newArrivalProductCall(
+              (++page).toString(),
+              "20",
+            );
+          }
+          if (widget.args["type"] == "brandProduct") {
+            String id = widget.args["brandId"];
+            context.read<CommonProvider>().categoryProductCall(
+              "",
+              (++page).toString(),
+              "20",
+              id,
+            );
+          } else {
+            context.read<CommonProvider>().bestSellProductCall(
+              (++page).toString(),
+              "20",
+            );
+          }
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
@@ -59,7 +93,9 @@ class ProductListPageScreenState extends State<ProductListPage> {
           title:
               widget.args["type"] == "newProduct"
                   ? "New Arrivals"
-                  :  widget.args["type"] == "brandProduct"?widget.args["brandName"]:"Best Selling",
+                  : widget.args["type"] == "brandProduct"
+                  ? widget.args["brandName"]
+                  : "Best Selling",
           onTap: () {
             Navigator.pop(context);
           },
@@ -107,7 +143,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.only(bottom: 90),
-          controller: ScrollController(),
+          controller: controller,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 0.6,

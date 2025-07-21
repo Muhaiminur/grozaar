@@ -677,9 +677,15 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
           },
         )
         : context.watch<CommonProvider>().productResponse != null &&
-            context.watch<CommonProvider>().productResponse?.data?.data !=
-                null &&
-            context.watch<CommonProvider>().productResponse!.data!.data!.isEmpty
+                (context.watch<CommonProvider>().productResponse?.data?.data !=
+                        null &&
+                    context
+                        .watch<CommonProvider>()
+                        .productResponse!
+                        .data!
+                        .data!
+                        .isEmpty) ||
+            context.watch<CommonProvider>().productResponse?.data?.data == null
         ? Center(child: Text("No Data"))
         : Center(child: ColorLoader());
   }

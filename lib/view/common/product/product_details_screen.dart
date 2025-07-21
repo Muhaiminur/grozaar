@@ -103,7 +103,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               height: 220,
                               fit: BoxFit.cover,
                             ),
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),

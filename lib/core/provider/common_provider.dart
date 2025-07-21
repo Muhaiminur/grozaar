@@ -92,12 +92,33 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
-  Future<int> categoryCall() async {
+  Future<int> categoryCall(String page, String parPage) async {
     Future.delayed(Duration.zero, () async {
       CustomProgressDialog.show(message: "Loading", isDismissible: false);
     });
     try {
-      final response = await getDio()!.get(ApiUrl.categoryUrl);
+      final response = await getDio()!.get(
+        ApiUrl.categoryUrl,
+        queryParameters: {"page": page, "parPage": parPage},
+      );
+      if (response.statusCode == 200) {
+        CategoryResponse? allFarmResponse2 = CategoryResponse.fromJson(
+          response.data,
+        );
+        if (page == "1" || page == "0") {
+          _categoryResponse = CategoryResponse.fromJson(response.data);
+          _categoryResponse?.data!.data!.clear();
+          _categoryResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _categoryResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        } else {
+          _categoryResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _categoryResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        }
+      } else {
+        Log().showMessageToast(message: CustomStrings().tryAgainLater);
+      }
       _categoryResponse = CategoryResponse.fromJson(response.data);
       notifyListeners();
       return response.statusCode!;
@@ -174,7 +195,24 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
         ApiUrl.categoryProductUrl,
         queryParameters: map,
       );
-      _productResponse = ProductResponse.fromJson(response.data);
+      if (response.statusCode == 200) {
+        ProductResponse? allFarmResponse2 = ProductResponse.fromJson(
+          response.data,
+        );
+        if (page == "1" || page == "0") {
+          _productResponse = ProductResponse.fromJson(response.data);
+          _productResponse?.data!.data!.clear();
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        } else {
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        }
+      } else {
+        Log().showMessageToast(message: CustomStrings().tryAgainLater);
+      }
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {
@@ -235,7 +273,24 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
         ApiUrl.newArrivalUrl,
         queryParameters: {"page": page, "parPage": parPage},
       );
-      _productResponse = ProductResponse.fromJson(response.data);
+      if (response.statusCode == 200) {
+        ProductResponse? allFarmResponse2 = ProductResponse.fromJson(
+          response.data,
+        );
+        if (page == "1" || page == "0") {
+          _productResponse = ProductResponse.fromJson(response.data);
+          _productResponse?.data!.data!.clear();
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        } else {
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        }
+      } else {
+        Log().showMessageToast(message: CustomStrings().tryAgainLater);
+      }
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {
@@ -266,7 +321,24 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
         ApiUrl.bestSellingUrl,
         queryParameters: {"page": page, "parPage": parPage},
       );
-      _productResponse = ProductResponse.fromJson(response.data);
+      if (response.statusCode == 200) {
+        ProductResponse? allFarmResponse2 = ProductResponse.fromJson(
+          response.data,
+        );
+        if (page == "1" || page == "0") {
+          _productResponse = ProductResponse.fromJson(response.data);
+          _productResponse?.data!.data!.clear();
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        } else {
+          _productResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _productResponse?.data!.links!.next =
+              allFarmResponse2.data!.links!.next;
+        }
+      } else {
+        Log().showMessageToast(message: CustomStrings().tryAgainLater);
+      }
       notifyListeners();
       return response.statusCode!;
     } on DioException catch (e) {
