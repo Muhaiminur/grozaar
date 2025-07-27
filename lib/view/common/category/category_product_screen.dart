@@ -36,7 +36,14 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
   _loadHomeData({required bool isReload}) {
     context.read<CommonProvider>().setProductResponse = null;
     logged = SharedPref.getString(CustomStrings().token);
-    context.read<CommonProvider>().subCategoryCall(widget.args["id"]).then((
+    context.read<CommonProvider>().categoryProductCall(
+      widget.args["id"] ?? "",
+      "1",
+      "50",
+      "",
+    );
+    context.read<CommonProvider>().subCategoryCall(widget.args["id"]);
+    /*context.read<CommonProvider>().subCategoryCall(widget.args["id"]).then((
       value,
     ) {
       if (context.read<CommonProvider>().subCategoryResponse != null &&
@@ -62,7 +69,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
           "",
         );
       }
-    });
+    });*/
   }
 
   @override

@@ -201,13 +201,13 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          context
+                         /* context
                                   .watch<CommonProvider>()
                                   .productDetailsResponse
                                   ?.data
                                   ?.product
                                   ?.createdAt ??
-                              "",
+                              ""*/"",
                           style: GoogleFonts.roboto(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

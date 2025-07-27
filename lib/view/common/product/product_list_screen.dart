@@ -36,22 +36,32 @@ class ProductListPageScreenState extends State<ProductListPage> {
     logged = SharedPref.getString(CustomStrings().token);
     page = 1;
     if (widget.args["type"] == "newProduct") {
-      context.read<CommonProvider>().newArrivalProductCall(page.toString(), "20");
+      context.read<CommonProvider>().newArrivalProductCall(
+        page.toString(),
+        "20",
+      );
     } else if (widget.args["type"] == "brandProduct") {
       String id = widget.args["brandId"];
-      context.read<CommonProvider>().categoryProductCall("", page.toString(), "20", id);
+      context.read<CommonProvider>().categoryProductCall(
+        "",
+        page.toString(),
+        "20",
+        id,
+      );
     } else if (widget.args["type"] == "bestProduct") {
       context.read<CommonProvider>().bestSellProductCall(page.toString(), "20");
     }
     controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {
-        if (context
-            .read<CommonProvider>()
-            .productResponse!
-            .data!
-            .links!
-            .next!
-            .isNotEmpty) {
+      if (controller.position.pixels >= controller.position.maxScrollExtent) {
+        if (context.read<CommonProvider>().productResponse!.data!.links!.next !=
+                null &&
+            context
+                .read<CommonProvider>()
+                .productResponse!
+                .data!
+                .links!
+                .next!
+                .isNotEmpty) {
           if (widget.args["type"] == "newProduct") {
             context.read<CommonProvider>().newArrivalProductCall(
               (++page).toString(),
@@ -65,6 +75,11 @@ class ProductListPageScreenState extends State<ProductListPage> {
               (++page).toString(),
               "20",
               id,
+            );
+          } else if (widget.args["type"] == "bestProduct") {
+            context.read<CommonProvider>().bestSellProductCall(
+              (++page).toString(),
+              "20",
             );
           } else {
             context.read<CommonProvider>().bestSellProductCall(
@@ -106,23 +121,18 @@ class ProductListPageScreenState extends State<ProductListPage> {
         backgroundColor: ProjectColors().primaryColor,
         strokeWidth: 1.0,
         onRefresh: _handleRefresh,
-        child: SingleChildScrollView(
+        child: Container(
+          color: ProjectColors().primaryColor,
           child: Container(
-            color: ProjectColors().primaryColor,
-            child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: ProjectColors().white,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  topLeft: Radius.circular(10),
-                ),
-              ),
-              child: LimitedBox(
-                maxHeight: MediaQuery.of(context).size.height / 0.2,
-                child: productList(),
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: ProjectColors().white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
               ),
             ),
+            child: Column(children: [Expanded(child: productList())]),
           ),
         ),
       ),
@@ -140,10 +150,8 @@ class ProductListPageScreenState extends State<ProductListPage> {
                 .data!
                 .isNotEmpty
         ? GridView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(bottom: 90),
           controller: controller,
+          padding: EdgeInsets.all(10),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             childAspectRatio: 0.6,

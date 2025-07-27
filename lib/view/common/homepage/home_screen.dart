@@ -55,23 +55,29 @@ class HomePageScreenState extends State<HomePage> {
             .links!
             .next!
             .isNotEmpty) {
-          Log().printInfo("paisi"+context
-              .read<CommonProvider>()
-              .newArrivalResponse!
-              .data!
-              .links!
-              .next!);
+          Log().printInfo(
+            "paisi" +
+                context
+                    .read<CommonProvider>()
+                    .newArrivalResponse!
+                    .data!
+                    .links!
+                    .next!,
+          );
           context.read<CommonProvider>().newArrivalCall(
             (++page).toString(),
             "10",
           );
-        }else{
-          Log().printInfo("paisi not"+context
-              .read<CommonProvider>()
-              .newArrivalResponse!
-              .data!
-              .links!
-              .next!);
+        } else {
+          Log().printInfo(
+            "paisi not" +
+                context
+                    .read<CommonProvider>()
+                    .newArrivalResponse!
+                    .data!
+                    .links!
+                    .next!,
+          );
         }
       }
     });
@@ -221,38 +227,70 @@ class HomePageScreenState extends State<HomePage> {
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: categoryList()),
                       SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Promotion",
-                            style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: ProjectColors().blue3,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              CustomStrings().seeAll,
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: ProjectColors().blue2,
+                      context.watch<CommonProvider>().homeResponse != null &&
+                              context
+                                      .watch<CommonProvider>()
+                                      .homeResponse
+                                      ?.data
+                                      ?.promotions !=
+                                  null &&
+                              context
+                                  .watch<CommonProvider>()
+                                  .homeResponse!
+                                  .data!
+                                  .promotions!
+                                  .isNotEmpty
+                          ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Promotion",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: ProjectColors().blue3,
+                                ),
                               ),
-                            ),
-                            onTap: () {
-                              /*Navigator.pushNamed(
+                              GestureDetector(
+                                child: Text(
+                                  CustomStrings().seeAll,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: ProjectColors().blue2,
+                                  ),
+                                ),
+                                onTap: () {
+                                  /*Navigator.pushNamed(
                                 context,
                                 productListPage,
                                 arguments: {"type": "bestProduct"},
                               );*/
-                            },
-                          ),
-                        ],
+                                },
+                              ),
+                            ],
+                          )
+                          : SizedBox(),
+                      SizedBox(
+                        height:
+                            context.watch<CommonProvider>().homeResponse !=
+                                        null &&
+                                    context
+                                            .watch<CommonProvider>()
+                                            .homeResponse
+                                            ?.data
+                                            ?.promotions !=
+                                        null &&
+                                    context
+                                        .watch<CommonProvider>()
+                                        .homeResponse!
+                                        .data!
+                                        .promotions!
+                                        .isNotEmpty
+                                ? 5
+                                : 0,
                       ),
-                      SizedBox(height: 5),
                       LimitedBox(
                         maxHeight: 125,
                         maxWidth: double.infinity,
@@ -328,7 +366,6 @@ class HomePageScreenState extends State<HomePage> {
                       SizedBox(height: 5),
                       newArrivalList(),
                       SizedBox(height: 5),
-
                     ],
                   ),
                 ),

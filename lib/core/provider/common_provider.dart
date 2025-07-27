@@ -102,19 +102,19 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
         queryParameters: {"page": page, "parPage": parPage},
       );
       if (response.statusCode == 200) {
-        CategoryResponse? allFarmResponse2 = CategoryResponse.fromJson(
+        CategoryResponse? categoryResponse = CategoryResponse.fromJson(
           response.data,
         );
         if (page == "1" || page == "0") {
           _categoryResponse = CategoryResponse.fromJson(response.data);
           _categoryResponse?.data!.data!.clear();
-          _categoryResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _categoryResponse?.data!.data!.addAll(categoryResponse.data!.data!);
           _categoryResponse?.data!.links!.next =
-              allFarmResponse2.data!.links!.next;
+              categoryResponse.data!.links!.next;
         } else {
-          _categoryResponse?.data!.data!.addAll(allFarmResponse2.data!.data!);
+          _categoryResponse?.data!.data!.addAll(categoryResponse.data!.data!);
           _categoryResponse?.data!.links!.next =
-              allFarmResponse2.data!.links!.next;
+              categoryResponse.data!.links!.next;
         }
       } else {
         Log().showMessageToast(message: CustomStrings().tryAgainLater);
@@ -264,13 +264,15 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
-  Future<int> newArrivalProductCall(String page, String parPage) async {
+  Future<int> bestSellProductCall(String page, String parPage) async {
     try {
       Future.delayed(Duration.zero, () async {
-        CustomProgressDialog.show(message: "Loading", isDismissible: false);
+        if (page == "1" || page == "0") {
+          CustomProgressDialog.show(message: "Loading", isDismissible: false);
+        }
       });
       final response = await getDio()!.get(
-        ApiUrl.newArrivalUrl,
+        ApiUrl.bestSellingUrl,
         queryParameters: {"page": page, "parPage": parPage},
       );
       if (response.statusCode == 200) {
@@ -312,13 +314,15 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
     }
   }
 
-  Future<int> bestSellProductCall(String page, String parPage) async {
+  Future<int> newArrivalProductCall(String page, String parPage) async {
     try {
       Future.delayed(Duration.zero, () async {
-        CustomProgressDialog.show(message: "Loading", isDismissible: false);
+        if (page == "1" || page == "0") {
+          CustomProgressDialog.show(message: "Loading", isDismissible: false);
+        }
       });
       final response = await getDio()!.get(
-        ApiUrl.bestSellingUrl,
+        ApiUrl.newArrivalUrl,
         queryParameters: {"page": page, "parPage": parPage},
       );
       if (response.statusCode == 200) {

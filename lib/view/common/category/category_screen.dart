@@ -35,14 +35,22 @@ class CategoryPageScreenState extends State<CategoryPage> {
     page = 1;
     context.read<CommonProvider>().categoryCall(page.toString(), "20");
     controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {
+      if (controller.position.pixels >=
+          controller.position.maxScrollExtent) {
         if (context
-            .read<CommonProvider>()
-            .productResponse!
-            .data!
-            .links!
-            .next!
-            .isNotEmpty) {
+                    .read<CommonProvider>()
+                    .categoryResponse!
+                    .data!
+                    .links!
+                    .next !=
+                null &&
+            context
+                .read<CommonProvider>()
+                .categoryResponse!
+                .data!
+                .links!
+                .next!
+                .isNotEmpty) {
           context.read<CommonProvider>().categoryCall(
             (++page).toString(),
             "20",
@@ -80,7 +88,7 @@ class CategoryPageScreenState extends State<CategoryPage> {
         child: Container(
           color: ProjectColors().primaryColor,
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: ProjectColors().white,
               borderRadius: BorderRadius.only(
@@ -88,7 +96,7 @@ class CategoryPageScreenState extends State<CategoryPage> {
                 topLeft: Radius.circular(10),
               ),
             ),
-            child: categoryList(),
+            child: Column(children: [Expanded(child: categoryList())]),
           ),
         ),
       ),
@@ -102,11 +110,12 @@ class CategoryPageScreenState extends State<CategoryPage> {
   Widget categoryList() {
     return GridView.builder(
       controller: controller,
+      padding: EdgeInsets.only(bottom: 70),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         childAspectRatio: 0.75,
         crossAxisSpacing: 4,
-        mainAxisSpacing: 4,
+        mainAxisSpacing: 10,
       ),
       itemCount:
           context.watch<CommonProvider>().categoryResponse?.data?.data?.length,
