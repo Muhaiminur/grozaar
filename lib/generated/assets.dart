@@ -3,15 +3,15 @@ class Assets {
   Assets._();
 
   static const String assetsImagesIcSplash = 'assets/images/ic_splash.svg';
-  static const String imagesIcCategory = 'assets/images/ic_category.svg';
   static const String imagesIcCart = 'assets/images/ic_cart.svg';
+  static const String imagesIcCategory = 'assets/images/ic_category.svg';
   static const String imagesIcEmail = 'assets/images/ic_email.svg';
   static const String imagesIcFab = 'assets/images/ic_fab.svg';
-  static const String imagesIcOffer = 'assets/images/ic_offer.svg';
   static const String imagesIcHome = 'assets/images/ic_home.svg';
   static const String imagesIcLocation = 'assets/images/ic_location.svg';
   static const String imagesIcLogout = 'assets/images/ic_logout.svg';
   static const String imagesIcNotification = 'assets/images/ic_notification.svg';
+  static const String imagesIcOffer = 'assets/images/ic_offer.svg';
   static const String imagesIcOrder = 'assets/images/ic_order.svg';
   static const String imagesIcOrderHistory = 'assets/images/ic_order_history.svg';
   static const String imagesIcPhone = 'assets/images/ic_phone.svg';
