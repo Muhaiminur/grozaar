@@ -26,6 +26,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
   String logged = "";
   String cat = "";
 
+  final ScrollController _productScrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -74,6 +76,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
 
   @override
   void dispose() {
+    _productScrollController.dispose();
     super.dispose();
   }
 
@@ -157,6 +160,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             itemBuilder: (BuildContext context, int position) {
               return GestureDetector(
                 onTap: () {
+                  _scrollToTop();
                   context.read<CommonProvider>().categoryProductCall(
                     context
                             .read<CommonProvider>()
@@ -285,7 +289,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                 .data!
                 .isNotEmpty
         ? GridView.builder(
-          controller: ScrollController(),
+          controller: _productScrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.5,
@@ -423,8 +427,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                         child: Padding(
                           padding: EdgeInsetsGeometry.fromLTRB(5, 5, 5, 5),
                           child: Text(
-                            "${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productMeta?.unitValue ?? "0"}+"
-                            "+ ${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productUnit?.symbol ?? "0"}",
+                            "${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productMeta?.unitValue ?? "0"} "
+                            "${context.watch<CommonProvider>().productResponse?.data?.data?[index]?.productUnit?.symbol ?? "0"}",
                             style: GoogleFonts.roboto(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
@@ -513,7 +517,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           softWrap: true,
                           textAlign: TextAlign.center,
                         ),
-                        Expanded(
+                        /*Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -563,7 +567,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ],
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
@@ -597,7 +601,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                 softWrap: true,
                               ),
                               SizedBox(width: 2),
-                              Flexible(
+                              /*Flexible(
                                 child: Text(
                                   context
                                           .watch<CommonProvider>()
@@ -617,7 +621,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                   textAlign: TextAlign.start,
                                   softWrap: true,
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
@@ -695,5 +699,13 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
             context.watch<CommonProvider>().productResponse?.data?.data == null
         ? Center(child: Text("No Data"))
         : Center(child: ColorLoader());
+  }
+
+  void _scrollToTop() {
+    _productScrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 }

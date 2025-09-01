@@ -326,7 +326,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
                                 softWrap: true,
                               ),
                               SizedBox(width: 2),
-                              Flexible(
+                              /*Flexible(
                                 child: Text(
                                   context
                                           .watch<CommonProvider>()
@@ -346,7 +346,7 @@ class ProductListPageScreenState extends State<ProductListPage> {
                                   textAlign: TextAlign.start,
                                   softWrap: true,
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
                         ),

@@ -103,7 +103,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               height: 220,
                               fit: BoxFit.cover,
                             ),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
                   ),
@@ -195,19 +195,19 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                       ],
                     ),
                   ),
-                  Padding(
+                  /*Padding(
                     padding: EdgeInsets.only(left: 5, right: 3),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                         /* context
+                         *//* context
                                   .watch<CommonProvider>()
                                   .productDetailsResponse
                                   ?.data
                                   ?.product
                                   ?.createdAt ??
-                              ""*/"",
+                              ""*//*"",
                           style: GoogleFonts.roboto(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -263,7 +263,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                   Padding(
                     padding: EdgeInsets.only(left: 5, right: 3),
                     child: Row(
