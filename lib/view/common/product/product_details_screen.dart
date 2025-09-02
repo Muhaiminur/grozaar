@@ -89,6 +89,12 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                                 .productDetailsResponse
                                 ?.data
                                 ?.product
+                                ?.detailsImageUrl ??
+                            context
+                                .watch<CommonProvider>()
+                                .productDetailsResponse
+                                ?.data
+                                ?.product
                                 ?.imageUrl ??
                             "",
                         placeholder:
@@ -103,7 +109,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               height: 220,
                               fit: BoxFit.cover,
                             ),
-                        fit: BoxFit.scaleDown,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -155,7 +161,8 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                                           .productDetailsResponse
                                           ?.data
                                           ?.product
-                                          ?.brand?.id ??
+                                          ?.brand
+                                          ?.id ??
                                       "0",
                                   "brandName":
                                       context
@@ -163,7 +170,8 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                                           .productDetailsResponse
                                           ?.data
                                           ?.product
-                                          ?.brand?.name ??
+                                          ?.brand
+                                          ?.name ??
                                       "",
                                 },
                               );
@@ -201,13 +209,15 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                         *//* context
+                         */
+                  /* context
                                   .watch<CommonProvider>()
                                   .productDetailsResponse
                                   ?.data
                                   ?.product
                                   ?.createdAt ??
-                              ""*//*"",
+                              ""*/
+                  /*"",
                           style: GoogleFonts.roboto(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -339,7 +349,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                           softWrap: true,
                           textAlign: TextAlign.center,
                         ),
-                        Text(
+                        /*Text(
                           context
                                   .watch<CommonProvider>()
                                   .productDetailsResponse
@@ -357,7 +367,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                           overflow: TextOverflow.ellipsis,
                           softWrap: true,
                           textAlign: TextAlign.center,
-                        ),
+                        ),*/
                         IconButton(
                           onPressed: () {
                             setState(() {

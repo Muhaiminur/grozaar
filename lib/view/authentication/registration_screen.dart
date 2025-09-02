@@ -297,7 +297,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                       passwordConfirmation:
                                           regPasswordController.text,
                                       name: regNameController.text,
-                                      username: regNameController.text,
+                                      username: usernameController.text,
                                       phone: regNumberController.text,
                                       manPhone: manNumberController.text,
                                     )
@@ -832,6 +832,68 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               hintText: "Enter Full Name",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "User Name",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: usernameController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              }
+              return null; // Valid input
+            },
+            keyboardType: TextInputType.name,
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "Enter User Name",
               border: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: ProjectColors().white4),
                 borderRadius: BorderRadius.circular(22.0),

@@ -515,6 +515,7 @@ class ProductDetailsResponseDataProduct {
   String? id;
   String? name;
   String? imageUrl;
+  String? detailsImageUrl;
   String? price;
   ProductDetailsResponseDataProductTaxes? taxes;
   ProductDetailsResponseDataProductRating? rating;
@@ -526,11 +527,11 @@ class ProductDetailsResponseDataProduct {
   ProductDetailsResponseDataProductBrand? brand;
   String? createdAt;
 
-
   ProductDetailsResponseDataProduct({
     this.id,
     this.name,
     this.imageUrl,
+    this.detailsImageUrl,
     this.price,
     this.taxes,
     this.rating,
@@ -540,13 +541,14 @@ class ProductDetailsResponseDataProduct {
     this.latestPromotionItem,
     this.category,
     this.brand,
-    this.createdAt
+    this.createdAt,
   });
 
   ProductDetailsResponseDataProduct.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     name = json['name']?.toString();
     imageUrl = json['image_url']?.toString();
+    detailsImageUrl = json['details_image_url']?.toString();
     price = json['price']?.toString();
     taxes =
         (json['taxes'] != null && (json['taxes'] is Map))
@@ -583,6 +585,7 @@ class ProductDetailsResponseDataProduct {
     data['id'] = id;
     data['name'] = name;
     data['image_url'] = imageUrl;
+    data['details_image_url'] = detailsImageUrl;
     data['price'] = price;
     if (taxes != null) {
       data['taxes'] = taxes!.toJson();
