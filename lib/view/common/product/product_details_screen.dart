@@ -457,56 +457,26 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              (int.parse(counter) *
-                                              double.parse(
-                                                (context
-                                                            .watch<
-                                                              CommonProvider
-                                                            >()
-                                                            .productDetailsResponse
-                                                            ?.data
-                                                            ?.product
-                                                            ?.price ??
-                                                        "1")
-                                                    .replaceAll(
-                                                      RegExp(r'[^0-9]'),
-                                                      '',
-                                                    ),
-                                              ))
-                                          .toString()
-                                          .length >
-                                      5
-                                  ? (int.parse(counter) *
-                                          double.parse(
-                                            (context
-                                                        .watch<CommonProvider>()
-                                                        .productDetailsResponse
-                                                        ?.data
-                                                        ?.product
-                                                        ?.price ??
-                                                    "1")
-                                                .replaceAll(
-                                                  RegExp(r'[^0-9]'),
-                                                  '',
-                                                ),
-                                          ))
-                                      .toString()
-                                      .substring(0, 5)
-                                  : (int.parse(counter) *
-                                          double.parse(
-                                            (context
-                                                        .watch<CommonProvider>()
-                                                        .productDetailsResponse
-                                                        ?.data
-                                                        ?.product
-                                                        ?.price ??
-                                                    "1")
-                                                .replaceAll(
-                                                  RegExp(r'[^0-9]'),
-                                                  '',
-                                                ),
-                                          ))
-                                      .toString(),
+                              (() {
+                                final counterValue = int.tryParse(counter) ?? 0;
+
+                                final priceString = context
+                                    .watch<CommonProvider>()
+                                    .productDetailsResponse
+                                    ?.data
+                                    ?.product
+                                    ?.price ??
+                                    "1";
+
+                                final priceValue = double.tryParse(
+                                  priceString.replaceAll(RegExp(r'[^0-9.]'), ''),
+                                ) ??
+                                    0;
+
+                                final total = (counterValue * priceValue).toInt(); // 🔥 removes .0
+
+                                return total.toString();
+                              })(),
                               style: GoogleFonts.roboto(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -517,6 +487,7 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               softWrap: true,
                               textAlign: TextAlign.start,
                             ),
+
                           ],
                         ),
                         ElevatedButton(

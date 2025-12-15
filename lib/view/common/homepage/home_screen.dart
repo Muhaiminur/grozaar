@@ -117,7 +117,7 @@ class HomePageScreenState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hey",
+                        "Hey there!",
                         style: GoogleFonts.roboto(
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class HomePageScreenState extends State<HomePage> {
                         softWrap: true,
                       ),
                       Text(
-                        "Let’s search your grocery food",
+                        "Find your daily grocery items essentials easily.",
                         style: GoogleFonts.roboto(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -168,7 +168,7 @@ class HomePageScreenState extends State<HomePage> {
                         fontWeight: FontWeight.w500,
                       ),
                       contentPadding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
-                      hintText: "Search your daily grocery food",
+                      hintText: "What do you need today?",
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20.0),

@@ -131,7 +131,7 @@ class SearchPageScreenState extends State<SearchPage> {
                           20.0,
                           5.0,
                         ),
-                        hintText: "Search your daily grocery food",
+                        hintText: "What do you need today?",
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: ProjectColors().primaryColor,

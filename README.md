@@ -31,3 +31,7 @@ flutter run --release --flavor prod -t lib/main_prod.dart
 App Bundle
 
 flutter build appbundle --flavor prod -t lib/main_prod.dart
+
+
+User id : user
+Pass: 12345678
