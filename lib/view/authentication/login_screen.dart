@@ -108,7 +108,7 @@ class LoginPageScreenState extends State<LoginPage> {
                             Align(
                               alignment: AlignmentDirectional.centerStart,
                               child: Text(
-                                "User Name",
+                                "Phone Number",
                                 style: GoogleFonts.roboto(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -120,67 +120,74 @@ class LoginPageScreenState extends State<LoginPage> {
                                 textAlign: TextAlign.start,
                               ),
                             ),
+
                             TextFormField(
+                              controller: usernameController,
+                              maxLines: 1,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                // ✅ only numbers
+                                LengthLimitingTextInputFormatter(11),
+                                // ✅ max 11 digits
+                              ],
                               style: GoogleFonts.roboto(
                                 color: ProjectColors().blue1,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
-                              maxLines: 1,
-                              controller: usernameController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return CustomStrings().required;
                                 }
-                                return null; // Valid input
+                                if (value.length != 11) {
+                                  return "Phone number must be 11 digits";
+                                }
+                                if (!value.startsWith('01')) {
+                                  return "Phone number must start with 01";
+                                }
+                                return null;
                               },
-                              keyboardType: TextInputType.name,
                               decoration: InputDecoration(
                                 fillColor: ProjectColors().white,
                                 filled: true,
+                                hintText: "Enter Phone Number",
                                 hintStyle: GoogleFonts.roboto(
                                   color: ProjectColors().blue1,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.red.shade800,
-                                    width: 1,
-                                  ),
+                                contentPadding: const EdgeInsets.fromLTRB(
+                                  20,
+                                  15,
+                                  20,
+                                  15,
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(22.0),
-                                  borderSide: BorderSide(
-                                    color: ProjectColors().primaryColor,
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(22.0),
-                                  borderSide: BorderSide(
-                                    color: Colors.red.shade800,
-                                    width: 1,
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.fromLTRB(
-                                  20.0,
-                                  15.0,
-                                  20.0,
-                                  15.0,
-                                ),
-                                hintText: "Enter User Name",
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: ProjectColors().white4,
-                                  ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 1,
                                     color: ProjectColors().white4,
+                                  ),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: ProjectColors().primaryColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red.shade800,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red.shade800,
                                   ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
@@ -209,6 +216,10 @@ class LoginPageScreenState extends State<LoginPage> {
                               ),
                               maxLines: 1,
                               controller: passwordController,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(6),
+                                // ✅ max 11 digits
+                              ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return CustomStrings().required;
@@ -563,21 +574,33 @@ class LoginPageScreenState extends State<LoginPage> {
     showDialog(
       context: contextPage,
       useSafeArea: true,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         final usernameController = TextEditingController();
-
         return AlertDialog(
-          title: Text(
-            "Enter Your Email",
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: ProjectColors().primaryColor,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: true,
-            textAlign: TextAlign.center,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  "Enter Your Email",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: ProjectColors().primaryColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           content: TextFormField(
             style: GoogleFonts.roboto(
@@ -692,22 +715,35 @@ class LoginPageScreenState extends State<LoginPage> {
     showDialog(
       context: contextPage,
       useSafeArea: true,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         final passController = TextEditingController();
         final conPassController = TextEditingController();
         final otpController = TextEditingController();
         return AlertDialog(
-          title: Text(
-            "Update Your Password",
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: ProjectColors().primaryColor,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            softWrap: true,
-            textAlign: TextAlign.center,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  "Update Your Password",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: ProjectColors().primaryColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -920,7 +956,9 @@ class LoginPageScreenState extends State<LoginPage> {
                 ),
               ),
               onPressed: () {
-                if (conPassController.text.isNotEmpty && passController.text.isNotEmpty && otpController.text.isNotEmpty) {
+                if (conPassController.text.isNotEmpty &&
+                    passController.text.isNotEmpty &&
+                    otpController.text.isNotEmpty) {
                   FocusManager.instance.primaryFocus?.unfocus();
                   Navigator.pop(context);
                   contextPage

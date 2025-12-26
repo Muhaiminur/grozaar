@@ -292,7 +292,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
           controller: _productScrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.5,
+            childAspectRatio: 0.6,
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
           ),
@@ -487,13 +487,13 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                         fontWeight: FontWeight.w500,
                         color: ProjectColors().blue3,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       softWrap: true,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
                     ),
                   ),
-                  Padding(
+                  /*Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -517,7 +517,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           softWrap: true,
                           textAlign: TextAlign.center,
                         ),
-                        /*Expanded(
+                        *//*Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -567,10 +567,10 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ],
                           ),
-                        ),*/
+                        ),*//*
                       ],
                     ),
-                  ),
+                  ),*/
                   Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
                     child: Row(

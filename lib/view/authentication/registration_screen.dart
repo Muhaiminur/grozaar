@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
@@ -146,9 +147,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                   TextStyle(
                                     fontSize: 15,
                                     color:
-                                    !restaurent
-                                        ? ProjectColors().white
-                                        : ProjectColors().blue1,
+                                        !restaurent
+                                            ? ProjectColors().white
+                                            : ProjectColors().blue1,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -164,9 +165,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                   color:
-                                  !restaurent
-                                      ? ProjectColors().white
-                                      : ProjectColors().blue1,
+                                      !restaurent
+                                          ? ProjectColors().white
+                                          : ProjectColors().blue1,
                                 ),
                               ),
                             ),
@@ -992,17 +993,26 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               fontWeight: FontWeight.w500,
             ),
             maxLines: 1,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              // ✅ only numbers
+              LengthLimitingTextInputFormatter(11),
+              // ✅ max 11 digits
+            ],
             controller: regNumberController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return CustomStrings().required;
               }
+              if (value.length != 11) {
+                return "Phone number must be 11 digits";
+              }
+              if (!value.startsWith('01')) {
+                return "Phone number must start with 01";
+              }
               return null; // Valid input
             },
-            keyboardType: TextInputType.numberWithOptions(
-              decimal: false,
-              signed: false,
-            ),
             decoration: InputDecoration(
               fillColor: ProjectColors().white,
               filled: true,
@@ -1056,6 +1066,10 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(6),
+              // ✅ max 11 digits
+            ],
             maxLines: 1,
             controller: regPasswordController,
             validator: (value) {

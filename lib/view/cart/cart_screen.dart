@@ -250,7 +250,7 @@ class CartPageScreenState extends State<CartPage> {
                               builder: (context) => CheckoutPage(),
                             ),
                           )
-                          : Navigator.pushNamed(context, loginPage);
+                          : Navigator.pushNamed(context, registrationPage);
                     },
                     child: Text(
                       "Checkout",
