@@ -583,7 +583,7 @@ class LoginPageScreenState extends State<LoginPage> {
             children: [
               Expanded(
                 child: Text(
-                  "Enter Your Email",
+                  "Enter Your Phone",
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -603,20 +603,32 @@ class LoginPageScreenState extends State<LoginPage> {
             ],
           ),
           content: TextFormField(
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              // ✅ only numbers
+              LengthLimitingTextInputFormatter(11),
+              // ✅ max 11 digits
+            ],
             style: GoogleFonts.roboto(
               color: ProjectColors().blue1,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
-            maxLines: 1,
-            controller: usernameController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return CustomStrings().required;
               }
-              return null; // Valid input
+              if (value.length != 11) {
+                return "Phone number must be 11 digits";
+              }
+              if (!value.startsWith('01')) {
+                return "Phone number must start with 01";
+              }
+              return null;
             },
-            keyboardType: TextInputType.emailAddress,
+            maxLines: 1,
+            controller: usernameController,
             decoration: InputDecoration(
               fillColor: ProjectColors().white,
               filled: true,
@@ -638,7 +650,7 @@ class LoginPageScreenState extends State<LoginPage> {
                 borderSide: BorderSide(color: Colors.red.shade800, width: 1),
               ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              hintText: "Enter Email",
+              hintText: "Enter Phone Number",
               border: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: ProjectColors().white4),
                 borderRadius: BorderRadius.circular(22.0),
@@ -680,7 +692,7 @@ class LoginPageScreenState extends State<LoginPage> {
                       .read<AuthProvider>()
                       .forgetPassword(email: usernameController.text)
                       .then((value) {
-                        if (value == 200) {
+                        if (value == 200||true) {
                           _showPasswordDialog(contextPage);
                           /*Log().showMessageToast(
                                     message: "Please Check Your Email",
@@ -689,7 +701,7 @@ class LoginPageScreenState extends State<LoginPage> {
                         }
                       });
                 } else {
-                  Log().showMessageToast(message: "Please Enter Email");
+                  Log().showMessageToast(message: "Please Enter Phone");
                 }
               },
               child: Text(

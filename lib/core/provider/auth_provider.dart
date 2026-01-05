@@ -198,7 +198,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     });
     try {
       final params = <String, dynamic>{};
-      params["email"] = email;
+      params["phone"] = email;
       final response = await getDio()!.post(
         ApiUrl.forgetPasswordUrl,
         data: params,

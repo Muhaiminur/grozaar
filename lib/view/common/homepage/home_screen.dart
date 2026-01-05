@@ -297,37 +297,46 @@ class HomePageScreenState extends State<HomePage> {
                         child: bannerList(),
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Best Selling",
-                            style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: ProjectColors().blue3,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              CustomStrings().seeAll,
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: ProjectColors().blue2,
+                      context.watch<CommonProvider>().homeResponse != null &&
+                              (context
+                                          .watch<CommonProvider>()
+                                          .homeResponse
+                                          ?.data
+                                          ?.bestSellingProducts ??
+                                      [])
+                                  .isEmpty
+                          ? SizedBox()
+                          : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Best Selling",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: ProjectColors().blue3,
+                                ),
                               ),
-                            ),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                productListPage,
-                                arguments: {"type": "bestProduct"},
-                              );
-                            },
+                              GestureDetector(
+                                child: Text(
+                                  CustomStrings().seeAll,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: ProjectColors().blue2,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    productListPage,
+                                    arguments: {"type": "bestProduct"},
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
                       SizedBox(height: 5),
                       LimitedBox(maxHeight: 230, child: bestList()),
 
@@ -638,6 +647,15 @@ class HomePageScreenState extends State<HomePage> {
             );
           },
         )
+        : context.watch<CommonProvider>().homeResponse != null &&
+            (context
+                        .watch<CommonProvider>()
+                        .homeResponse
+                        ?.data
+                        ?.bestSellingProducts ??
+                    [])
+                .isEmpty
+        ? SizedBox()
         : ColorLoader();
   }
 
