@@ -330,7 +330,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                 children: [
                   Container(
                     height: 110,
-                    width: 110,
+                    width: double.infinity,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -340,7 +340,7 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                       children: [
                         CachedNetworkImage(
                           height: 110,
-                          width: 110,
+                          width: double.infinity,
                           imageUrl:
                               context
                                   .watch<CommonProvider>()
@@ -353,14 +353,14 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               (context, url) => Image.asset(
                                 "assets/images/placeholder_image.png",
                                 height: 110,
-                                width: 110,
+                                width: double.infinity,
                                 fit: BoxFit.cover,
                               ),
                           errorWidget:
                               (context, url, error) => Image.asset(
                                 "assets/images/placeholder_image.png",
                                 height: 110,
-                                width: 110,
+                                width: double.infinity,
                                 fit: BoxFit.cover,
                               ),
                           fit: BoxFit.cover,
@@ -396,6 +396,51 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                             ?.data
                                             ?.data?[index]
                                             ?.promotionText ??
+                                        "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: ProjectColors().primaryColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            )
+                            : SizedBox(),
+                        context
+                                .watch<CommonProvider>()
+                                .productResponse!
+                                .data!
+                                .data![index]!
+                                .totalStockQuantity!
+                                .isNotEmpty
+                            ? Align(
+                              alignment: Alignment.topLeft,
+                              child: Card(
+                                color: ProjectColors().white2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsGeometry.fromLTRB(
+                                    10,
+                                    5,
+                                    10,
+                                    5,
+                                  ),
+                                  child: Text(
+                                    context
+                                            .watch<CommonProvider>()
+                                            .productResponse
+                                            ?.data
+                                            ?.data?[index]
+                                            ?.totalStockQuantity ??
                                         "",
                                     style: GoogleFonts.roboto(
                                       fontSize: 10,
@@ -517,7 +562,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                           softWrap: true,
                           textAlign: TextAlign.center,
                         ),
-                        *//*Expanded(
+                        */
+                  /*Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -567,7 +613,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             ],
                           ),
-                        ),*//*
+                        ),*/
+                  /*
                       ],
                     ),
                   ),*/

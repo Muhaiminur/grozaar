@@ -217,12 +217,15 @@ class LoginPageScreenState extends State<LoginPage> {
                               maxLines: 1,
                               controller: passwordController,
                               inputFormatters: [
-                                LengthLimitingTextInputFormatter(6),
+                                //LengthLimitingTextInputFormatter(6),
                                 // ✅ max 11 digits
                               ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return CustomStrings().required;
+                                }
+                                if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
                                 }
                                 return null; // Valid input
                               },

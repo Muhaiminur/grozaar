@@ -264,6 +264,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                       manPhone: manNumberController.text,
                                     )
                                     .then((value) {
+                                      if (value == 200 || value == 201) {
+                                        verifyOtpDialog(context);
+                                      }
                                       if (context
                                           .read<AuthProvider>()
                                           .resMessage
@@ -275,15 +278,6 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                                   .resMessage,
                                           context: context,
                                         );
-                                        if (context
-                                            .read<AuthProvider>()
-                                            .isLoading) {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => LoginPage(),
-                                            ),
-                                          );
-                                        }
                                       }
                                     });
                               }
@@ -303,6 +297,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                       manPhone: manNumberController.text,
                                     )
                                     .then((value) {
+                                      if (value == 200 || value == 201) {
+                                        verifyOtpDialog(context);
+                                      }
                                       if (context
                                           .read<AuthProvider>()
                                           .resMessage
@@ -314,15 +311,6 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                                                   .resMessage,
                                           context: context,
                                         );
-                                        if (context
-                                            .read<AuthProvider>()
-                                            .isLoading) {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => LoginPage(),
-                                            ),
-                                          );
-                                        }
                                       }
                                     });
                               }
@@ -723,6 +711,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               if (value == null || value.isEmpty) {
                 return CustomStrings().required;
               }
+              if (value.length < 6) {
+                return "Password must be at least 6 characters";
+              }
               return null; // Valid input
             },
             obscureText: passwordVisible,
@@ -1076,6 +1067,9 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               if (value == null || value.isEmpty) {
                 return CustomStrings().required;
               }
+              if (value.length < 6) {
+                return "Password must be at least 6 characters";
+              }
               return null; // Valid input
             },
             obscureText: regPasswordVisible,
@@ -1125,6 +1119,172 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void verifyOtpDialog(BuildContext contextPage) {
+    showDialog(
+      context: contextPage,
+      useSafeArea: true,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        /*final passController = TextEditingController();
+        final conPassController = TextEditingController();*/
+        final otpController = TextEditingController();
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  "Verify Your Otp",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: ProjectColors().primaryColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              /*IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),*/
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [
+              TextFormField(
+                style: GoogleFonts.roboto(
+                  color: ProjectColors().blue1,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                controller: otpController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return CustomStrings().required;
+                  }
+                  return null; // Valid input
+                },
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  fillColor: ProjectColors().white,
+                  filled: true,
+                  hintStyle: GoogleFonts.roboto(
+                    color: ProjectColors().blue1,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(color: ProjectColors().primaryColor),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                    borderSide: BorderSide(
+                      color: Colors.red.shade800,
+                      width: 1,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  hintText: "Enter OTP",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: ProjectColors().white4,
+                    ),
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          actions: <Widget>[
+            /*TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),*/
+            ElevatedButton(
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all<EdgeInsets>(
+                  EdgeInsets.all(10),
+                ),
+                backgroundColor: WidgetStateProperty.all<Color>(
+                  ProjectColors().primaryColor,
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: ProjectColors().white),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (otpController.text.isNotEmpty) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  Navigator.pop(context);
+                  contextPage
+                      .read<AuthProvider>()
+                      .otpVerifyCall(otp: otpController.text)
+                      .then((value) {
+                        if (value == 200) {
+                          if (context.read<AuthProvider>().isLoading) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            );
+                          }
+                        }
+                      });
+                } else {
+                  Log().showMessageToast(message: "Required All Information");
+                }
+              },
+              child: Text(
+                "Submit",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: ProjectColors().white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

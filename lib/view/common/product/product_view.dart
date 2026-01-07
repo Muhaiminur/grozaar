@@ -15,6 +15,7 @@ class ProductView extends StatefulWidget {
   final String name;
   final String price;
   final String discount;
+  final String stock;
 
   const ProductView({
     super.key,
@@ -23,6 +24,7 @@ class ProductView extends StatefulWidget {
     required this.name,
     required this.price,
     required this.discount,
+    required this.stock,
   });
 
   @override
@@ -72,20 +74,20 @@ class _ProductViewState extends State<ProductView> {
                   child: Stack(
                     children: [
                       CachedNetworkImage(
-                        width: 140,
+                        width: double.infinity,
                         height: 140,
                         imageUrl: widget.imageUrl,
                         placeholder:
                             (context, url) => Image.asset(
                               "assets/images/placeholder_image.png",
                               height: 140,
-                              width: 140,
+                              width: double.infinity,
                             ),
                         errorWidget:
                             (context, url, error) => Image.asset(
                               "assets/images/placeholder_image.png",
                               height: 140,
-                              width: 140,
+                              width: double.infinity,
                             ),
                         fit: BoxFit.cover,
                       ),
@@ -108,6 +110,39 @@ class _ProductViewState extends State<ProductView> {
                                 ),
                                 child: Text(
                                   widget.discount,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: ProjectColors().primaryColor,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          )
+                          : SizedBox(),
+                      widget.stock.isNotEmpty && widget.stock == "0"
+                          ? Align(
+                            alignment: Alignment.topLeft,
+                            child: Card(
+                              color: ProjectColors().white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsetsGeometry.fromLTRB(
+                                  10,
+                                  5,
+                                  10,
+                                  5,
+                                ),
+                                child: Text(
+                                  "Stock Out",
                                   style: GoogleFonts.roboto(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
@@ -175,7 +210,7 @@ class _ProductViewState extends State<ProductView> {
                         ),
                       ),
                       onPressed: () {
-                        if (/*logged.isNotEmpty*/true) {
+                        if ( /*logged.isNotEmpty*/ true) {
                           context
                               .read<CartProvider>()
                               .addToCart(widget.id, "1")

@@ -572,6 +572,14 @@ class HomePageScreenState extends State<HomePage> {
                       ?.data?[position]
                       ?.promotionText ??
                   "",
+              stock:
+                  context
+                      .watch<CommonProvider>()
+                      .newArrivalResponse
+                      ?.data
+                      ?.data?[position]
+                      ?.totalStockQuantity ??
+                  "100",
             );
           },
         )
@@ -644,6 +652,14 @@ class HomePageScreenState extends State<HomePage> {
                       ?.bestSellingProducts?[position]
                       ?.promotionText ??
                   "",
+              stock:
+                  context
+                      .watch<CommonProvider>()
+                      .homeResponse
+                      ?.data
+                      ?.bestSellingProducts?[position]
+                      ?.totalStockQuantity ??
+                  "100",
             );
           },
         )

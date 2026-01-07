@@ -30,7 +30,7 @@ class HomeResponseDataBestSellingProductsRating {
 }
 
 class HomeResponseDataBestSellingProducts {
-/*
+  /*
 {
   "id": 37,
   "price": "10.20",
@@ -58,6 +58,7 @@ class HomeResponseDataBestSellingProducts {
   HomeResponseDataBestSellingProductsRating? rating;
   String? promotionText;
   String? oldPrice;
+  String? totalStockQuantity;
 
   HomeResponseDataBestSellingProducts({
     this.id,
@@ -70,7 +71,9 @@ class HomeResponseDataBestSellingProducts {
     this.rating,
     this.promotionText,
     this.oldPrice,
+    this.totalStockQuantity,
   });
+
   HomeResponseDataBestSellingProducts.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     price = json['price']?.toString();
@@ -79,10 +82,15 @@ class HomeResponseDataBestSellingProducts {
     subTotal = json['sub_total']?.toString();
     imageUrl = json['image_url']?.toString();
     name = json['name']?.toString();
-    rating = (json['rating'] != null && (json['rating'] is Map)) ? HomeResponseDataBestSellingProductsRating.fromJson(json['rating']) : null;
+    rating =
+        (json['rating'] != null && (json['rating'] is Map))
+            ? HomeResponseDataBestSellingProductsRating.fromJson(json['rating'])
+            : null;
     promotionText = json['promotion_text']?.toString();
+    totalStockQuantity = json['total_stock_quantity']?.toString();
     oldPrice = json['old_price']?.toString();
   }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id;
@@ -97,6 +105,7 @@ class HomeResponseDataBestSellingProducts {
     }
     data['promotion_text'] = promotionText;
     data['old_price'] = oldPrice;
+    data['total_stock_quantity'] = totalStockQuantity;
     return data;
   }
 }

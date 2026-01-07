@@ -35,7 +35,7 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
 
   int get workCode => _workCode;
 
-  Future registrationCall({
+  Future<int> registrationCall({
     required String type,
     required String name,
     required String email,
@@ -69,10 +69,12 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
         Log().showMessageToast(message: responseJson["message"]);
       }
       notifyListeners();
+      return response.statusCode!;
     } on DioException catch (e) {
       _resMessage = '';
       final responseJson = json.decode(e.response.toString());
       Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
     } finally {
       //_isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
@@ -234,6 +236,37 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       params["password_confirmation"] = pass;
       final response = await getDio()!.post(
         ApiUrl.forgetPasswordUpdateUrl,
+        data: params,
+      );
+      if (response.statusCode == 200) {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      } else {
+        final responseJson = json.decode(response.toString());
+        Log().showMessageToast(message: responseJson["message"]);
+      }
+      notifyListeners();
+      return response.statusCode;
+    } on DioException catch (e) {
+      final responseJson = json.decode(e.response.toString());
+      Log().showMessageToast(message: responseJson["message"]);
+      return e.response!.statusCode!;
+    } finally {
+      _isLoading = false; // Set loading flag to false
+      CustomProgressDialog.hide();
+      notifyListeners(); // Notify listeners that the data has changed
+    }
+  }
+
+  Future<int?> otpVerifyCall({String? otp}) async {
+    Future.delayed(Duration.zero, () async {
+      CustomProgressDialog.show(message: "Loading", isDismissible: false);
+    });
+    try {
+      final params = <String, dynamic>{};
+      params["otp"] = otp;
+      final response = await getDio()!.post(
+        ApiUrl.userOtpVerifyUrl,
         data: params,
       );
       if (response.statusCode == 200) {
