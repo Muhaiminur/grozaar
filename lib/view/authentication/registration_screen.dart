@@ -1058,7 +1058,7 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
               fontWeight: FontWeight.w500,
             ),
             inputFormatters: [
-              LengthLimitingTextInputFormatter(6),
+              //LengthLimitingTextInputFormatter(6),
               // ✅ max 11 digits
             ],
             maxLines: 1,
@@ -1256,13 +1256,14 @@ class RegistrationPageScreenState extends State<RegistrationPage> {
                       .otpVerifyCall(otp: otpController.text)
                       .then((value) {
                         if (value == 200) {
-                          if (context.read<AuthProvider>().isLoading) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            );
-                          }
+                          Navigator.of(contextPage).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                          /*if (contextPage.read<AuthProvider>().isLoading) {
+
+                          }*/
                         }
                       });
                 } else {
