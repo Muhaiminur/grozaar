@@ -93,51 +93,40 @@ class CommonProvider extends BaseApiController with ChangeNotifier {
   }
 
   Future<int> categoryCall(String page, String parPage) async {
-    Future.delayed(Duration.zero, () async {
+    if (page == "1") {
       CustomProgressDialog.show(message: "Loading", isDismissible: false);
-    });
+    }
+
     try {
       final response = await getDio()!.get(
         ApiUrl.categoryUrl,
         queryParameters: {"page": page, "parPage": parPage},
       );
+
       if (response.statusCode == 200) {
-        CategoryResponse? categoryResponse = CategoryResponse.fromJson(
-          response.data,
-        );
-        if (page == "1" || page == "0") {
-          _categoryResponse = CategoryResponse.fromJson(response.data);
-          _categoryResponse?.data!.data!.clear();
-          _categoryResponse?.data!.data!.addAll(categoryResponse.data!.data!);
-          _categoryResponse?.data!.links!.next =
-              categoryResponse.data!.links!.next;
+        final categoryResponse = CategoryResponse.fromJson(response.data);
+
+        if (page == "1" || _categoryResponse == null) {
+          // FIRST PAGE
+          _categoryResponse = categoryResponse;
         } else {
-          _categoryResponse?.data!.data!.addAll(categoryResponse.data!.data!);
-          _categoryResponse?.data!.links!.next =
+          // PAGINATION
+          _categoryResponse!.data!.data!.addAll(categoryResponse.data!.data!);
+          _categoryResponse!.data!.links!.next =
               categoryResponse.data!.links!.next;
         }
+
+        notifyListeners();
+        return response.statusCode!;
       } else {
         Log().showMessageToast(message: CustomStrings().tryAgainLater);
+        return response.statusCode!;
       }
-      _categoryResponse = CategoryResponse.fromJson(response.data);
-      notifyListeners();
-      return response.statusCode!;
     } on DioException catch (e) {
-      try {
-        _resMessage = e.toString();
-        Log().printError(_resMessage);
-        final responseJson = json.decode(e.response.toString());
-        Log().showMessageToast(message: responseJson["message"]);
-      } on Exception catch (_) {
-        Log().showMessageToast(message: AppInterceptors.handleError(e));
-        rethrow;
-      }
-      notifyListeners();
-      return e.response!.statusCode!;
+      Log().showMessageToast(message: AppInterceptors.handleError(e));
+      return e.response?.statusCode ?? 500;
     } finally {
-      _isLoading = false; // Set loading flag to false
       CustomProgressDialog.hide();
-      notifyListeners(); // Notify listeners that the data has changed
     }
   }
 

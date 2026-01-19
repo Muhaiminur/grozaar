@@ -31,6 +31,8 @@ class UserDetailsResponse {
   String? username;
   String? email;
   String? phone;
+  String? additionalPhone;
+  String? dob;
   String? gender;
   String? emailVerifiedAt;
   String? type;
@@ -69,6 +71,8 @@ class UserDetailsResponse {
     this.isEmailVerified,
     this.supplierName,
     this.statusBadge,
+    this.additionalPhone,
+    this.dob,
   });
 
   UserDetailsResponse.fromJson(Map<String, dynamic> json) {
@@ -93,6 +97,9 @@ class UserDetailsResponse {
     isEmailVerified = json['is_email_verified']?.toString();
     supplierName = json['supplier_name']?.toString();
     statusBadge = json['status_badge']?.toString();
+    statusBadge = json['status_badge']?.toString();
+    statusBadge = json['date_of_birth']?.toString();
+    additionalPhone = json['additional_phone']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -118,6 +125,8 @@ class UserDetailsResponse {
     data['is_email_verified'] = isEmailVerified;
     data['supplier_name'] = supplierName;
     data['status_badge'] = statusBadge;
+    data['additional_phone'] = additionalPhone;
+    data['date_of_birth'] = dob;
     return data;
   }
 }

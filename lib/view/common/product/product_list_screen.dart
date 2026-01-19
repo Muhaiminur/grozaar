@@ -273,6 +273,52 @@ class ProductListPageScreenState extends State<ProductListPage> {
                               ),
                             )
                             : SizedBox(),
+                        context
+                                .watch<CommonProvider>()
+                                .productResponse!
+                                .data!
+                                .data![index]!
+                                .totalStockQuantity!
+                                .isNotEmpty
+                            ? Align(
+                              alignment: Alignment.topLeft,
+                              child: Card(
+                                color: ProjectColors().white2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsGeometry.fromLTRB(
+                                    10,
+                                    5,
+                                    10,
+                                    5,
+                                  ),
+                                  child: Text(
+                                    "Stock Out",
+                                    /*context
+                                            .watch<CommonProvider>()
+                                            .productResponse
+                                            ?.data
+                                            ?.data?[index]
+                                            ?.totalStockQuantity ??
+                                        ""*/
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: ProjectColors().red1,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            )
+                            : SizedBox(),
                       ],
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grozaar/core/utility/colors.dart';
 import 'package:grozaar/core/utility/customStrings.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,8 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
   final regNameController = TextEditingController();
   final numberController = TextEditingController();
   final regNumberController = TextEditingController();
+  final additionalRegNumberController = TextEditingController();
+  final dobController = TextEditingController();
   final manNumberController = TextEditingController();
   final passwordController = TextEditingController();
   final regPasswordController = TextEditingController();
@@ -54,6 +57,8 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
         restaurent = false;
         regNameController.text = value.firstName ?? "";
         regNumberController.text = value.phone ?? "";
+        additionalRegNumberController.text = value.additionalPhone ?? "";
+        dobController.text = value.dob ?? "";
       } else {
         restaurent = true;
         nameController.text = value.firstName ?? "";
@@ -198,7 +203,7 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                           onPressed: () {
                             FocusManager.instance.primaryFocus?.unfocus();
                             if (restaurent) {
-                              if (_formKey.currentState!.validate()||true) {
+                              if (_formKey.currentState!.validate() || true) {
                                 context
                                     .read<AuthProvider>()
                                     .userUpdateCall(
@@ -214,13 +219,17 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
                                     });
                               }
                             } else {
-                              if (_userFormKey.currentState!.validate()||true) {
+                              if (_userFormKey.currentState!.validate() ||
+                                  true) {
                                 context
                                     .read<AuthProvider>()
                                     .userUpdateCall(
                                       username: regNameController.text,
                                       password: regPasswordController.text,
                                       phone: regNumberController.text,
+                                      additionalNumber:
+                                          additionalRegNumberController.text,
+                                      dob: dobController.text,
                                     )
                                     .then((value) {
                                       if (value == 200) {
@@ -658,6 +667,148 @@ class ProfileEditPageScreenState extends State<ProfileEditPage> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: ProjectColors().white4),
                 borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Additional Phone number",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            style: GoogleFonts.roboto(
+              color: ProjectColors().blue1,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            controller: additionalRegNumberController,
+            validator: (value) {
+              return null; // Valid input
+            },
+            keyboardType: TextInputType.numberWithOptions(
+              decimal: false,
+              signed: false,
+            ),
+            decoration: InputDecoration(
+              fillColor: ProjectColors().white,
+              filled: true,
+              hintStyle: GoogleFonts.roboto(
+                color: ProjectColors().blue1,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22.0),
+                borderSide: BorderSide(color: Colors.red.shade800, width: 1),
+              ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: "Enter Additional Phone Number",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: ProjectColors().white4),
+                borderRadius: BorderRadius.circular(22.0),
+              ),
+            ),
+          ),
+
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(
+              "Date Of Birth",
+              style: GoogleFonts.roboto(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: ProjectColors().blue1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          TextFormField(
+            controller: dobController,
+            readOnly: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return CustomStrings().required;
+              }
+              return null;
+            },
+            onTap: () async {
+              FocusScope.of(context).unfocus();
+
+              DateTime? pickedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now().subtract(
+                  const Duration(days: 365 * 18),
+                ),
+                firstDate: DateTime(1900),
+                lastDate: DateTime.now(),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.light(
+                        primary: ProjectColors().primaryColor,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+
+              if (pickedDate != null) {
+                String formattedDate = DateFormat(
+                  'yyyy-MM-dd',
+                ).format(pickedDate);
+                setState(() {
+                  dobController.text = formattedDate;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              hintText: "Select Date Of Birth",
+              suffixIcon: Icon(
+                Icons.calendar_today,
+                color: ProjectColors().blue1,
+                size: 18,
+              ),
+              fillColor: ProjectColors().white,
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22),
+                borderSide: BorderSide(color: ProjectColors().white4),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22),
+                borderSide: BorderSide(color: ProjectColors().white4),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(22),
+                borderSide: BorderSide(color: ProjectColors().primaryColor),
               ),
             ),
           ),

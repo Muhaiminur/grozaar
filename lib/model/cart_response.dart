@@ -303,8 +303,15 @@ class CartResponse {
   String? deliveryCost;
   String? totalTaxPrice;
   String? subTotalPrice;
+  ShippingAddress? shippingAddress;
 
-  CartResponse({this.items, this.total, this.deliveryCost, this.totalTaxPrice});
+  CartResponse({
+    this.items,
+    this.total,
+    this.deliveryCost,
+    this.totalTaxPrice,
+    this.shippingAddress,
+  });
 
   CartResponse.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null && (json['items'] is List)) {
@@ -319,6 +326,10 @@ class CartResponse {
     deliveryCost = json['delivery_cost']?.toString();
     totalTaxPrice = json['total_tax_price']?.toString();
     subTotalPrice = json['sub_total']?.toString();
+    shippingAddress =
+        (json['shipping_address'] != null && (json['shipping_address'] is Map))
+            ? ShippingAddress.fromJson(json['shipping_address'])
+            : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -326,15 +337,40 @@ class CartResponse {
     if (items != null) {
       final v = items;
       final arr0 = [];
-      v!.forEach((v) {
+      for (var v in v!) {
         arr0.add(v!.toJson());
-      });
+      }
       data['items'] = arr0;
     }
     data['total'] = total;
     data['delivery_cost'] = deliveryCost;
     data['total_tax_price'] = totalTaxPrice;
     data['sub_total'] = subTotalPrice;
+    if (shippingAddress != null) {
+      data['shipping_address'] = shippingAddress!.toJson();
+    }
+    return data;
+  }
+}
+
+class ShippingAddress {
+  String? address;
+  String? phone;
+  String? email;
+
+  ShippingAddress({this.address, this.phone, this.email});
+
+  ShippingAddress.fromJson(Map<String, dynamic> json) {
+    address = json['address']?.toString();
+    phone = json['phone']?.toString();
+    email = json['email']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['address'] = email;
+    data['phone'] = email;
+    data['email'] = email;
     return data;
   }
 }

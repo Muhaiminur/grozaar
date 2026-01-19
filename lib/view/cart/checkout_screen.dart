@@ -43,7 +43,15 @@ class CheckoutPageScreenState extends State<CheckoutPage> {
       emailController.text = value.email ?? "";
       phoneController.text = value.phone ?? "";
       //addressController.text = value. ?? "";
-      context.read<CartProvider>().showCart(true);
+      context.read<CartProvider>().showCart(true).then((value) {
+        addressController.text =
+            context
+                .read<CartProvider>()
+                .cartResponse
+                ?.shippingAddress
+                ?.address ??
+            "";
+      });
     });
   }
 

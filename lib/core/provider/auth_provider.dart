@@ -143,6 +143,8 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
     String? phone,
     String? password,
     String? manNumber,
+    String? additionalNumber,
+    String? dob,
     XFile? profileImage,
   }) async {
     Future.delayed(Duration.zero, () async {
@@ -163,6 +165,12 @@ class AuthProvider extends BaseApiController with ChangeNotifier {
       }
       if (manNumber != null && manNumber.isNotEmpty) {
         params["manager_phone"] = manNumber;
+      }
+      if (additionalNumber != null && additionalNumber.isNotEmpty) {
+        params["additional_phone"] = additionalNumber;
+      }
+      if (dob != null && dob.isNotEmpty) {
+        params["date_of_birth"] = dob;
       }
       if (profileImage != null) {
         params["avatar"] = await MultipartFile.fromFile(

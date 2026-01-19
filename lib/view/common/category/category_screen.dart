@@ -24,10 +24,14 @@ class CategoryPageScreenState extends State<CategoryPage> {
   final controller = ScrollController();
   int page = 1;
 
+  bool isLoadingMore = false;
+
   @override
   void initState() {
     super.initState();
-    _loadHomeData(isReload: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadHomeData(isReload: false);
+    });
   }
 
   _loadHomeData({required bool isReload}) {
@@ -35,6 +39,21 @@ class CategoryPageScreenState extends State<CategoryPage> {
     page = 1;
     context.read<CommonProvider>().categoryCall(page.toString(), "20");
     controller.addListener(() {
+      if (controller.position.pixels >=
+              controller.position.maxScrollExtent - 100 &&
+          !isLoadingMore) {
+        final next =
+            context.read<CommonProvider>().categoryResponse?.data?.links?.next;
+        if (next != null && next.isNotEmpty) {
+          isLoadingMore = true;
+          context
+              .read<CommonProvider>()
+              .categoryCall((++page).toString(), "20")
+              .then((_) => isLoadingMore = false);
+        }
+      }
+    });
+    /*controller.addListener(() {
       if (controller.position.pixels >=
           controller.position.maxScrollExtent) {
         if (context
@@ -57,7 +76,7 @@ class CategoryPageScreenState extends State<CategoryPage> {
           );
         }
       }
-    });
+    });*/
   }
 
   @override

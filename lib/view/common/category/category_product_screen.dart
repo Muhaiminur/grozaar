@@ -435,17 +435,18 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                     5,
                                   ),
                                   child: Text(
-                                    context
+                                    "Stock Out"
+                                    /*context
                                             .watch<CommonProvider>()
                                             .productResponse
                                             ?.data
                                             ?.data?[index]
                                             ?.totalStockQuantity ??
-                                        "",
+                                        ""*/,
                                     style: GoogleFonts.roboto(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
-                                      color: ProjectColors().primaryColor,
+                                      color: ProjectColors().red1,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -456,6 +457,8 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             )
                             : SizedBox(),
+
+
                       ],
                     ),
                   ),

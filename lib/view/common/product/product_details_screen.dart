@@ -78,38 +78,98 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                 children: [
                   Container(
                     margin: EdgeInsets.all(5.0),
+                    height: 220,
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                      child: CachedNetworkImage(
-                        width: double.infinity,
-                        height: 220,
-                        imageUrl:
-                            context
-                                .watch<CommonProvider>()
-                                .productDetailsResponse
-                                ?.data
-                                ?.product
-                                ?.detailsImageUrl ??
-                            context
-                                .watch<CommonProvider>()
-                                .productDetailsResponse
-                                ?.data
-                                ?.product
-                                ?.imageUrl ??
-                            "",
-                        placeholder:
-                            (context, url) => Image.asset(
-                              "assets/images/placeholder_image.png",
-                              height: 220,
-                              fit: BoxFit.cover,
-                            ),
-                        errorWidget:
-                            (context, url, error) => Image.asset(
-                              "assets/images/placeholder_image.png",
-                              height: 220,
-                              fit: BoxFit.cover,
-                            ),
-                        fit: BoxFit.cover,
+                      child: Stack(
+                        children: [
+                          CachedNetworkImage(
+                            width: double.infinity,
+                            height: 220,
+                            imageUrl:
+                                context
+                                    .watch<CommonProvider>()
+                                    .productDetailsResponse
+                                    ?.data
+                                    ?.product
+                                    ?.detailsImageUrl ??
+                                context
+                                    .watch<CommonProvider>()
+                                    .productDetailsResponse
+                                    ?.data
+                                    ?.product
+                                    ?.imageUrl ??
+                                "",
+                            placeholder:
+                                (context, url) => Image.asset(
+                                  "assets/images/placeholder_image.png",
+                                  height: 220,
+                                  fit: BoxFit.cover,
+                                ),
+                            errorWidget:
+                                (context, url, error) => Image.asset(
+                                  "assets/images/placeholder_image.png",
+                                  height: 220,
+                                  fit: BoxFit.cover,
+                                ),
+                            fit: BoxFit.cover,
+                          ),
+                          (context
+                                              .watch<CommonProvider>()
+                                              .productDetailsResponse
+                                              ?.data
+                                              ?.product
+                                              ?.totalStockQuantity ??
+                                          "")
+                                      .isNotEmpty &&
+                                  (context
+                                              .watch<CommonProvider>()
+                                              .productDetailsResponse
+                                              ?.data
+                                              ?.product
+                                              ?.totalStockQuantity ??
+                                          "") ==
+                                      "0"
+                              ? Align(
+                                alignment: Alignment.topLeft,
+                                child: Card(
+                                  color: ProjectColors().white2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsGeometry.fromLTRB(
+                                      10,
+                                      5,
+                                      10,
+                                      5,
+                                    ),
+                                    child: Text(
+                                      "Stock Out",
+                                      /*context
+                                            .watch<CommonProvider>()
+                                            .productResponse
+                                            ?.data
+                                            ?.data?[index]
+                                            ?.totalStockQuantity ??
+                                        ""*/
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: ProjectColors().red1,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              : SizedBox(),
+                        ],
                       ),
                     ),
                   ),
@@ -460,20 +520,27 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               (() {
                                 final counterValue = int.tryParse(counter) ?? 0;
 
-                                final priceString = context
-                                    .watch<CommonProvider>()
-                                    .productDetailsResponse
-                                    ?.data
-                                    ?.product
-                                    ?.price ??
+                                final priceString =
+                                    context
+                                        .watch<CommonProvider>()
+                                        .productDetailsResponse
+                                        ?.data
+                                        ?.product
+                                        ?.price ??
                                     "1";
 
-                                final priceValue = double.tryParse(
-                                  priceString.replaceAll(RegExp(r'[^0-9.]'), ''),
-                                ) ??
+                                final priceValue =
+                                    double.tryParse(
+                                      priceString.replaceAll(
+                                        RegExp(r'[^0-9.]'),
+                                        '',
+                                      ),
+                                    ) ??
                                     0;
 
-                                final total = (counterValue * priceValue).toInt(); // 🔥 removes .0
+                                final total =
+                                    (counterValue * priceValue)
+                                        .toInt(); // 🔥 removes .0
 
                                 return total.toString();
                               })(),
@@ -487,7 +554,6 @@ class ProductDetailsPageScreenState extends State<ProductDetailsPage> {
                               softWrap: true,
                               textAlign: TextAlign.start,
                             ),
-
                           ],
                         ),
                         ElevatedButton(
