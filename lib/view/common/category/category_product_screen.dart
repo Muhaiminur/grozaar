@@ -412,12 +412,20 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                             )
                             : SizedBox(),
                         context
-                                .watch<CommonProvider>()
-                                .productResponse!
-                                .data!
-                                .data![index]!
-                                .totalStockQuantity!
-                                .isNotEmpty
+                                    .watch<CommonProvider>()
+                                    .productResponse!
+                                    .data!
+                                    .data![index]!
+                                    .totalStockQuantity!
+                                    .isNotEmpty &&
+                                context
+                                        .watch<CommonProvider>()
+                                        .productResponse!
+                                        .data!
+                                        .data![index]!
+                                        .totalStockQuantity!
+                                        .toString() ==
+                                    "0"
                             ? Align(
                               alignment: Alignment.topLeft,
                               child: Card(
@@ -435,14 +443,14 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                                     5,
                                   ),
                                   child: Text(
-                                    "Stock Out"
+                                    "Stock Out",
                                     /*context
                                             .watch<CommonProvider>()
                                             .productResponse
                                             ?.data
                                             ?.data?[index]
                                             ?.totalStockQuantity ??
-                                        ""*/,
+                                        ""*/
                                     style: GoogleFonts.roboto(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w600,
@@ -457,8 +465,6 @@ class CategoryProductPageScreenState extends State<CategoryProductPage> {
                               ),
                             )
                             : SizedBox(),
-
-
                       ],
                     ),
                   ),

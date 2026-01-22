@@ -279,7 +279,12 @@ class ProductListPageScreenState extends State<ProductListPage> {
                                 .data!
                                 .data![index]!
                                 .totalStockQuantity!
-                                .isNotEmpty
+                                .isNotEmpty && context
+                            .watch<CommonProvider>()
+                            .productResponse!
+                            .data!
+                            .data![index]!
+                            .totalStockQuantity!.toString()=="0"
                             ? Align(
                               alignment: Alignment.topLeft,
                               child: Card(
